@@ -6,14 +6,23 @@ async function main() {
   const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
 
   const lockedAmount = ethers.utils.parseEther("1");
+  const [deployer] = await ethers.getSigners();
+  const accountBalance = await deployer.getBalance();
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  const psyDucks = await ethers.getContractFactory("psyducks");
+  const ducks = await psyDucks.deploy(unlockTime, { value: lockedAmount });
 
-  await lock.deployed();
+  /** Deploying the contract to the network */
+  await ducks.deployed();
+
+  console.table({
+    "Contract Owner": deployer.address,
+    "Account Balance": accountBalance.toString(),
+    "Contract Address": ducks.address,
+  });
 
   console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
+    `PsyDucks with 1 ETH and unlock timestamp ${unlockTime} deployed to ${ducks.address}`
   );
 }
 
