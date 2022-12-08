@@ -6,7 +6,7 @@ const actions = {
 
 const initialState = {
   artifact: null,
-  metamaskConnected: false,
+  connected: false,
   account: null,
   networkID: null,
   signer: null,
@@ -23,11 +23,11 @@ const reducer = (state: any, action: any) => {
       break;
 
     case actions.connect:
-      res = { ...state, metamaskConnected: true, account: data.account };
+      res = { ...state, connected: true, account: data.account };
       break;
 
     case actions.disconnect:
-      res = { ...state, metamaskConnected: false, account: null };
+      res = { ...state, connected: false, account: null };
       break;
 
     default:

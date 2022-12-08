@@ -23,13 +23,18 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-        {!account && <button onClick={connect}>Connect Metamask</button>}
+        {!account && (
+          <button className={styles.metamask__button} onClick={connect}>
+            Connect Metamask
+          </button>
+        )}
         {account && (
           <h2>
             Connected with account: <br />
             {account}
           </h2>
         )}
+        {account && <button className={styles.mint__button}>Mint</button>}
       </main>
     </div>
   );

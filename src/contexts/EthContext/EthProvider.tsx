@@ -1,5 +1,5 @@
 import { useReducer, useCallback, useEffect } from "react";
-import { ethers } from "ethers";
+import { ethers, Contract } from "ethers";
 import { JsonRpcSigner } from "@ethersproject/providers";
 import EthContext from "./EthContext";
 import { reducer, actions, initialState } from "./state";
@@ -55,13 +55,13 @@ const EthProvider = (props: any) => {
       });
       let signer: JsonRpcSigner = null;
       let account: string = null;
-      let contract: any = null;
+      let contract: Contract = null;
 
       try {
         /** This is conected to the active / connected account in metamask */
         signer = provider.getSigner();
         account = await signer.getAddress();
-        contract = new ethers.Contract(CONTRACT_ADDRESS, artifact.abi, signer);
+        contract = new Contract(CONTRACT_ADDRESS, artifact.abi, signer);
       } catch (err) {
         console.error("Contract not deployed to the network!", err);
       }
