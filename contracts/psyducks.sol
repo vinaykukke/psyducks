@@ -15,15 +15,20 @@ pragma solidity ^0.8.0;
  * The threshold will be the amount of money available in the contract - [x]
  * If conditions are met a min of 1% of the value of the contract is sent to a random user - [x]
  * 1% of contract value is sent to a random person every month for 10 months
- * On christmas every year 10% of contract value is sent
- * The contract value should not increase about a certain limit (limit to be decided)
+ * The contract value should not increase about a certain limit (limit to be decided) - [x]
  * If the contract threshold is broken, the full value of the contract is automatically transfered to the owner
  * If the token reached a pre-decided trading volume we wil make a domation to a charity of choice
  * The higher the trading volume the more the donations
  * The contract will implement a fail safe method to restrict / black list tokes or address that are fucking with us
- * The contract value will never increase beyond 1000 ETH
+ * The contract value will never increase beyond 1000 ETH - [x]
  * If the value is > 1000 ETH the web application will initiate an withdrawal
  * Maintain a list of people that have received payments so far, if they have go tmoney recently then dont pay them
+ * The suppy will increase one time to a max of 20,000 items in total depening on the demand. - [x]
+ * This new max supply will never change in the future. - [x]
+ * The price will be different for the phase 2 mint. 0.9 ETH. - [x]
+ * The max contract value will be 10,000 ETH and any one can win 10x more than phase 1 - [x]
+ * Only phase 2 token owners and traders will stand a chance to win 10x
+ * Basically pay 10x and stand a chance to win 10x by trading.
  */
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -38,14 +43,20 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   Counters.Counter private _tokenIdCounter;
   /** Owners address */
   address payable __owner;
+  /** Phase 1 */
+  bool public PHASE_1 = true;
+  /** Phase 2 */
+  bool public PHASE_2 = false;
   /** Owners Reserve */
   uint256 public constant OWNERS_SHARE = 30;
   /** Max Supply */
-  uint256 public constant MAX_SUPPLY = 10000;
-  /** Max Available Supply */
-  uint256 public constant MAX_MINTABLE = MAX_SUPPLY - OWNERS_SHARE;
+  uint256 public constant MAX_SUPPLY = 20000;
+  /** Max Phase 1 supply */
+  uint256 public constant MAX_INITIAL_SUPPLY = 10000;
+  /** Max Available for phase 1 Supply */
+  uint256 public MAX_MINTABLE = MAX_INITIAL_SUPPLY - OWNERS_SHARE;
   /** Price */ 
-  uint256 public constant _PRICE = 0.09 ether; //0.09 ETH
+  uint256 public _PRICE = 0.09 ether; //0.09 ETH
   /** Purchase limit */
   uint256 public constant PURCHASE_LIMIT = 20;
   /** Max contract value */
@@ -98,16 +109,20 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
     BASE_URI = uri;
   }
   
-  /** Set/Reset the max value that is allowed to be stored in the contract */
-  function setMaxContractValue(uint256 value) public onlyOwner {
-    MAX_CONTRACT_VALUE = value;
-  }
-  
   /** Transfer ownership of the contract */
   function transferOwnership(address to) public onlyOwner {
     require(to != address(0), "Invalid Address!");
     require(to != __owner, "You are already the owner!");
     __owner = payable(to);
+  }
+
+  /** Activate phase 2 */
+  function activatePhaseTwo() public onlyOwner {
+    PHASE_1 = false;
+    PHASE_2 = true;
+    _PRICE = 0.9 ether;
+    MAX_MINTABLE = MAX_SUPPLY;
+    MAX_CONTRACT_VALUE = 10000 ether;
   }
 
   /** Return the total supply */
@@ -121,6 +136,11 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
     super._beforeTokenTransfer(from, to, tokenId);
     /** Contract balance */
     uint256 _balance = address(this).balance;
+
+    /**
+     * @TODO: This function needs to fire an event everytime bash back is done, so that the website can catch it 
+     * trace it and show it. 
+     */
 
     if (_balance > MIN_CASH_BACK_VALUE) {
       address payable _from = payable(from);
