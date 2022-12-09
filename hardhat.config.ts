@@ -1,16 +1,18 @@
 import { HardhatUserConfig, task } from "hardhat/config";
 import "@nomiclabs/hardhat-ethers";
 import "@nomicfoundation/hardhat-toolbox";
+import * as dotenv from "dotenv";
+
+/** Defining the path of the .env file */
+dotenv.config({ path: __dirname + "/.env" });
 
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
   networks: {
     goerli: {
-      // @TODO: Need to add these to process.env
-      url: "https://eth-goerli.g.alchemy.com/v2/bxRvHIKjBhDuaKp2xFCfkR__guswWc72",
-      accounts: [
-        "a2e388005e050b8b32d6516989a1ad87810712787e725262b277e9c739809702",
-      ],
+      url: process.env.GOERLI_NETWORK,
+      // Private key fo the Goerli Test account (Primary - Test)
+      accounts: [process.env.GOERLI_TEST_ACC_PRIVATE_KEY],
     },
   },
 };
