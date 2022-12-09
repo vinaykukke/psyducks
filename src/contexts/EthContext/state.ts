@@ -1,10 +1,22 @@
-const actions = {
-  init: "INIT",
-  connect: "METAMASK_CONNECT",
-  disconnect: "METAMASK_DISCONNECT",
-};
+import { JsonRpcSigner } from "@ethersproject/providers";
+import { Contract } from "ethers";
 
-const initialState = {
+enum actions {
+  init = "INIT",
+  connect = "METAMASK_CONNECT",
+  disconnect = "METAMASK_DISCONNECT",
+}
+
+export interface IInitialState {
+  artifact: any;
+  connected: boolean;
+  account: string;
+  networkID: number;
+  signer: JsonRpcSigner;
+  contract: Contract;
+}
+
+const initialState: IInitialState = {
   artifact: null,
   connected: false,
   account: null,
@@ -15,7 +27,7 @@ const initialState = {
 
 const reducer = (state: any, action: any) => {
   const { type, data } = action;
-  let res;
+  let res: IInitialState;
 
   switch (type) {
     case actions.init:

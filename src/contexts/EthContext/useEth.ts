@@ -1,6 +1,13 @@
-import { useContext } from "react";
+import { Dispatch, useContext } from "react";
 import EthContext from "./EthContext";
+import { IInitialState } from "./state";
 
-const useEth = () => useContext(EthContext);
+interface IEth {
+  state: IInitialState;
+  dispatch: Dispatch<any>;
+  connect: () => Promise<void>;
+}
+
+const useEth = (): IEth => useContext(EthContext);
 
 export default useEth;

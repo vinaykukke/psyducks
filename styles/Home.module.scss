@@ -108,6 +108,18 @@
   margin-left: 0.5rem;
 }
 
+.mint__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.limit__reached {
+  font-size: 42px;
+  background: linear-gradient(to right, #25aae1, #4481eb, #04befe, #3f86ed);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .metamask__button {
   border: none;
   padding: 0.8em 2.5em;

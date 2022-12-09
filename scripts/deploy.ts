@@ -22,7 +22,7 @@ async function main() {
   });
 
   console.log(
-    `PsyDucks with 1 ETH and unlock timestamp ${unlockTime} deployed to ${ducks.address}`
+    `PsyDucks deployed to ${ducks.address} at timestamp ${unlockTime}`
   );
 }
 

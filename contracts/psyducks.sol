@@ -64,7 +64,7 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   /** Min contract balance required for cash back to trigger */
   uint256 public constant MIN_CASH_BACK_VALUE = 10 ether; // 10 ETH
   /** Base URI */
-  string public BASE_URI = "ipfs://QmZ1w5j6Gq8juVtRp2zB4M4BsjxkHPN8NM2YR32QEpdeLM/";
+  string public BASE_URI = "ipfs://QmcY91ZzAZFSX1mpAYNyjXehwfbwB6C6e9BZo3pomNVeHu/";
 
 
   constructor() {
@@ -150,23 +150,25 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   }
 
   /** Mint PsyDucks */
-  function mint() public payable {
+  function mint(uint256 amount) public payable {
     /** Limit the number of mints per account */
-    require(balanceOf(_msgSender()) <= PURCHASE_LIMIT, 'You have exceeded the PURCHASE LIMIT.');
+    require((balanceOf(_msgSender()) + amount) <= PURCHASE_LIMIT, 'You have exceeded the PURCHASE LIMIT.');
 
     /** Owner should not pay for minting */
     if(_msgSender() != __owner) {
       /** Check if the user is paying the correct price */
-      require(_PRICE == msg.value, "Incorrect Ether value sent.");
+      require((_PRICE * amount) == msg.value, "Incorrect Ether value sent.");
     }
 
     /** Stop minting if max supply is exceeded */
     require(_tokenIdCounter.current() <= MAX_MINTABLE, "I'm sorry we reached the cap.");
 
-    /** Increment */
-    _tokenIdCounter.increment();
+    for (uint256 i = 0; i < amount; i++) {
+      /** Increment */
+      _tokenIdCounter.increment();
 
-    /** Mint NFT to the msg sender */
-    _safeMint(_msgSender(), _tokenIdCounter.current());
+      /** Mint NFT to the msg sender */
+      _safeMint(_msgSender(), _tokenIdCounter.current());
+    }
   }
 }
