@@ -118,9 +118,13 @@
   background: linear-gradient(to right, #25aae1, #4481eb, #04befe, #3f86ed);
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-align: center;
 }
 
 .metamask__button {
+  width: 250px;
+  margin: 20px;
+  height: 55px;
   border: none;
   padding: 0.8em 2.5em;
   outline: none;
@@ -131,6 +135,7 @@
   cursor: pointer;
   background: none;
   text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.45);
+  font-size: 1rem;
 
   &:before,
   &:after {
@@ -180,7 +185,7 @@
 
 .mint__button {
   width: 160px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   color: #fff;
   cursor: pointer;

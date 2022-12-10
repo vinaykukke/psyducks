@@ -1,5 +1,5 @@
 import { useReducer, useCallback, useEffect } from "react";
-import { ethers, Contract } from "ethers";
+import { ethers, Contract, BigNumber } from "ethers";
 import { JsonRpcSigner } from "@ethersproject/providers";
 import EthContext from "./EthContext";
 import { reducer, actions, initialState } from "./state";
@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-const CONTRACT_ADDRESS = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707";
+const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 const EthProvider = (props: any) => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -53,19 +53,26 @@ const EthProvider = (props: any) => {
       let signer: JsonRpcSigner = null;
       let account: string = null;
       let contract: Contract = null;
+      let accountBalance: number = null;
 
       try {
         /** This is conected to the active / connected account in metamask */
         signer = provider.getSigner();
         account = await signer.getAddress();
         contract = new Contract(CONTRACT_ADDRESS, artifact.abi, signer);
+
+        /** Check NFT balance for this account on mount */
+        if (contract) {
+          const balance: BigNumber = await contract.balanceOf(account);
+          accountBalance = balance.toNumber();
+        }
       } catch (err) {
         console.error("Contract not deployed to the network!", err);
       }
 
       dispatch({
         type: actions.init,
-        data: { artifact, provider, signer, account, contract },
+        data: { artifact, provider, signer, account, contract, accountBalance },
       });
     }
   }, []);

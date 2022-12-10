@@ -1,56 +1,47 @@
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers";
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useEth } from "src/contexts/EthContext";
 import styles from "../styles/Home.module.scss";
-
-/** Prices per NFT per phase */
-enum PRICES {
-  phase_one = "0.09",
-  phase_two = "0.9",
-}
-const PURCHASE_LIMIT = 20;
+import Stepper from "components/index";
+import ErrorModal from "components/ErrorModal";
 
 export default function Home() {
   const {
     connect,
-    state: { account, contract },
+    state: {
+      account,
+      contract,
+      accountBalance,
+      purchaseLimit,
+      price: mintPrice,
+    },
   } = useEth();
   const [mintCount, setMintCount] = useState(0);
-  const [nftBalance, setNftBalance] = useState(0);
-  const HALT_MINT = nftBalance >= PURCHASE_LIMIT;
+  const [error, setError] = useState("");
+  const HALT_MINT = accountBalance >= purchaseLimit;
 
   const mint = async () => {
-    const price = mintCount * parseFloat(PRICES.phase_one);
-    const options = {
-      value: ethers.utils.parseEther(price.toString()),
-    };
-    const mintTx = await contract.mint(mintCount, options);
-    let completedTx = await mintTx.wait();
-    console.log("Your NFT has been mined at: ", completedTx);
+    try {
+      const price = mintCount * mintPrice;
+      const options = {
+        value: ethers.utils.parseEther(price.toString()),
+      };
+
+      const mintTx = await contract.mint(mintCount, options);
+      const completedTx = await mintTx.wait();
+
+      console.log("Your NFT has been mined at: ", completedTx);
+    } catch (error) {
+      setError(error);
+      console.error("Minting Error: ", error);
+    }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setMintCount(parseInt(e.target.value));
-
-  useEffect(() => {
-    const getBalance = async () => {
-      const balance: BigNumber = await contract.balanceOf(account);
-      setNftBalance(balance.toNumber());
-    };
-
-    /** Check NFT balance on mount */
-    if (contract) getBalance();
-
-    /** Check NFT balance on account change */
-    const events = ["chainChanged", "accountsChanged"];
-    /** Attach event listeners */
-    events.forEach((e) => window.ethereum.on(e, getBalance));
-
-    /** Remove event listeners */
-    return () =>
-      events.forEach((e) => window.ethereum.removeListener(e, getBalance));
-  }, [contract]);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = parseInt(e.target.value);
+    setMintCount(value);
+  };
 
   return (
     <div className={styles.container}>
@@ -62,7 +53,6 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
@@ -80,14 +70,7 @@ export default function Home() {
         )}
         {!HALT_MINT && account && (
           <div className={styles.mint__form}>
-            <input
-              onChange={handleInputChange}
-              value={mintCount}
-              type="number"
-              min={1}
-              step="1"
-              max={20}
-            />
+            <Stepper mintCount={mintCount} handleChange={handleInputChange} />
             <button className={styles.mint__button} onClick={mint}>
               Mint
             </button>
@@ -99,6 +82,7 @@ export default function Home() {
           </div>
         )}
       </main>
+      <ErrorModal message={error} />
     </div>
   );
 }
