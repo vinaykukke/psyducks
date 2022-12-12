@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const CONTRACT_ADDRESS = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707";
 
 const EthProvider = (props: any) => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -65,6 +65,7 @@ const EthProvider = (props: any) => {
         if (contract) {
           const balance: BigNumber = await contract.balanceOf(account);
           accountBalance = balance.toNumber();
+          dispatch({ type: actions.purchased });
         }
       } catch (err) {
         console.error("Contract not deployed to the network!", err);

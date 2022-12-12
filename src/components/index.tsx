@@ -3,14 +3,18 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { useEth } from "src/contexts/EthContext";
 
 const Stepper = (props: any) => {
+  const {
+    state: { available },
+  } = useEth();
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((prev) => !prev);
 
   const getMenuItems = () => {
     const menuItems = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < available; i++) {
       menuItems.push(
         <MenuItem key={i} value={i + 1}>
           {i + 1}

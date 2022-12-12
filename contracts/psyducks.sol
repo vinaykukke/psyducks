@@ -39,6 +39,11 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   using Counters for Counters.Counter;
   using Strings for uint256;
 
+  /** Events */
+  event Purchased(address purchasedBy, uint256 amount, uint256 timestamp);
+  event CashBack(address sentTo, uint256 amount, uint256 timestamp);
+  event LimitExceeded(address from, string message);
+
   /** Counter */
   Counters.Counter private _tokenIdCounter;
   /** Owners address */
@@ -151,6 +156,11 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
 
   /** Mint PsyDucks */
   function mint(uint256 amount) public payable {
+    /** LimitExceeded event */
+    if ((balanceOf(_msgSender()) + amount) <= PURCHASE_LIMIT) {
+      emit LimitExceeded(_msgSender(), "LIMIT_EXCEEDED");
+    }
+
     /** Limit the number of mints per account */
     require((balanceOf(_msgSender()) + amount) <= PURCHASE_LIMIT, 'You have exceeded the PURCHASE LIMIT.');
 
@@ -170,5 +180,8 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
       /** Mint NFT to the msg sender */
       _safeMint(_msgSender(), _tokenIdCounter.current());
     }
+
+    /** Emit an event */
+    emit Purchased(_msgSender(), msg.value, block.timestamp);
   }
 }

@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { ethers } from "ethers";
 import Head from "next/head";
-import { useState } from "react";
+import Typography from "@mui/material/Typography";
 import { useEth } from "src/contexts/EthContext";
 import Stepper from "components/index";
 import ErrorModal from "components/ErrorModal";
@@ -12,14 +13,16 @@ export default function Home() {
     state: {
       account,
       contract,
-      accountBalance,
       purchaseLimit,
       price: mintPrice,
+      available,
+      accountBalance,
     },
   } = useEth();
   const [mintCount, setMintCount] = useState(0);
   const [error, setError] = useState(null);
-  const HALT_MINT = accountBalance >= purchaseLimit;
+  const HALT_MINT = available === 0;
+  const PARTIALLY_AVAILABLE = available > 0 && available < purchaseLimit;
 
   const mint = async () => {
     try {
@@ -80,6 +83,17 @@ export default function Home() {
           <div className={styles.limit__reached}>
             You have reached the maximum purchase limit for this NFT.
           </div>
+        )}
+        {PARTIALLY_AVAILABLE && (
+          <>
+            <Typography fontStyle="italic" color="turquoise">
+              ** You have previously purchased {accountBalance} out of your
+              available 20 NFT's. **
+            </Typography>
+            <Typography color="green">
+              Available: {available}/{purchaseLimit}
+            </Typography>
+          </>
         )}
       </main>
       {error && <ErrorModal error={error} />}

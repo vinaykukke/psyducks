@@ -6,6 +6,7 @@ enum actions {
   connect = "METAMASK_CONNECT",
   disconnect = "METAMASK_DISCONNECT",
   changePhase = "PHASE_CHANGE",
+  purchased = "PURCHASED",
 }
 
 /** Prices per NFT per phase */
@@ -24,6 +25,7 @@ export interface IInitialState {
   accountBalance: number;
   price: number;
   purchaseLimit: number;
+  available: number;
   phase: 1 | 2;
 }
 
@@ -37,6 +39,7 @@ const initialState: IInitialState = {
   accountBalance: null,
   price: PRICES.phase_one,
   purchaseLimit: PURCHASE_LIMIT,
+  available: PURCHASE_LIMIT,
   phase: 1,
 };
 
@@ -59,6 +62,13 @@ const reducer = (state: any, action: any) => {
 
     case actions.changePhase:
       res = { ...state, price: PRICES.phase_two, phase: 2 };
+      break;
+
+    case actions.purchased:
+      res = {
+        ...state,
+        available: state.purchaseLimit - state.accountBalance,
+      };
       break;
 
     default:
