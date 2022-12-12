@@ -2,9 +2,9 @@ import { ethers } from "ethers";
 import Head from "next/head";
 import { useState } from "react";
 import { useEth } from "src/contexts/EthContext";
-import styles from "../styles/Home.module.scss";
 import Stepper from "components/index";
 import ErrorModal from "components/ErrorModal";
+import styles from "../styles/Home.module.scss";
 
 export default function Home() {
   const {
@@ -18,7 +18,7 @@ export default function Home() {
     },
   } = useEth();
   const [mintCount, setMintCount] = useState(0);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const HALT_MINT = accountBalance >= purchaseLimit;
 
   const mint = async () => {
@@ -82,7 +82,7 @@ export default function Home() {
           </div>
         )}
       </main>
-      <ErrorModal message={error} />
+      {error && <ErrorModal error={error} />}
     </div>
   );
 }
