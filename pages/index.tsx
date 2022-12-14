@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { ethers } from "ethers";
+import { useEffect, useState } from "react";
+import { BigNumber, ethers } from "ethers";
 import Head from "next/head";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import { useEth } from "src/contexts/EthContext";
 import Stepper from "components/index";
 import ErrorModal from "components/ErrorModal";
@@ -21,7 +22,10 @@ export default function Home() {
   } = useEth();
   const [mintCount, setMintCount] = useState(0);
   const [error, setError] = useState(null);
+  const [purchases, setPurchases] = useState([]);
   const HALT_MINT = available === 0;
+  const ALLOW_MINT = !HALT_MINT && account;
+  const disableMint = mintCount === 0;
   const PARTIALLY_AVAILABLE = available > 0 && available < purchaseLimit;
 
   const mint = async () => {
@@ -45,6 +49,27 @@ export default function Home() {
     let value = parseInt(e.target.value);
     setMintCount(value);
   };
+
+  const handlePurchase = (
+    purchasedBy: string,
+    forAmount: BigNumber,
+    numberPurchased: BigNumber,
+    at: string
+  ) =>
+    setPurchases((prev) => [
+      ...prev,
+      { purchasedBy, forAmount, numberPurchased, at },
+    ]);
+
+  useEffect(() => {
+    if (contract) {
+      contract.on("Purchased", handlePurchase);
+
+      return () => {
+        contract.off("Purchased", handlePurchase);
+      };
+    }
+  }, [contract]);
 
   return (
     <div className={styles.container}>
@@ -71,12 +96,16 @@ export default function Home() {
             {account}
           </h2>
         )}
-        {!HALT_MINT && account && (
+        {ALLOW_MINT && (
           <div className={styles.mint__form}>
             <Stepper mintCount={mintCount} handleChange={handleInputChange} />
-            <button className={styles.mint__button} onClick={mint}>
+            <Button
+              className={styles.mint__button}
+              onClick={mint}
+              disabled={disableMint}
+            >
               Mint
-            </button>
+            </Button>
           </div>
         )}
         {HALT_MINT && (

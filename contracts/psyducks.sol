@@ -40,7 +40,7 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   using Strings for uint256;
 
   /** Events */
-  event Purchased(address purchasedBy, uint256 amount, uint256 timestamp);
+  event Purchased(address purchasedBy, uint256 amount, uint256 number, uint256 timestamp);
   event CashBack(address sentTo, uint256 amount, uint256 timestamp);
   event LimitExceeded(address from, string message);
 
@@ -151,13 +151,19 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
       address payable _from = payable(from);
       uint256 transferValue = _balance / 100;
       _from.transfer(transferValue);
+
+      /** Emit the Cash Back event */
+      emit CashBack(from, transferValue, block.timestamp);
     }
   }
 
   /** Mint PsyDucks */
   function mint(uint256 amount) public payable {
+    uint256 totalOwnable = balanceOf(_msgSender()) + amount;
+    uint256 totalPrice = _PRICE * amount;
+
     /** LimitExceeded event */
-    if ((balanceOf(_msgSender()) + amount) <= PURCHASE_LIMIT) {
+    if (totalOwnable <= PURCHASE_LIMIT) {
       emit LimitExceeded(_msgSender(), "LIMIT_EXCEEDED");
     }
 
@@ -167,7 +173,7 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
     /** Owner should not pay for minting */
     if(_msgSender() != __owner) {
       /** Check if the user is paying the correct price */
-      require((_PRICE * amount) == msg.value, "Incorrect Ether value sent.");
+      require(totalPrice == msg.value, "Incorrect Ether value sent.");
     }
 
     /** Stop minting if max supply is exceeded */
@@ -181,7 +187,7 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
       _safeMint(_msgSender(), _tokenIdCounter.current());
     }
 
-    /** Emit an event */
-    emit Purchased(_msgSender(), msg.value, block.timestamp);
+    /** Emit the Purchased event */
+    emit Purchased(_msgSender(), msg.value, amount, block.timestamp);
   }
 }

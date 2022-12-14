@@ -27,6 +27,7 @@ export interface IInitialState {
   purchaseLimit: number;
   available: number;
   phase: 1 | 2;
+  owner: string;
 }
 
 const initialState: IInitialState = {
@@ -41,6 +42,7 @@ const initialState: IInitialState = {
   purchaseLimit: PURCHASE_LIMIT,
   available: PURCHASE_LIMIT,
   phase: 1,
+  owner: null,
 };
 
 const reducer = (state: any, action: any) => {

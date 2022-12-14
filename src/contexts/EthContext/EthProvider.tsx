@@ -11,7 +11,8 @@ declare global {
   }
 }
 
-const CONTRACT_ADDRESS = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707";
+const CONTRACT_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const OWNER_ADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 
 const EthProvider = (props: any) => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -73,7 +74,15 @@ const EthProvider = (props: any) => {
 
       dispatch({
         type: actions.init,
-        data: { artifact, provider, signer, account, contract, accountBalance },
+        data: {
+          artifact,
+          provider,
+          signer,
+          account,
+          contract,
+          accountBalance,
+          owner: OWNER_ADDRESS,
+        },
       });
     }
   }, []);
