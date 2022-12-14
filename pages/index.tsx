@@ -18,6 +18,7 @@ export default function Home() {
       price: mintPrice,
       available,
       accountBalance,
+      isOwner,
     },
   } = useEth();
   const [mintCount, setMintCount] = useState(0);
@@ -34,11 +35,13 @@ export default function Home() {
       const options = {
         value: ethers.utils.parseEther(price.toString()),
       };
+      let mintTx;
 
-      const mintTx = await contract.mint(mintCount, options);
+      if (isOwner) mintTx = await contract.reserve(options);
+      if (!isOwner) mintTx = await contract.mint(mintCount, options);
+
       const completedTx = await mintTx.wait();
-
-      console.log("Your NFT has been mined at: ", completedTx);
+      console.log("Your NFT's have been mined at: ", completedTx);
     } catch (error) {
       setError(error);
       console.error("Minting Error: ", error);
@@ -54,7 +57,7 @@ export default function Home() {
     purchasedBy: string,
     forAmount: BigNumber,
     numberPurchased: BigNumber,
-    at: string
+    at: BigNumber
   ) =>
     setPurchases((prev) => [
       ...prev,
@@ -70,6 +73,11 @@ export default function Home() {
       };
     }
   }, [contract]);
+
+  useEffect(() => {
+    const limit = isOwner ? purchaseLimit : 0;
+    setMintCount(limit);
+  }, [isOwner]);
 
   return (
     <div className={styles.container}>
@@ -113,7 +121,7 @@ export default function Home() {
             You have reached the maximum purchase limit for this NFT.
           </div>
         )}
-        {PARTIALLY_AVAILABLE && (
+        {!isOwner && PARTIALLY_AVAILABLE && (
           <>
             <Typography fontStyle="italic" color="turquoise">
               ** You have previously purchased {accountBalance} out of your

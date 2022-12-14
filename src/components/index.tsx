@@ -7,7 +7,7 @@ import { useEth } from "src/contexts/EthContext";
 
 const Stepper = (props: any) => {
   const {
-    state: { available },
+    state: { available, isOwner },
   } = useEth();
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((prev) => !prev);
@@ -40,7 +40,8 @@ const Stepper = (props: any) => {
         margin="dense"
         // color="neutral"
       >
-        {getMenuItems()}
+        {!isOwner && getMenuItems()}
+        {isOwner && <MenuItem value={30}>30</MenuItem>}
       </Select>
     </FormControl>
   );

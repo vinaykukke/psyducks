@@ -61,13 +61,6 @@ const EthProvider = (props: any) => {
         signer = provider.getSigner();
         account = await signer.getAddress();
         contract = new Contract(CONTRACT_ADDRESS, artifact.abi, signer);
-
-        /** Check NFT balance for this account on mount */
-        if (contract) {
-          const balance: BigNumber = await contract.balanceOf(account);
-          accountBalance = balance.toNumber();
-          dispatch({ type: actions.purchased });
-        }
       } catch (err) {
         console.error("Contract not deployed to the network!", err);
       }
@@ -82,10 +75,29 @@ const EthProvider = (props: any) => {
           contract,
           accountBalance,
           owner: OWNER_ADDRESS,
+          isOwner: OWNER_ADDRESS === account,
         },
       });
     }
   }, []);
+
+  useEffect(() => {
+    const checkBalance = async () => {
+      /** Check NFT balance for this account */
+      if (state.contract) {
+        const balance: BigNumber = await state.contract.balanceOf(
+          state.account
+        );
+        dispatch({
+          type: actions.balanceChange,
+          data: { balance: balance.toNumber() },
+        });
+        dispatch({ type: actions.purchased });
+      }
+    };
+
+    checkBalance();
+  }, [state.account]);
 
   useEffect(() => {
     const tryInit = async () => {

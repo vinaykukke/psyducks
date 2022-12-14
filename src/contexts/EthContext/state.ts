@@ -7,6 +7,7 @@ enum actions {
   disconnect = "METAMASK_DISCONNECT",
   changePhase = "PHASE_CHANGE",
   purchased = "PURCHASED",
+  balanceChange = "ACCOUNT_BALANCE_CHAHGED",
 }
 
 /** Prices per NFT per phase */
@@ -14,7 +15,10 @@ enum PRICES {
   phase_one = 0.09,
   phase_two = 0.9,
 }
-const PURCHASE_LIMIT = 20;
+enum PURCHASE_LIMIT {
+  regular = 20,
+  owner = 30,
+}
 export interface IInitialState {
   artifact: any;
   connected: boolean;
@@ -28,6 +32,7 @@ export interface IInitialState {
   available: number;
   phase: 1 | 2;
   owner: string;
+  isOwner: boolean;
 }
 
 const initialState: IInitialState = {
@@ -39,10 +44,11 @@ const initialState: IInitialState = {
   contract: null,
   accountBalance: null,
   price: PRICES.phase_one,
-  purchaseLimit: PURCHASE_LIMIT,
-  available: PURCHASE_LIMIT,
+  purchaseLimit: PURCHASE_LIMIT.regular,
+  available: PURCHASE_LIMIT.regular,
   phase: 1,
   owner: null,
+  isOwner: false,
 };
 
 const reducer = (state: any, action: any) => {
@@ -51,7 +57,13 @@ const reducer = (state: any, action: any) => {
 
   switch (type) {
     case actions.init:
-      res = { ...state, ...data };
+      const currentPhase = state.phase === 1 ? "phase_one" : "phase_two";
+      const price = data.isOwner ? 0 : PRICES[currentPhase];
+      const purchaseLimit = data.isOwner
+        ? PURCHASE_LIMIT.owner
+        : PURCHASE_LIMIT.regular;
+
+      res = { ...state, ...data, price, purchaseLimit };
       break;
 
     case actions.connect:
@@ -70,6 +82,13 @@ const reducer = (state: any, action: any) => {
       res = {
         ...state,
         available: state.purchaseLimit - state.accountBalance,
+      };
+      break;
+
+    case actions.balanceChange:
+      res = {
+        ...state,
+        accountBalance: data.balance,
       };
       break;
 
