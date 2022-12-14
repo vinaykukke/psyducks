@@ -52,6 +52,8 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   bool public PHASE_1 = true;
   /** Phase 2 */
   bool public PHASE_2 = false;
+  /** Indicates if the NFT's are sold out */
+  bool public soldOut = false;
   /** Owners Reserve */
   uint256 public constant OWNERS_SHARE = 30;
   /** Max Supply */
@@ -176,10 +178,13 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
       require(totalPrice == msg.value, "Incorrect Ether value sent.");
     }
 
-    /** Stop minting if max supply is exceeded */
-    require(_tokenIdCounter.current() <= MAX_MINTABLE, "I'm sorry we reached the cap.");
-
     for (uint256 i = 0; i < amount; i++) {
+      /** Stop minting if max supply is exceeded */
+      if (_tokenIdCounter.current() == MAX_MINTABLE) {
+        soldOut = true;
+      }
+      require(_tokenIdCounter.current() <= MAX_MINTABLE, "I'm sorry we reached the cap.");
+
       /** Increment */
       _tokenIdCounter.increment();
 

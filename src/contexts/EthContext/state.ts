@@ -8,6 +8,7 @@ enum actions {
   changePhase = "PHASE_CHANGE",
   purchased = "PURCHASED",
   balanceChange = "ACCOUNT_BALANCE_CHAHGED",
+  soldOut = "SOLD_OUT",
 }
 
 /** Prices per NFT per phase */
@@ -33,6 +34,7 @@ export interface IInitialState {
   phase: 1 | 2;
   owner: string;
   isOwner: boolean;
+  soldOut: boolean;
 }
 
 const initialState: IInitialState = {
@@ -49,6 +51,7 @@ const initialState: IInitialState = {
   phase: 1,
   owner: null,
   isOwner: false,
+  soldOut: false,
 };
 
 const reducer = (state: any, action: any) => {
@@ -89,6 +92,13 @@ const reducer = (state: any, action: any) => {
       res = {
         ...state,
         accountBalance: data.balance,
+      };
+      break;
+
+    case actions.soldOut:
+      res = {
+        ...state,
+        soldOut: true,
       };
       break;
 

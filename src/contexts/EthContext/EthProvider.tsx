@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-const CONTRACT_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const CONTRACT_ADDRESS = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6";
 const OWNER_ADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 
 const EthProvider = (props: any) => {
@@ -81,6 +81,7 @@ const EthProvider = (props: any) => {
     }
   }, []);
 
+  /** Check Balance */
   useEffect(() => {
     const checkBalance = async () => {
       /** Check NFT balance for this account */
@@ -97,7 +98,19 @@ const EthProvider = (props: any) => {
     };
 
     checkBalance();
-  }, [state.account]);
+  }, [state.account, state.contract]);
+
+  /** Check Sold Out */
+  useEffect(() => {
+    const checkSoldOut = async () => {
+      /** Check NFT balance for this account */
+      if (state.contract) {
+        const soldOut: boolean = await state.contract.soldOut();
+        if (soldOut) dispatch({ type: actions.soldOut });
+      }
+    };
+    checkSoldOut();
+  }, [state.contract]);
 
   useEffect(() => {
     const tryInit = async () => {
