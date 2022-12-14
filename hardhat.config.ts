@@ -1,10 +1,15 @@
-import { HardhatUserConfig, task } from "hardhat/config";
+import { HardhatUserConfig } from "hardhat/config";
 import "@nomiclabs/hardhat-ethers";
 import "@nomicfoundation/hardhat-toolbox";
 import * as dotenv from "dotenv";
 
 /** Defining the path of the .env file */
 dotenv.config({ path: __dirname + "/.env" });
+
+/** Import after DOTENV so it can be used in the tasks */
+import "./tasks/deploy";
+/** Lists all the accounts that are connected */
+import "./tasks/accounts";
 
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
@@ -14,15 +19,12 @@ const config: HardhatUserConfig = {
       // Private key fo the Goerli Test account (Primary - Test)
       accounts: [process.env.GOERLI_TEST_ACC_PRIVATE_KEY],
     },
+    localhost: {
+      url: process.env.LOCAL_NETWORK,
+      accounts: [process.env.LOCAL_PRIVATE_KEY],
+      chainId: 31337,
+    },
   },
 };
-
-task("accounts", "Prints the list of accounts", async (_taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
-
-  for (const account of accounts) {
-    console.log(account.address);
-  }
-});
 
 export default config;

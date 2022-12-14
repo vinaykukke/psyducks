@@ -56,6 +56,8 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   bool public soldOut = false;
   /** Owners Reserve */
   uint256 public constant OWNERS_SHARE = 30;
+  /** Do not allow owner to mint after his share has ben minted */
+  bool public OWNERS_SHARE_MINTED = false;
   /** Max Supply */
   uint256 public constant MAX_SUPPLY = 20000;
   /** Max Phase 1 supply */
@@ -90,15 +92,15 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
     __owner.transfer(address(this).balance);
   }
 
-  /**
-   * Set some aside for the owner
-   */
+  /** Owners Share */
   function reserve() public onlyOwner {        
     uint supply = totalSupply();
 
     for (uint i = 0; i < OWNERS_SHARE; i++) {
       _safeMint(__owner, supply + i);
     }
+
+    OWNERS_SHARE_MINTED = true;
   }
 
   /** The following functions are overrides required by Solidity. */
@@ -123,12 +125,21 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
     __owner = payable(to);
   }
 
+  /** Call when the NFT minting has reached the cap */
+  function endPhase() public onlyOwner {
+    /** Stop minting if max supply is exceeded */
+    if (_tokenIdCounter.current() == MAX_MINTABLE) {
+      soldOut = true;
+    }
+  }
+
   /** Activate phase 2 */
   function activatePhaseTwo() public onlyOwner {
     PHASE_1 = false;
     PHASE_2 = true;
+    soldOut = false;
     _PRICE = 0.9 ether;
-    MAX_MINTABLE = MAX_SUPPLY;
+    MAX_MINTABLE = MAX_SUPPLY - MAX_INITIAL_SUPPLY;
     MAX_CONTRACT_VALUE = 10000 ether;
   }
 
@@ -179,10 +190,6 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
     }
 
     for (uint256 i = 0; i < amount; i++) {
-      /** Stop minting if max supply is exceeded */
-      if (_tokenIdCounter.current() == MAX_MINTABLE) {
-        soldOut = true;
-      }
       require(_tokenIdCounter.current() <= MAX_MINTABLE, "I'm sorry we reached the cap.");
 
       /** Increment */

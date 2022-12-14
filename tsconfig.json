@@ -13,24 +13,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "components/*": [
-        "src/components/*"
-      ],
-      "data/*": [
-        "src/data/*"
-      ],
-      "theme/*": [
-        "src/theme/*"
-      ],
-      "styles/*": [
-        "styles/*"
-      ]
+      "components/*": ["src/components/*"],
+      "data/*": ["src/data/*"],
+      "theme/*": ["src/theme/*"],
+      "styles/*": ["styles/*"],
+      "tasks/*": ["tasks/*"]
     },
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
@@ -40,13 +29,6 @@
     "isolatedModules": true,
     "incremental": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "next.config.js"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js"],
+  "exclude": ["node_modules"]
 }

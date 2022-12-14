@@ -3,7 +3,7 @@ import { ethers } from "hardhat";
 async function main() {
   const currentTimestampInSeconds = Math.round(Date.now() / 1000);
   const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const timestamp = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
 
   const [deployer] = await ethers.getSigners();
   const accountBalance = await deployer.getBalance();
@@ -19,11 +19,8 @@ async function main() {
     "Contract Owner": deployer.address,
     "Account Balance": accountBalance.toString(),
     "Contract Address": ducks.address,
+    "Time Stamp": timestamp,
   });
-
-  console.log(
-    `PsyDucks deployed to ${ducks.address} at timestamp ${unlockTime}`
-  );
 }
 
 // We recommend this pattern to be able to use async/await everywhere

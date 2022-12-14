@@ -40,7 +40,7 @@ export default function Home() {
         <title>PsyDucks</title>
         <meta
           name="description"
-          content="PasyDucks - Mint you cash back NFT's"
+          content="PasyDucks - Mint your cash back NFT's"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
