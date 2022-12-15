@@ -49,11 +49,9 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   /** Owners address */
   address payable __owner;
   /** Phase 1 */
-  bool public PHASE_1 = true;
-  /** Phase 2 */
-  bool public PHASE_2 = false;
+  uint256 public PHASE = 1;
   /** Indicates if the NFT's are sold out */
-  bool public soldOut = false;
+  bool public SOLD_OUT = false;
   /** Owners Reserve */
   uint256 public constant OWNERS_SHARE = 30;
   /** Do not allow owner to mint after his share has ben minted */
@@ -67,7 +65,7 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   /** Price */ 
   uint256 public _PRICE = 0.09 ether; //0.09 ETH
   /** Purchase limit */
-  uint256 public constant PURCHASE_LIMIT = 20;
+  uint256 public constant PURCHASE_LIMIT = 200;
   /** Max contract value */
   uint256 public MAX_CONTRACT_VALUE = 1000 ether; // 1000 ETH
   /** Min contract balance required for cash back to trigger */
@@ -93,11 +91,12 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   }
 
   /** Owners Share */
-  function reserve() public onlyOwner {        
-    uint supply = totalSupply();
+  function reserve() public onlyOwner {
+    require(!OWNERS_SHARE_MINTED, "Owners has already minted his share!");
 
     for (uint i = 0; i < OWNERS_SHARE; i++) {
-      _safeMint(__owner, supply + i);
+      _tokenIdCounter.increment();
+      _safeMint(__owner, _tokenIdCounter.current());
     }
 
     OWNERS_SHARE_MINTED = true;
@@ -129,15 +128,14 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   function endPhase() public onlyOwner {
     /** Stop minting if max supply is exceeded */
     if (_tokenIdCounter.current() == MAX_MINTABLE) {
-      soldOut = true;
+      SOLD_OUT = true;
     }
   }
 
   /** Activate phase 2 */
   function activatePhaseTwo() public onlyOwner {
-    PHASE_1 = false;
-    PHASE_2 = true;
-    soldOut = false;
+    PHASE = 2;
+    SOLD_OUT = false;
     _PRICE = 0.9 ether;
     MAX_MINTABLE = MAX_SUPPLY - MAX_INITIAL_SUPPLY;
     MAX_CONTRACT_VALUE = 10000 ether;
@@ -154,13 +152,15 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
     super._beforeTokenTransfer(from, to, tokenId);
     /** Contract balance */
     uint256 _balance = address(this).balance;
+    /** Transfer Preset */
+    bool condition = from != address(0) && _balance > MIN_CASH_BACK_VALUE;
 
     /**
      * @TODO: This function needs to fire an event everytime bash back is done, so that the website can catch it 
      * trace it and show it. 
      */
 
-    if (_balance > MIN_CASH_BACK_VALUE) {
+    if (condition) {
       address payable _from = payable(from);
       uint256 transferValue = _balance / 100;
       _from.transfer(transferValue);
@@ -186,7 +186,7 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
     /** Owner should not pay for minting */
     if(_msgSender() != __owner) {
       /** Check if the user is paying the correct price */
-      require(totalPrice == msg.value, "Incorrect Ether value sent.");
+      require(msg.value >= totalPrice, "Incorrect Ether value sent.");
     }
 
     for (uint256 i = 0; i < amount; i++) {

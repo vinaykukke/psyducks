@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { JsonRpcSigner } from "@ethersproject/providers";
 import { Contract } from "ethers";
 
@@ -35,6 +36,7 @@ export interface IInitialState {
   owner: string;
   isOwner: boolean;
   soldOut: boolean;
+  provider: ethers.providers.Web3Provider;
 }
 
 const initialState: IInitialState = {
@@ -52,6 +54,7 @@ const initialState: IInitialState = {
   owner: null,
   isOwner: false,
   soldOut: false,
+  provider: null,
 };
 
 const reducer = (state: any, action: any) => {

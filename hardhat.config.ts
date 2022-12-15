@@ -10,6 +10,11 @@ dotenv.config({ path: __dirname + "/.env" });
 import "./tasks/deploy";
 /** Lists all the accounts that are connected */
 import "./tasks/accounts";
+import "./tasks/contractBalance";
+/** Minting NFT's via sctipts - for development purposes only */
+import "./tasks/mint";
+/** Get all relevant contract details */
+import "./tasks/details";
 
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
@@ -18,11 +23,6 @@ const config: HardhatUserConfig = {
       url: process.env.GOERLI_NETWORK,
       // Private key fo the Goerli Test account (Primary - Test)
       accounts: [process.env.GOERLI_TEST_ACC_PRIVATE_KEY],
-    },
-    localhost: {
-      url: process.env.LOCAL_NETWORK,
-      accounts: [process.env.LOCAL_PRIVATE_KEY],
-      chainId: 31337,
     },
   },
 };

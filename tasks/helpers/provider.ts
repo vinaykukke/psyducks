@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
+import { env } from "./env";
 
 export function getProvider(): ethers.providers.Provider {
   // const options = network && {
   //   alchemy: process.env.GOERLI_NETWORK,
   // };
-  const network = "http://localhost:8545";
-  return ethers.getDefaultProvider(network);
+  return ethers.getDefaultProvider(env("LOCAL_NETWORK"));
 }
