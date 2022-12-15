@@ -87,7 +87,9 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
 
   /** Withdraw funds from the contract */
   function withdraw() public onlyOwner {
-    __owner.transfer(address(this).balance);
+    uint256 balance = address(this).balance;
+    require(balance > 0, "Insufficient Funds!");
+    __owner.transfer(balance);
   }
 
   /** Owners Share */

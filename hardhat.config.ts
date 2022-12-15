@@ -15,6 +15,7 @@ import "./tasks/contractBalance";
 import "./tasks/mint";
 /** Get all relevant contract details */
 import "./tasks/details";
+import "./tasks/withdraw";
 
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
