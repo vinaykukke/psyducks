@@ -10,12 +10,13 @@ dotenv.config({ path: __dirname + "/.env" });
 import "./tasks/deploy";
 /** Lists all the accounts that are connected */
 import "./tasks/accounts";
-import "./tasks/contractBalance";
+import "./tasks/balance";
 /** Minting NFT's via sctipts - for development purposes only */
 import "./tasks/mint";
 /** Get all relevant contract details */
 import "./tasks/details";
 import "./tasks/withdraw";
+import "./tasks/cashBack";
 
 const config: HardhatUserConfig = {
   solidity: "0.8.17",

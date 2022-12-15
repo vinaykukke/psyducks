@@ -105,7 +105,7 @@ const EthProvider = (props: any) => {
     const checkSoldOut = async () => {
       /** Check NFT balance for this account */
       if (state.contract) {
-        const soldOut: boolean = await state.contract.soldOut();
+        const soldOut: boolean = await state.contract.SOLD_OUT();
         if (soldOut) dispatch({ type: actions.soldOut });
       }
     };

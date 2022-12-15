@@ -12,17 +12,12 @@ pragma solidity ^0.8.0;
  * Price of 0.09 ETH - [x]
  * Creators fee of 10% for every transfer of the NFT
  * The contract will send money to people once a certain threshold is met - [x]
- * The threshold will be the amount of money available in the contract - [x]
- * If conditions are met a min of 1% of the value of the contract is sent to a random user - [x]
- * 1% of contract value is sent to a random person every month for 10 months
- * The contract value should not increase about a certain limit (limit to be decided) - [x]
- * If the contract threshold is broken, the full value of the contract is automatically transfered to the owner
- * If the token reached a pre-decided trading volume we wil make a domation to a charity of choice
- * The higher the trading volume the more the donations
+ * 1% of contract value is sent to a random person every month for 10 months - [manual]
+ * If the token reached a pre-decided trading volume we wil make a domation to a charity of choice - [x]
+ * The higher the trading volume the more the donations - [x]
  * The contract will implement a fail safe method to restrict / black list tokes or address that are fucking with us
- * The contract value will never increase beyond 1000 ETH - [x]
- * If the value is > 1000 ETH the web application will initiate an withdrawal
- * Maintain a list of people that have received payments so far, if they have go tmoney recently then dont pay them
+ * If the value is > 1000 ETH the web application will initiate an withdrawal - [manual]
+ * Maintain a list of people that have received payments so far - [x]
  * The suppy will increase one time to a max of 20,000 items in total depening on the demand. - [x]
  * This new max supply will never change in the future. - [x]
  * The price will be different for the phase 2 mint. 0.9 ETH. - [x]
@@ -41,8 +36,15 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
 
   /** Events */
   event Purchased(address purchasedBy, uint256 amount, uint256 number, uint256 timestamp);
-  event CashBack(address sentTo, uint256 amount, uint256 timestamp);
+  event Cashback(address sentTo, uint256 amount, uint256 timestamp);
   event LimitExceeded(address from, string message);
+
+  /** Cashback winner */
+  struct Winner {
+    address _address;
+    uint256 amount;
+    uint256 timestamp;
+  }
 
   /** Counter */
   Counters.Counter private _tokenIdCounter;
@@ -52,6 +54,8 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   uint256 public PHASE = 1;
   /** Indicates if the NFT's are sold out */
   bool public SOLD_OUT = false;
+  /** Initiate cash-back */
+  bool public INIT_CASH_BACK = false;
   /** Owners Reserve */
   uint256 public constant OWNERS_SHARE = 30;
   /** Do not allow owner to mint after his share has ben minted */
@@ -70,6 +74,8 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   uint256 public MAX_CONTRACT_VALUE = 1000 ether; // 1000 ETH
   /** Min contract balance required for cash back to trigger */
   uint256 public constant MIN_CASH_BACK_VALUE = 10 ether; // 10 ETH
+  /** List of winners */
+  Winner[] public WINNERS;
   /** Base URI */
   string public BASE_URI = "ipfs://QmcY91ZzAZFSX1mpAYNyjXehwfbwB6C6e9BZo3pomNVeHu/";
 
@@ -148,27 +154,38 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
     return _tokenIdCounter.current();
   }
 
+  /** Initiate Cashback */
+  function initiateCashback() public onlyOwner {
+    INIT_CASH_BACK = true;
+  }
+
+  /** Get the total number of winners */
+  function totalWinners() public view returns(uint256) {
+    return WINNERS.length;
+  }
+
   /** Lucky draw: send 1% of the contract value */
-  function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal virtual override {
+  function _afterTokenTransfer(address from, address to, uint256 tokenId) internal virtual override {
     /** Call parent hook */
-    super._beforeTokenTransfer(from, to, tokenId);
+    super._afterTokenTransfer(from, to, tokenId);
     /** Contract balance */
     uint256 _balance = address(this).balance;
-    /** Transfer Preset */
-    bool condition = from != address(0) && _balance > MIN_CASH_BACK_VALUE;
+    /** Transfer Presets */
+    bool notMintOrBurn = from != address(0) && to != address(0);
+    bool notOwner = from != __owner;
+    bool conditionMet = notMintOrBurn && notOwner && _balance > MIN_CASH_BACK_VALUE;
 
-    /**
-     * @TODO: This function needs to fire an event everytime bash back is done, so that the website can catch it 
-     * trace it and show it. 
-     */
-
-    if (condition) {
+    if (INIT_CASH_BACK && conditionMet) {
       address payable _from = payable(from);
       uint256 transferValue = _balance / 100;
       _from.transfer(transferValue);
 
+      /** Re-setting the cash-back */
+      INIT_CASH_BACK = false;
+      /** Adding winners to the list */
+      WINNERS.push(Winner(from, transferValue, block.timestamp));
       /** Emit the Cash Back event */
-      emit CashBack(from, transferValue, block.timestamp);
+      emit Cashback(from, transferValue, block.timestamp);
     }
   }
 
