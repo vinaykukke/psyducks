@@ -17,6 +17,7 @@ import "./tasks/mint";
 import "./tasks/details";
 import "./tasks/withdraw";
 import "./tasks/cashBack";
+import "./tasks/pahseTwo";
 
 const config: HardhatUserConfig = {
   solidity: "0.8.17",

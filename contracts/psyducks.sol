@@ -10,27 +10,28 @@ pragma solidity ^0.8.0;
  * A mint limit of 20 per address - [x]
  * The owner will have a share of 30 tokens - [x]
  * Price of 0.09 ETH - [x]
- * Creators fee of 10% for every transfer of the NFT
- * The contract will send money to people once a certain threshold is met - [x]
+ * Creators fee of 10% for every transfer of the NFT - [x]
+ * The contract will send money to people once a certain threshold is met - [manual]
  * 1% of contract value is sent to a random person every month for 10 months - [manual]
- * If the token reached a pre-decided trading volume we wil make a domation to a charity of choice - [x]
- * The higher the trading volume the more the donations - [x]
+ * If the token reached a pre-decided trading volume we wil make a domation to a charity of choice - [manual]
+ * The higher the trading volume the more the donations - [manual]
  * The contract will implement a fail safe method to restrict / black list tokes or address that are fucking with us
  * If the value is > 1000 ETH the web application will initiate an withdrawal - [manual]
  * Maintain a list of people that have received payments so far - [x]
- * The suppy will increase one time to a max of 20,000 items in total depening on the demand. - [x]
+ * The supply will increase one time to a max of 20,000 items in total depening on the demand. - [x]
  * This new max supply will never change in the future. - [x]
  * The price will be different for the phase 2 mint. 0.9 ETH. - [x]
  * The max contract value will be 10,000 ETH and any one can win 10x more than phase 1 - [x]
  * Only phase 2 token owners and traders will stand a chance to win 10x
- * Basically pay 10x and stand a chance to win 10x by trading.
+ * Implement Operator Filter Registery - Open-sea
  */
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/common/ERC2981.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
-contract PsyDucks is ERC721("PsyDucks", "PSY") {
+contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981 {
   using Counters for Counters.Counter;
   using Strings for uint256;
 
@@ -69,7 +70,7 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   /** Price */ 
   uint256 public _PRICE = 0.09 ether; //0.09 ETH
   /** Purchase limit */
-  uint256 public constant PURCHASE_LIMIT = 200;
+  uint256 public PURCHASE_LIMIT = 200;
   /** Max contract value */
   uint256 public MAX_CONTRACT_VALUE = 1000 ether; // 1000 ETH
   /** Min contract balance required for cash back to trigger */
@@ -78,17 +79,37 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   Winner[] public WINNERS;
   /** Base URI */
   string public BASE_URI = "ipfs://QmcY91ZzAZFSX1mpAYNyjXehwfbwB6C6e9BZo3pomNVeHu/";
+  /** Contract URI */
+  string public CONTRACT_URI = "ipfs://QmcY91ZzAZFSX1mpAYNyjXehwfbwB6C6e9BZo3pomNVeHu/";
 
 
   constructor() {
     /** Setting the owner on contract deploy */
     __owner = payable(_msgSender());
+    /** Setting the creators fee to 10% = 1000 basis points */
+    setCreatorsFee(_msgSender(), 1000);
   }
 
   /** Owner modifier */
   modifier onlyOwner() {
     require(__owner == _msgSender(), "Caller is not the owner!");
     _;
+  }
+
+  /** Override for ERC-2981 */
+  function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, ERC2981) returns (bool) {
+    return super.supportsInterface(interfaceId);
+  }
+
+  /** Override for ERC-721 */
+  function _burn(uint256 tokenId) internal override(ERC721) {
+    super._burn(tokenId);
+  }
+
+  /** Setting the creators fee */
+  function setCreatorsFee(address _receiver, uint96 fee) public onlyOwner {
+    require(_receiver != address(0), "Receiver cannot be a x0 address!");
+    _setDefaultRoyalty(_receiver, fee);
   }
 
   /** Withdraw funds from the contract */
@@ -110,11 +131,6 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
     OWNERS_SHARE_MINTED = true;
   }
 
-  /** The following functions are overrides required by Solidity. */
-  function _burn(uint256 tokenId) internal override(ERC721) {
-    super._burn(tokenId);
-  }
-
   /** Default URI for the NFT's */
   function _baseURI() internal view override returns (string memory) {
     return BASE_URI;
@@ -123,6 +139,16 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
   /** Fail safe for if the storage situation changes for the NFTs */
   function setBaseURI(string memory uri) public onlyOwner {
     BASE_URI = uri;
+  }
+
+  /** Contract level metadata - opensea */
+  function contractURI() public view returns (string memory) {
+    return CONTRACT_URI;
+  }
+
+  /** Fail safe for if the storage situation changes for the NFTs */
+  function setContractURI(string memory uri) public onlyOwner {
+    CONTRACT_URI = uri;
   }
   
   /** Transfer ownership of the contract */
@@ -145,7 +171,8 @@ contract PsyDucks is ERC721("PsyDucks", "PSY") {
     PHASE = 2;
     SOLD_OUT = false;
     _PRICE = 0.9 ether;
-    MAX_MINTABLE = MAX_SUPPLY - MAX_INITIAL_SUPPLY;
+    PURCHASE_LIMIT = 40;
+    MAX_MINTABLE = MAX_SUPPLY;
     MAX_CONTRACT_VALUE = 10000 ether;
   }
 

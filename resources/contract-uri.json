@@ -1,0 +1,8 @@
+{
+  "name": "PsyDucks",
+  "description": "OpenSea Creatures are adorable aquatic beings primarily for demonstrating what can be done using the OpenSea platform. Adopt one today to try out all the OpenSea buying, selling, and bidding feature set.",
+  "image": "external-link-url/image.png",
+  "external_link": "external-link-url",
+  "seller_fee_basis_points": 1000,
+  "fee_recipient": "0x4Df7BD03223F80B3B115DC3578E8A6241Fb842EE"
+}
