@@ -23,15 +23,16 @@ pragma solidity ^0.8.0;
  * The price will be different for the phase 2 mint. 0.9 ETH. - [x]
  * The max contract value will be 10,000 ETH and any one can win 10x more than phase 1 - [x]
  * Only phase 2 token owners and traders will stand a chance to win 10x
- * Implement Operator Filter Registery - Open-sea
+ * Implement Operator Filter Registery - Open-sea - [x]
  */
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/common/ERC2981.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
+import "operator-filter-registry/src/DefaultOperatorFilterer.sol";
 
-contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981 {
+contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer {
   using Counters for Counters.Counter;
   using Strings for uint256;
 
@@ -104,6 +105,34 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981 {
   /** Override for ERC-721 */
   function _burn(uint256 tokenId) internal override(ERC721) {
     super._burn(tokenId);
+  }
+
+  /** Override for the opensea operator filter registry and creators royalties */
+  function setApprovalForAll(address operator, bool approved) public override onlyAllowedOperatorApproval(operator) {
+    super.setApprovalForAll(operator, approved);
+  }
+
+  /** Override for the opensea operator filter registry and creators royalties */
+  function approve(address operator, uint256 tokenId) public override onlyAllowedOperatorApproval(operator) {
+    super.approve(operator, tokenId);
+  }
+
+  /** Override for the opensea operator filter registry and creators royalties */
+  function transferFrom(address from, address to, uint256 tokenId) public override onlyAllowedOperator(from) {
+    super.transferFrom(from, to, tokenId);
+  }
+
+  /** Override for the opensea operator filter registry and creators royalties */
+  function safeTransferFrom(address from, address to, uint256 tokenId) public override onlyAllowedOperator(from) {
+    super.safeTransferFrom(from, to, tokenId);
+  }
+
+  /** Override for the opensea operator filter registry and creators royalties */
+  function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data)
+    public
+    override
+    onlyAllowedOperator(from) {
+    super.safeTransferFrom(from, to, tokenId, data);
   }
 
   /** Setting the creators fee */
@@ -192,9 +221,9 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981 {
   }
 
   /** Lucky draw: send 1% of the contract value */
-  function _afterTokenTransfer(address from, address to, uint256 tokenId) internal virtual override {
+  function _afterTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize) internal virtual override {
     /** Call parent hook */
-    super._afterTokenTransfer(from, to, tokenId);
+    super._afterTokenTransfer(from, to, tokenId, batchSize);
     /** Contract balance */
     uint256 _balance = address(this).balance;
     /** Transfer Presets */
