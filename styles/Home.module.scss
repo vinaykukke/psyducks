@@ -115,7 +115,17 @@
 
 .limit__reached {
   font-size: 42px;
-  background: linear-gradient(to right, #25aae1, #4481eb, #04befe, #3f86ed);
+}
+
+.gradient_one {
+  background: var(--gradient-one);
+}
+
+.gradient_two {
+  background: var(--gradient-two);
+}
+
+.gradient_text {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;

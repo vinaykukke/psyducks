@@ -6,6 +6,7 @@ import { useEth } from "src/contexts/EthContext";
 import Stepper from "components/index";
 import ErrorModal from "components/ErrorModal";
 import styles from "../../../styles/Home.module.scss";
+import { Box } from "@mui/system";
 
 const Mintable = () => {
   const {
@@ -58,19 +59,24 @@ const Mintable = () => {
 
   return (
     <>
-      <h1 className={styles.title}>
-        Welcome to <a href="https://nextjs.org">Next.js!</a>
-      </h1>
       {!account && (
         <button className={styles.metamask__button} onClick={connect}>
           Connect Metamask
         </button>
       )}
       {account && (
-        <h2>
-          Connected with account: <br />
-          {account}
-        </h2>
+        <Box textAlign="center" marginBottom="2rem">
+          <h2>
+            Connected with account:
+            <Typography fontWeight="bold" fontStyle="italic">
+              {account}
+            </Typography>
+          </h2>
+          <h3>Each NFT will cost 0.09 ETH</h3>
+          <Typography fontStyle="italic" color="orange">
+            ** There is a purchase limit of 20 per wallet. **
+          </Typography>
+        </Box>
       )}
       {ALLOW_MINT && (
         <div className={styles.mint__form}>
@@ -85,7 +91,7 @@ const Mintable = () => {
         </div>
       )}
       {HALT_MINT && (
-        <div className={styles.limit__reached}>
+        <div className={`${styles.limit__reached} ${styles.gradient}`}>
           You have reached the maximum purchase limit for this NFT.
         </div>
       )}
