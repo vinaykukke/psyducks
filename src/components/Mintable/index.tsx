@@ -60,9 +60,9 @@ const Mintable = () => {
   return (
     <>
       {!account && (
-        <button className={styles.metamask__button} onClick={connect}>
+        <Button className={styles.metamask__button} onClick={connect}>
           Connect Metamask
-        </button>
+        </Button>
       )}
       {account && (
         <Box textAlign="center" marginBottom="2rem">

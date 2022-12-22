@@ -47,7 +47,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Header />
         <Image src="/duck.png" width={400} height={400} alt="psyduck - nft" />
         <h1 className={styles.title}>
           Welcome to the
@@ -62,6 +61,7 @@ export default function Home() {
             NFT Project!
           </span>
         </h1>
+        <Header />
         {soldOut ? <SoldOut /> : <Mintable />}
       </main>
     </div>

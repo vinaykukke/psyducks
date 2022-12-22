@@ -1,14 +1,30 @@
 :root {
-  // --background: rgb(32, 34, 37);
   --background: linear-gradient(
     to bottom,
     #000000,
-    rgb(32, 34, 37),
     #000428,
+    rgb(32, 34, 37),
     #004e92
   );
-  --gradient-one: linear-gradient(to right, #25aae1, #4481eb, #04befe, #3f86ed);
+  --gradient-one: linear-gradient(
+    60deg,
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82
+  );
   --gradient-two: linear-gradient(to right, #00dbde, #fc00ff);
+  --gradient-three: linear-gradient(
+    to right,
+    #25aae1,
+    #4481eb,
+    #04befe,
+    #3f86ed
+  );
   --font-family: "Roboto", sans-serif;
   --default-font-size: 16px;
   --xs-font-size: 10px;
