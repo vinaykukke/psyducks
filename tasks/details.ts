@@ -2,6 +2,7 @@ import { BigNumber } from "ethers";
 import { task } from "hardhat/config";
 import { getContract } from "./contract";
 import { env } from "./helpers/env";
+import { convertToEth } from "./helpers/ethConver";
 
 task("details", "Get all the relevant contract details").setAction(
   async (_taskArgs, hre) => {
@@ -14,14 +15,16 @@ task("details", "Get all the relevant contract details").setAction(
       env("CONTRACT_ADDRESS")
     );
     const available: BigNumber = await contract.MAX_MINTABLE();
+    const purchaseLimit: BigNumber = await contract.PURCHASE_LIMIT();
 
     console.table({
       "Maximum Available": available.toNumber(),
       "Current Supply": totalSuppply.toNumber(),
       "Owners Share Minted": ownerMint,
       "Current Phase": phase.toNumber(),
+      "Purchase Limit": purchaseLimit.toNumber(),
       "Sold Out": isSoldOut,
-      "Contract Balance": hre.ethers.utils.formatEther(balance),
+      "Contract Balance": convertToEth(hre, balance),
     });
   }
 );

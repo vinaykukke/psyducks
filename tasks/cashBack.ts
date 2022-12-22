@@ -42,7 +42,8 @@ task("cashback", "Sends money to the next person who makes a trade").setAction(
       "Cashback Status - before": statusBefore,
       "Contract Balance": convertToEth(hre, contractBalance),
       "Min Cashback Value": convertToEth(hre, cashbackValue),
-      "Cashback Value - To Send": convertToEth(hre, amountToSend),
+      "Cashback Value - To Send":
+        convertToEth(hre, amountToSend) + "(1% fo contract value)",
     });
     console.log("******************** Transfer NFT *********************");
     const nftTx = await contract

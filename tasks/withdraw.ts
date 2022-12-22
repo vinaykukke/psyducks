@@ -5,7 +5,7 @@ task("withdraw", "Withdraws the funds from the contract").setAction(
   async (_taskArgs, hre) => {
     const contract = await getContract("PsyDucks", hre);
     const [owner] = await hre.ethers.getSigners();
-    const tx = await contract.withdraw();
+    const tx = await contract.connect(owner).withdraw();
     const completedTx = await tx.wait();
 
     const balance = await hre.ethers.provider.getBalance(owner.address);

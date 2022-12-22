@@ -15,14 +15,12 @@ pragma solidity ^0.8.0;
  * 1% of contract value is sent to a random person every month for 10 months - [manual]
  * If the token reached a pre-decided trading volume we wil make a domation to a charity of choice - [manual]
  * The higher the trading volume the more the donations - [manual]
- * The contract will implement a fail safe method to restrict / black list tokes or address that are fucking with us
  * If the value is > 1000 ETH the web application will initiate an withdrawal - [manual]
  * Maintain a list of people that have received payments so far - [x]
  * The supply will increase one time to a max of 20,000 items in total depening on the demand. - [x]
  * This new max supply will never change in the future. - [x]
  * The price will be different for the phase 2 mint. 0.9 ETH. - [x]
  * The max contract value will be 10,000 ETH and any one can win 10x more than phase 1 - [x]
- * Only phase 2 token owners and traders will stand a chance to win 10x
  * Implement Operator Filter Registery - Open-sea - [x]
  */
 
@@ -71,7 +69,7 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
   /** Price */ 
   uint256 public _PRICE = 0.09 ether; //0.09 ETH
   /** Purchase limit */
-  uint256 public PURCHASE_LIMIT = 200;
+  uint256 public PURCHASE_LIMIT = 550;
   /** Max contract value */
   uint256 public MAX_CONTRACT_VALUE = 1000 ether; // 1000 ETH
   /** Min contract balance required for cash back to trigger */
@@ -200,7 +198,7 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
     PHASE = 2;
     SOLD_OUT = false;
     _PRICE = 0.9 ether;
-    PURCHASE_LIMIT = 40;
+    PURCHASE_LIMIT = 1100;
     MAX_MINTABLE = MAX_SUPPLY;
     MAX_CONTRACT_VALUE = 10000 ether;
   }
