@@ -22,7 +22,7 @@ const Mintable = () => {
   } = useEth();
   const [mintCount, setMintCount] = useState(0);
   const [error, setError] = useState(null);
-  const HALT_MINT = available === 0;
+  const HALT_MINT = available <= 0;
   const ALLOW_MINT = !HALT_MINT && account;
   const disableMint = mintCount === 0;
   const PARTIALLY_AVAILABLE = available > 0 && available < purchaseLimit;
