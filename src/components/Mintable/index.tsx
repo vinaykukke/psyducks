@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useEth } from "src/contexts/EthContext";
 import Stepper from "components/index";
 import ErrorModal from "components/ErrorModal";
 import styles from "../../../styles/Home.module.scss";
-import { Box } from "@mui/system";
 
 const Mintable = () => {
   const {

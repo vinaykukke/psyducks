@@ -83,8 +83,7 @@ export default function Home() {
             contract will be allowed to hold a maximum of 10,000 ETH each time
             we reach this threshold an automatic withdrawal will be initiated
             and the value of the contract will be reduced to 1000 ETH. There
-            will be no more phases. All contract withdrawals will be announced
-            in advance here on the website.
+            will be no more phases.
           </p>
           <p>
             In each of the phases you can stand to win 1% of the contract value
@@ -102,9 +101,10 @@ export default function Home() {
         <section id="inspiration" className={styles.inspiration}>
           <h2 className={styles.about_header}>Inspiration</h2>
           <p>
-            What we see usually is that people like to hold on to the NFT's in
+            What we usually see is that people like to hold on to the NFT's in
             hopes that "one day the price might increase" - then they can sell
-            it and make a profit off it. This is exactly how old people think.
+            it and make a profit off it. This is boring, we want something more
+            fun.
           </p>
           <p>
             Imagine if china or the united states suddenly decided to keep all
