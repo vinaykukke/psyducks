@@ -26,7 +26,7 @@ const Stepper = (props: any) => {
   };
 
   return (
-    <FormControl margin="dense" id="buy">
+    <FormControl margin="dense">
       <InputLabel id="mint-count-select-label">Amount</InputLabel>
       <Select
         labelId="mint-count-select-label"

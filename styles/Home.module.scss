@@ -58,9 +58,14 @@
   font-size: 4rem;
 }
 
-.about {
-  font-size: 0.75rem;
+.about,
+.inspiration {
+  font-size: 0.9rem;
   width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .title,
@@ -139,10 +144,13 @@
   background: var(--gradient-two);
 }
 
+.gradient_four {
+  background: var(--gradient-four);
+}
+
 .gradient_text {
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-align: center;
 }
 
 .metamask__button {

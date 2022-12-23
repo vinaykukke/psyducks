@@ -65,14 +65,14 @@ const Mintable = () => {
         </Button>
       )}
       {account && (
-        <Box textAlign="center" marginBottom="2rem">
+        <Box textAlign="center" marginBottom="2rem" id="buy">
           <h2>
             Connected with account:
             <Typography fontWeight="bold" fontStyle="italic">
               {account}
             </Typography>
           </h2>
-          <h3>Each NFT will cost 0.09 ETH, There are no price tiers.</h3>
+          <h3>Each NFT will cost 0.09 ETH. There are no price tiers.</h3>
           <Typography fontStyle="italic" color="orange">
             ** There is a purchase limit of 20 per wallet. **
           </Typography>

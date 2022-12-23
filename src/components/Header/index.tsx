@@ -11,6 +11,7 @@ const Header = () => {
         <div className={styles.menu_items}>
           <a href="#buy">Buy</a>
           <a href="#about">About</a>
+          <a href="#inspiration">Inspiration</a>
           <a href="#roadmap">Roadmap</a>
         </div>
         <Image src="/duck.png" width={50} height={50} alt="psyduck - nft" />
