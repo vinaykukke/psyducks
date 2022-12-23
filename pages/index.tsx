@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { BigNumber } from "ethers";
+// import { useEffect } from "react";
+// import { BigNumber } from "ethers";
 import Head from "next/head";
 import Image from "next/image";
 import Mintable from "components/Mintable";
@@ -11,31 +11,31 @@ import styles from "../styles/Home.module.scss";
 
 export default function Home() {
   const {
-    state: { contract, soldOut },
+    state: { soldOut },
   } = useEth();
 
-  const [purchases, setPurchases] = useState([]);
+  // const [purchases, setPurchases] = useState([]);
 
-  const handlePurchase = (
-    purchasedBy: string,
-    forAmount: BigNumber,
-    numberPurchased: BigNumber,
-    at: BigNumber
-  ) =>
-    setPurchases((prev) => [
-      ...prev,
-      { purchasedBy, forAmount, numberPurchased, at },
-    ]);
+  // const handlePurchase = (
+  //   purchasedBy: string,
+  //   forAmount: BigNumber,
+  //   numberPurchased: BigNumber,
+  //   at: BigNumber
+  // ) =>
+  //   setPurchases((prev) => [
+  //     ...prev,
+  //     { purchasedBy, forAmount, numberPurchased, at },
+  //   ]);
 
-  useEffect(() => {
-    if (contract) {
-      contract.on("Purchased", handlePurchase);
+  // useEffect(() => {
+  //   if (contract) {
+  //     contract.on("Purchased", handlePurchase);
 
-      return () => {
-        contract.off("Purchased", handlePurchase);
-      };
-    }
-  }, [contract]);
+  //     return () => {
+  //       contract.off("Purchased", handlePurchase);
+  //     };
+  //   }
+  // }, [contract]);
 
   return (
     <>
