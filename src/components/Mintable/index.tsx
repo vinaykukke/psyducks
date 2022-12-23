@@ -74,7 +74,11 @@ const Mintable = () => {
           </h2>
           <h3>Each NFT will cost 0.09 ETH. There are no price tiers.</h3>
           <Typography fontStyle="italic" color="orange">
-            ** There is a purchase limit of 20 per wallet. **
+            Note: 30 ducks are being withheld from the sale. These will be used
+            for giveaways.
+          </Typography>
+          <Typography fontStyle="italic" color="orange">
+            ** There is a purchase limit of {purchaseLimit} per wallet. **
           </Typography>
         </Box>
       )}

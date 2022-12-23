@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BigNumber } from "ethers";
 import Head from "next/head";
+import Image from "next/image";
 import Mintable from "components/Mintable";
 import SoldOut from "components/SoldOut";
 import Orbit from "components/Orbit";
@@ -103,8 +104,7 @@ export default function Home() {
           <p>
             What we see usually is that people like to hold on to the NFT's in
             hopes that "one day the price might increase" - then they can sell
-            it and make a profit off it (zzzzzzzzzzzz - this idea is so boring I
-            almost fell asleep). This is exactly how old people think.
+            it and make a profit off it. This is exactly how old people think.
           </p>
           <p>
             Imagine if china or the united states suddenly decided to keep all
@@ -118,6 +118,28 @@ export default function Home() {
           </p>
         </section>
       </main>
+      <footer className={styles.footer}>
+        <div className={styles.logo_container}>
+          <Image
+            id="developer"
+            className={styles.developer}
+            src="/vk.png"
+            width={40}
+            height={40}
+            alt="vinay kukke - full stack developer"
+            title="Visit the developers website"
+          />
+          <Image
+            src="/open-sea.png"
+            width={40}
+            height={40}
+            alt="opensea"
+            title="Checkout collection on opensea"
+          />
+        </div>
+        <div className={styles.copyright}>© UNSIGNED SOFTWARE PVT LTD.</div>
+        <Image src="/duck.png" width={50} height={50} alt="psyduck - nft" />
+      </footer>
     </>
   );
 }

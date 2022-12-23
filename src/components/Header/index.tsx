@@ -1,4 +1,3 @@
-import Image from "next/image";
 import styles from "./header.module.scss";
 
 const Header = () => {
@@ -14,8 +13,6 @@ const Header = () => {
           <a href="#inspiration">Inspiration</a>
           <a href="#roadmap">Roadmap</a>
         </div>
-        <Image src="/duck.png" width={50} height={50} alt="psyduck - nft" />
-        <Image src="/open-sea.png" width={40} height={40} alt="opensea" />
       </div>
     </div>
   );
