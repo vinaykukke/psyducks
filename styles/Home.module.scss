@@ -1,15 +1,28 @@
-.container {
-  padding: 0 2rem;
-}
-
 .main {
   min-height: 100vh;
-  padding: 4rem 0;
+  padding: 4rem 2rem;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.parallax {
+  /* The image used */
+  background-image: url("/hero.png");
+
+  /* Set a specific height */
+  min-height: 500px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
 }
 
 .footer {
@@ -43,6 +56,11 @@
   margin: 0;
   line-height: 1.15;
   font-size: 4rem;
+}
+
+.about {
+  font-size: 0.75rem;
+  width: 60%;
 }
 
 .title,
@@ -115,10 +133,6 @@
 
 .limit__reached {
   font-size: 42px;
-}
-
-.gradient_one {
-  background: var(--gradient-one);
 }
 
 .gradient_two {

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { BigNumber } from "ethers";
 import Head from "next/head";
-import Image from "next/image";
 import Mintable from "components/Mintable";
 import SoldOut from "components/SoldOut";
+import Orbit from "components/Orbit";
 import Header from "components/Header";
 import { useEth } from "src/contexts/EthContext";
 import styles from "../styles/Home.module.scss";
@@ -37,7 +37,7 @@ export default function Home() {
   }, [contract]);
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>PsyDucks</title>
         <meta
@@ -46,24 +46,27 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header />
+      <div className={styles.parallax}>¡quack!</div>
       <main className={styles.main}>
-        <Image src="/duck.png" width={400} height={400} alt="psyduck - nft" />
-        <h1 className={styles.title}>
-          Welcome to the
-          <br />
-          <span className={`${styles.gradient_one} ${styles.gradient_text}`}>
-            PsyDucks
-          </span>
-          <span
-            style={{ marginLeft: "1rem" }}
-            className={`${styles.gradient_two} ${styles.gradient_text}`}
-          >
-            NFT Project!
-          </span>
+        <h1
+          className={`${styles.gradient_two} ${styles.gradient_text} ${styles.title}`}
+        >
+          Welcome
         </h1>
-        <Header />
+        <Orbit />
+        <h2 className={styles.about_header}>NFT Collection</h2>
+        <p className={styles.about}>
+          PsyDucks is a collection of 10,000 NFTs—unique digital collectibles
+          living on the Ethereum blockchain. Your Duck doubles as a token for
+          your future riches. The community loves NFT's and we love the
+          community, by owning and trading your ducco you stand to win some
+          money back. Once every month (for 10 months in a year) a lucky duck
+          holder will get ETH sent to their wallets, the amount of money depends
+          on the liquidity of the contract.
+        </p>
         {soldOut ? <SoldOut /> : <Mintable />}
       </main>
-    </div>
+    </>
   );
 }

@@ -1,0 +1,31 @@
+.svg_orbit {
+  display: block;
+  margin: 0 auto;
+  width: 30%;
+
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
+}
+
+.orbits circle {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+.lineGroup line {
+  stroke-width: 1px;
+}
+
+.earth {
+  fill: blue;
+}
+
+.venus {
+  fill: hsl(60, 80%, 80%);
+}
+
+.sol {
+  fill: yellow;
+}

@@ -1,31 +1,44 @@
-.svg_orbit {
-  display: block;
-  margin: 0 auto;
-  width: 30%;
+.header {
+  height: 4rem;
+  width: 100%;
+  padding: 0 2rem;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  @media only screen and (max-width: 600px) {
-    width: 100%;
+  .gradient_one {
+    background: var(--gradient-one);
   }
-}
 
-.orbits circle {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 1px;
-}
+  .gradient_text {
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    font-size: 2rem;
+  }
 
-.lineGroup line {
-  stroke-width: 1px;
-}
+  .logo_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 
-.earth {
-  fill: blue;
-}
+    img {
+      margin: 0 0.5rem;
+      cursor: pointer;
+    }
 
-.venus {
-  fill: hsl(60, 80%, 80%);
-}
+    .menu_items {
+      margin: 0 1rem;
 
-.sol {
-  fill: yellow;
+      a {
+        cursor: pointer;
+        margin: 0 0.5rem;
+
+        &:hover {
+          color: rgb(176, 176, 176);
+        }
+      }
+    }
+  }
 }
