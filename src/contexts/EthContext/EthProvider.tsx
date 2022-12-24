@@ -115,7 +115,7 @@ const EthProvider = (props: any) => {
   useEffect(() => {
     const tryInit = async () => {
       try {
-        const artifact = require("../../../artifacts/contracts/psyducks.sol/PsyDucks.json");
+        const artifact = require("../../abi/PsyDucks.json");
         init(artifact);
       } catch (err) {
         console.error("Error Importing the JSON-RPC for the contract:", err);
