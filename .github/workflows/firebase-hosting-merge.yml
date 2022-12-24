@@ -11,10 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: yarn && yarn build
+      - run: yarn && yarn build && yarn export
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PSYDUCKS_6C2EF }}"
           channelId: live
           projectId: psyducks-6c2ef
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
