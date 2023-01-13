@@ -7,6 +7,10 @@
   align-items: center;
   justify-content: space-between;
 
+  @media screen and (max-width: 425px) {
+    justify-content: center;
+  }
+
   .gradient_one {
     background: var(--gradient-one);
   }
@@ -22,6 +26,10 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+
+    @media screen and (max-width: 425px) {
+      display: none;
+    }
 
     .menu_items {
       margin: 0 1rem;

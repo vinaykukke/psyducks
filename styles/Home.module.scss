@@ -19,10 +19,14 @@
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
+
+  @media screen and (min-width: 768px) {
+    display: flex;
+  }
 }
 
 .footer {
@@ -41,6 +45,11 @@
     img {
       margin: 0 0.5rem;
       cursor: pointer;
+
+      @media screen and (max-width: 768px) {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
     }
 
     .developer {
@@ -79,8 +88,7 @@
 
 .about,
 .inspiration {
-  font-size: 0.9rem;
-  width: 60%;
+  font-size: 1.2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -88,6 +96,11 @@
 
   > p {
     align-self: flex-start;
+  }
+
+  @media screen and (min-width: 768px) {
+    width: 60%;
+    font-size: 0.9rem;
   }
 }
 

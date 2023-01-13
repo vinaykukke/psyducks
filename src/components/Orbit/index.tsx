@@ -7,49 +7,48 @@ const Orbit = () => {
   const lineGroup = useRef<SVGAElement>(null);
 
   useEffect(() => {
-    if (earth.current && venus.current && lineGroup.current) {
-      let i = 0;
-      const earthDeg = 5,
-        earthOrbits = 8,
-        venusOrbits = 13,
-        resonance = earthOrbits / venusOrbits,
-        centre = 250,
-        earthDist = centre - parseInt(earth.current.getAttribute("cy"), 10),
-        venusDist = centre - parseInt(venus.current.getAttribute("cy"), 10);
-      const orbitals = setInterval(function () {
-        earth.current.setAttribute(
-          "transform",
-          "rotate(" + i + " " + centre + " " + centre + ")"
+    let i = 0;
+    const earthDeg = 5,
+      earthOrbits = 8,
+      venusOrbits = 13,
+      resonance = earthOrbits / venusOrbits,
+      centre = 250,
+      earthDist = centre - parseInt(earth.current?.getAttribute("cy"), 10),
+      venusDist = centre - parseInt(venus.current?.getAttribute("cy"), 10);
+    const orbitals = setInterval(() => {
+      earth.current?.setAttribute(
+        "transform",
+        "rotate(" + i + " " + centre + " " + centre + ")"
+      );
+      venus.current?.setAttribute(
+        "transform",
+        "rotate(" + i / resonance + " " + centre + " " + centre + ")"
+      );
+      const earthX = Math.cos((i * Math.PI) / 180) * earthDist + centre,
+        earthY = Math.sin((i * Math.PI) / 180) * earthDist + centre,
+        venusX =
+          Math.cos(((i / (earthOrbits / 13)) * Math.PI) / 180) * venusDist +
+          centre,
+        venusY =
+          Math.sin(((i / (earthOrbits / 13)) * Math.PI) / 180) * venusDist +
+          centre,
+        resLine = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "line"
         );
-        venus.current.setAttribute(
-          "transform",
-          "rotate(" + i / resonance + " " + centre + " " + centre + ")"
-        );
-        const earthX = Math.cos((i * Math.PI) / 180) * earthDist + centre,
-          earthY = Math.sin((i * Math.PI) / 180) * earthDist + centre,
-          venusX =
-            Math.cos(((i / (earthOrbits / 13)) * Math.PI) / 180) * venusDist +
-            centre,
-          venusY =
-            Math.sin(((i / (earthOrbits / 13)) * Math.PI) / 180) * venusDist +
-            centre,
-          resLine = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "line"
-          );
 
-        resLine.setAttribute("x1", earthX.toString());
-        resLine.setAttribute("y1", earthY.toString());
-        resLine.setAttribute("x2", venusX.toString());
-        resLine.setAttribute("y2", venusY.toString());
-        resLine.setAttribute("stroke", "hsla(" + i + ", 50%, 50%, 0.5)");
-        lineGroup.current.appendChild(resLine);
+      resLine.setAttribute("x1", earthX.toString());
+      resLine.setAttribute("y1", earthY.toString());
+      resLine.setAttribute("x2", venusX.toString());
+      resLine.setAttribute("y2", venusY.toString());
+      resLine.setAttribute("stroke", "hsla(" + i + ", 50%, 50%, 0.5)");
+      lineGroup.current?.appendChild(resLine);
 
-        i += earthDeg;
-        if (i == 360 * earthOrbits + earthDeg) clearInterval(orbitals);
-      }, 60);
-    }
+      i += earthDeg;
+      if (i == 360 * earthOrbits + earthDeg) clearInterval(orbitals);
+    }, 60);
   }, []);
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

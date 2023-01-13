@@ -21,6 +21,7 @@ coverage
 coverage.json
 typechain
 typechain-types
+firebase-debug.log
 
 # Hardhat files
 cache
