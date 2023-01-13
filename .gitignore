@@ -39,4 +39,5 @@ artifacts
 
 # Export
 out/
+.firebase
 
