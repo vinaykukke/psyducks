@@ -11,7 +11,7 @@ task("mint", "Mint NFT's").setAction(async (_taskArgs, hre) => {
   const currentPrice = hre.ethers.utils
     .formatEther(pricePerToken.toString())
     .toString();
-  const price = 550 * parseFloat(currentPrice);
+  const price = 20 * parseFloat(currentPrice);
 
   if (currentPhase === 1) {
     console.log(
@@ -32,7 +32,7 @@ task("mint", "Mint NFT's").setAction(async (_taskArgs, hre) => {
       const account = accounts[i];
       const connectedContract = contract.connect(account);
 
-      const tx = await connectedContract.mint(550, {
+      const tx = await connectedContract.mint(20, {
         value: hre.ethers.utils.parseEther(price.toString()),
       });
 

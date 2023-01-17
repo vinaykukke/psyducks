@@ -69,7 +69,7 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
   /** Price */ 
   uint256 public _PRICE = 0.09 ether; //0.09 ETH
   /** Purchase limit */
-  uint256 public PURCHASE_LIMIT = 550;
+  uint256 public PURCHASE_LIMIT = 20;
   /** Max contract value */
   uint256 public MAX_CONTRACT_VALUE = 1000 ether; // 1000 ETH
   /** Min contract balance required for cash back to trigger */
