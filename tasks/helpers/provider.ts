@@ -5,5 +5,6 @@ export function getProvider(): ethers.providers.Provider {
   // const options = network && {
   //   alchemy: process.env.GOERLI_NETWORK,
   // };
-  return ethers.getDefaultProvider(env("LOCAL_NETWORK"));
+  // return ethers.getDefaultProvider(env("LOCAL_NETWORK"));
+  return new ethers.providers.AlchemyProvider("goerli", env("GOERLI_API_KEY"));
 }

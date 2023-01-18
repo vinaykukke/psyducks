@@ -77,9 +77,9 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
   /** List of winners */
   Winner[] public WINNERS;
   /** Base URI */
-  string public BASE_URI = "ipfs://QmcY91ZzAZFSX1mpAYNyjXehwfbwB6C6e9BZo3pomNVeHu/";
+  string public BASE_URI = "ipfs://QmT6NT6fzCVMeC7DiAygpB8dmD9BwwNay2krJ2V2GcbUWJ/";
   /** Contract URI */
-  string public CONTRACT_URI = "ipfs://QmcY91ZzAZFSX1mpAYNyjXehwfbwB6C6e9BZo3pomNVeHu/";
+  string public CONTRACT_URI = "ipfs://QmPc9Yxj1wEGp2P4WJqJCJ4ZKsSRpjhYdaa73kjjTDdjy1/";
 
 
   constructor() {
@@ -165,6 +165,8 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
 
   /** Fail safe for if the storage situation changes for the NFTs */
   function setBaseURI(string memory uri) public onlyOwner {
+    bytes memory temp = bytes(uri);
+    require(temp.length != 0, "Invalid URI!");
     BASE_URI = uri;
   }
 
@@ -175,6 +177,8 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
 
   /** Fail safe for if the storage situation changes for the NFTs */
   function setContractURI(string memory uri) public onlyOwner {
+    bytes memory temp = bytes(uri);
+    require(temp.length != 0, "Invalid URI!");
     CONTRACT_URI = uri;
   }
   
@@ -198,7 +202,7 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
     PHASE = 2;
     SOLD_OUT = false;
     _PRICE = 0.9 ether;
-    PURCHASE_LIMIT = 1100;
+    PURCHASE_LIMIT = 40;
     MAX_MINTABLE = MAX_SUPPLY;
     MAX_CONTRACT_VALUE = 10000 ether;
   }

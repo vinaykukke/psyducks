@@ -20,7 +20,7 @@ describe("PsyDucks contract", function () {
     expect(await hardhatToken.totalSupply()).to.equal(0);
   });
 
-  it("should verify that all variables are in their inital state", async function () {
+  it("should verify that all variables are in their inital state", async () => {
     const { hardhatToken } = await loadFixture(deployTokenFixture);
     const phase = await hardhatToken.PHASE();
     const soldOut = await hardhatToken.SOLD_OUT();
@@ -93,7 +93,7 @@ describe("PsyDucks contract", function () {
     expect(ethers.utils.formatEther(balancex)).to.equal("0.0");
   });
 
-  it("should fail the withdraw if not called by owner ", async () => {
+  it("should fail the withdraw if not called by owner", async () => {
     let err: Error;
     const { hardhatToken, addr1, addr2 } = await loadFixture(
       deployTokenFixture
@@ -112,5 +112,45 @@ describe("PsyDucks contract", function () {
     }
 
     expect(err.message.includes("Caller is not the owner!")).to.be.true;
+  });
+
+  it("should set the base uri", async () => {
+    let err: Error;
+    const { hardhatToken, owner } = await loadFixture(deployTokenFixture);
+    const newURI = "ipfs://QmPc9Yxj1wEGp2P4WJqJCJ4ZKsSRpjhYdaa73kjjTDdjy1/";
+    const tx = await hardhatToken.connect(owner).setBaseURI(newURI);
+    const uri = await hardhatToken.BASE_URI();
+
+    const completedTx = await tx.wait();
+    expect(completedTx.transactionHash).to.exist;
+    expect(uri).to.equal(newURI);
+
+    try {
+      await hardhatToken.connect(owner).setBaseURI("");
+    } catch (error) {
+      err = error;
+    }
+
+    expect(err.message.includes("Invalid URI!")).to.be.true;
+  });
+
+  it("should set the contract uri", async () => {
+    let err: Error;
+    const { hardhatToken, owner } = await loadFixture(deployTokenFixture);
+    const newURI = "ipfs://QmT6NT6fzCVMeC7DiAygpB8dmD9BwwNay2krJ2V2GcbUWJ/";
+    const tx = await hardhatToken.connect(owner).setContractURI(newURI);
+    const uri = await hardhatToken.CONTRACT_URI();
+
+    const completedTx = await tx.wait();
+    expect(completedTx.transactionHash).to.exist;
+    expect(uri).to.equal(newURI);
+
+    try {
+      await hardhatToken.connect(owner).setContractURI("");
+    } catch (error) {
+      err = error;
+    }
+
+    expect(err.message.includes("Invalid URI!")).to.be.true;
   });
 });

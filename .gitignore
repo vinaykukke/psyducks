@@ -38,6 +38,11 @@ typechain-types
 cache
 artifacts
 
+# NFT Files
+images/
+json/
+NFT/
+
 # Export
 out/
 .firebase
