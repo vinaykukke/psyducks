@@ -1,6 +1,6 @@
 import { BigNumber } from "ethers";
 import { task } from "hardhat/config";
-import { getContract } from "./contract";
+import { getContract } from "./helpers/contract";
 import { env } from "./helpers/env";
 import { convertToEth } from "./helpers/ethConver";
 

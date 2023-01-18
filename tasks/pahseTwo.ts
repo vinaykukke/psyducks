@@ -1,6 +1,6 @@
 import { BigNumber } from "ethers";
 import { task } from "hardhat/config";
-import { getContract } from "./contract";
+import { getContract } from "./helpers/contract";
 import { convertToEth } from "./helpers/ethConver";
 
 task("phase-two", "Initiates the phase two").setAction(

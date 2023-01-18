@@ -1,6 +1,6 @@
 import { BigNumber } from "ethers";
 import { task } from "hardhat/config";
-import { getContract } from "./contract";
+import { getContract } from "./helpers/contract";
 
 task("mint", "Mint NFT's").setAction(async (_taskArgs, hre) => {
   const contract = await getContract("PsyDucks", hre);

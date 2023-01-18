@@ -1,5 +1,5 @@
 import { task } from "hardhat/config";
-import { getContract } from "./contract";
+import { getContract } from "./helpers/contract";
 
 task("end", "Flags the collection as sold out").setAction(
   async (_taskArgs, hre) => {

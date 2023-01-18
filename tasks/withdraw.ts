@@ -1,6 +1,6 @@
 import { task } from "hardhat/config";
 import { env } from "./helpers/env";
-import { getContract } from "./contract";
+import { getContract } from "./helpers/contract";
 
 task("withdraw", "Withdraws the funds from the contract").setAction(
   async (_taskArgs, hre) => {
