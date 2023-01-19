@@ -9,5 +9,5 @@ export function getContract(
   hre: HardhatRuntimeEnvironment
 ): Promise<Contract> {
   const WALLET = new ethers.Wallet(env("LOCAL_PRIVATE_KEY"), getProvider());
-  return getContractAt(hre, name, env("CONTRACT_ADDRESS"), WALLET);
+  return getContractAt(hre, name, env("NEXT_PUBLIC_CONTRACT_ADDRESS"), WALLET);
 }

@@ -4,7 +4,7 @@ import "@nomicfoundation/hardhat-toolbox";
 import * as dotenv from "dotenv";
 
 /** Defining the path of the .env file */
-dotenv.config({ path: __dirname + "/.env" });
+dotenv.config({ path: __dirname + "/.env.local" });
 
 /** Import after DOTENV so it can be used in the tasks */
 import "./tasks/deploy";

@@ -7,7 +7,7 @@ task("withdraw", "Withdraws the funds from the contract").setAction(
     const contract = await getContract("PsyDucks", hre);
     const [owner] = await hre.ethers.getSigners();
     const contractBalance = await hre.ethers.provider.getBalance(
-      env("CONTRACT_ADDRESS")
+      env("NEXT_PUBLIC_CONTRACT_ADDRESS")
     );
 
     if (contractBalance.toString() !== "0") {
