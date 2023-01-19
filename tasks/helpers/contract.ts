@@ -8,6 +8,9 @@ export function getContract(
   name: string,
   hre: HardhatRuntimeEnvironment
 ): Promise<Contract> {
-  const WALLET = new ethers.Wallet(env("LOCAL_PRIVATE_KEY"), getProvider());
+  const WALLET = new ethers.Wallet(
+    env("GOERLI_TEST_ACC_PRIVATE_KEY"),
+    getProvider()
+  );
   return getContractAt(hre, name, env("NEXT_PUBLIC_CONTRACT_ADDRESS"), WALLET);
 }

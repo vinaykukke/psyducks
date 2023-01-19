@@ -11,8 +11,8 @@ declare global {
   }
 }
 
-const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
-const OWNER_ADDRESS = process.env.NEXT_PUBLIC_OWNER_ADDRESS;
+const CONTRACT_ADDRESS = "0x056ef4E45d4a75108d7F344d7d75b30130C8CB46";
+const OWNER_ADDRESS = "0xd2bBAd4fAd4D02388376d774cb0cc70FbDcd1e71";
 
 const EthProvider = (props: any) => {
   const [state, dispatch] = useReducer(reducer, initialState);

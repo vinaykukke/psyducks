@@ -10,8 +10,6 @@ task("balance", "Retrieve the balance the given address")
     types.string
   )
   .setAction(async (taskArgs: { address: string }, hre) => {
-    console.log(env("NEXT_PUBLIC_CONTRACT_ADDRESS"));
-
     const contractBalance = await hre.ethers.provider.getBalance(
       taskArgs.address
     );

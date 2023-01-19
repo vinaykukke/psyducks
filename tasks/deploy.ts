@@ -1,5 +1,5 @@
 import { task } from "hardhat/config";
-// import { getWallet } from "./helpers/wallet";
+import { getWallet } from "./helpers/wallet";
 
 task("deploy", "Deploy NFT contract").setAction(async (_taskArgs, hre) => {
   const timestamp = Math.round(Date.now() / 1000);
@@ -7,7 +7,7 @@ task("deploy", "Deploy NFT contract").setAction(async (_taskArgs, hre) => {
   const [deployer] = await hre.ethers.getSigners();
   const accountBalance = await deployer.getBalance();
 
-  const contract = await hre.ethers.getContractFactory("PsyDucks");
+  const contract = await hre.ethers.getContractFactory("PsyDucks", getWallet());
   /** If there is an argument in the constructor of the contract pass it here */
   const psyDucks = await contract.deploy();
 
