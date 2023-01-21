@@ -12,5 +12,5 @@ export function getContract(
     env("GOERLI_TEST_ACC_PRIVATE_KEY"),
     getProvider()
   );
-  return getContractAt(hre, name, env("NEXT_PUBLIC_CONTRACT_ADDRESS"), WALLET);
+  return getContractAt(hre, name, env("CONTRACT_ADDRESS"), WALLET);
 }

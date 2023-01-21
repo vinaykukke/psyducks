@@ -12,7 +12,7 @@ task("details", "Get all the relevant contract details").setAction(
     const ownerMint = await contract.OWNERS_SHARE_MINTED();
     const isSoldOut = await contract.SOLD_OUT();
     const balance = await hre.ethers.provider.getBalance(
-      env("NEXT_PUBLIC_CONTRACT_ADDRESS")
+      env("CONTRACT_ADDRESS")
     );
     const available: BigNumber = await contract.MAX_MINTABLE();
     const purchaseLimit: BigNumber = await contract.PURCHASE_LIMIT();

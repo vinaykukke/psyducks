@@ -3,27 +3,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-/**
- * This NFT will have the following:
- * All tokens will be stored on IPFS - [x]
- * A supply of 10000 - [x]
- * A mint limit of 20 per address - [x]
- * The owner will have a share of 30 tokens - [x]
- * Price of 0.09 ETH - [x]
- * Creators fee of 10% for every transfer of the NFT - [x]
- * The contract will send money to people once a certain threshold is met - [manual]
- * 1% of contract value is sent to a random person every month for 10 months - [manual]
- * If the token reached a pre-decided trading volume we wil make a domation to a charity of choice - [manual]
- * The higher the trading volume the more the donations - [manual]
- * If the value is > 1000 ETH the web application will initiate an withdrawal - [manual]
- * Maintain a list of people that have received payments so far - [x]
- * The supply will increase one time to a max of 20,000 items in total depening on the demand. - [x]
- * This new max supply will never change in the future. - [x]
- * The price will be different for the phase 2 mint. 0.9 ETH. - [x]
- * The max contract value will be 10,000 ETH and any one can win 10x more than phase 1 - [x]
- * Implement Operator Filter Registery - Open-sea - [x]
- */
-
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/common/ERC2981.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -77,9 +56,9 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
   /** List of winners */
   Winner[] public WINNERS;
   /** Base URI */
-  string public BASE_URI = "ipfs://QmT6NT6fzCVMeC7DiAygpB8dmD9BwwNay2krJ2V2GcbUWJ/";
+  string public BASE_URI = "ipfs://QmPCApPNk4R5j9jzJ4FKGqVb4U3Qo7eXb5ysEdcUqtveEA/";
   /** Contract URI */
-  string public CONTRACT_URI = "ipfs://QmPc9Yxj1wEGp2P4WJqJCJ4ZKsSRpjhYdaa73kjjTDdjy1/";
+  string public CONTRACT_URI = "ipfs://QmdcYEZ6rYKfGpLhtUNY85TeUeyjeVsjTs4CyDsj8WAV8z";
 
 
   constructor() {
@@ -156,6 +135,13 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
     }
 
     OWNERS_SHARE_MINTED = true;
+  }
+
+  function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) {
+    _requireMinted(tokenId);
+
+    string memory baseURI = _baseURI();
+    return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json")) : "";
   }
 
   /** Default URI for the NFT's */
@@ -260,11 +246,8 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
     /** Limit the number of mints per account */
     require((balanceOf(_msgSender()) + amount) <= PURCHASE_LIMIT, 'You have exceeded the PURCHASE LIMIT.');
 
-    /** Owner should not pay for minting */
-    if(_msgSender() != __owner) {
-      /** Check if the user is paying the correct price */
-      require(msg.value >= totalPrice, "Incorrect Ether value sent.");
-    }
+    /** Check if the user is paying the correct price */
+    require(msg.value >= totalPrice, "Incorrect Ether value sent.");
 
     for (uint256 i = 0; i < amount; i++) {
       require(_tokenIdCounter.current() <= MAX_MINTABLE, "I'm sorry we reached the cap.");

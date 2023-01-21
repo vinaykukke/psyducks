@@ -16,7 +16,7 @@ task("cashback", "Sends money to the next person who makes a trade").setAction(
     const [owner, owner2] = await hre.ethers.getSigners();
     const cashbackValue: BigNumber = await contract.MIN_CASH_BACK_VALUE();
     const contractBalance = await hre.ethers.provider.getBalance(
-      env("NEXT_PUBLIC_CONTRACT_ADDRESS")
+      env("CONTRACT_ADDRESS")
     );
     const conditionsMet =
       BigInt(contractBalance.toString()) > BigInt(cashbackValue.toString());

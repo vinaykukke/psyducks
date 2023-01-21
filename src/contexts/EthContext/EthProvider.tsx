@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-const CONTRACT_ADDRESS = "0x056ef4E45d4a75108d7F344d7d75b30130C8CB46";
+const CONTRACT_ADDRESS = "0x83d4B2EC7f2B425a04AC3A4F5655885B92d8C79e";
 const OWNER_ADDRESS = "0xd2bBAd4fAd4D02388376d774cb0cc70FbDcd1e71";
 
 const EthProvider = (props: any) => {

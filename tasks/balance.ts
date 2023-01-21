@@ -6,7 +6,7 @@ task("balance", "Retrieve the balance the given address")
   .addParam(
     "address",
     "An address to retrieve the balance from (Will default to the contract address)",
-    env("NEXT_PUBLIC_CONTRACT_ADDRESS"),
+    env("CONTRACT_ADDRESS"),
     types.string
   )
   .setAction(async (taskArgs: { address: string }, hre) => {
