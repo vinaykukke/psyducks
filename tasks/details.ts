@@ -1,8 +1,10 @@
 import { BigNumber } from "ethers";
+import axios, { AxiosResponse } from "axios";
 import { task } from "hardhat/config";
 import { getContract } from "./helpers/contract";
 import { env } from "./helpers/env";
 import { convertToEth } from "./helpers/ethConver";
+import { IOpenseaStats } from "./types";
 
 task("details", "Get all the relevant contract details").setAction(
   async (_taskArgs, hre) => {
@@ -16,6 +18,8 @@ task("details", "Get all the relevant contract details").setAction(
     );
     const available: BigNumber = await contract.MAX_MINTABLE();
     const purchaseLimit: BigNumber = await contract.PURCHASE_LIMIT();
+    const api = env("OPENSEA_STATS_API");
+    const res = await axios.get<any, AxiosResponse<IOpenseaStats>>(api);
 
     console.table({
       "Maximum Mintable": available.toNumber(),
@@ -25,6 +29,7 @@ task("details", "Get all the relevant contract details").setAction(
       "Purchase Limit": purchaseLimit.toNumber(),
       "Sold Out": isSoldOut,
       "Contract Balance": convertToEth(hre, balance),
+      "Total Volume": `${res.data.stats.total_volume} ETH`,
     });
   }
 );

@@ -20,10 +20,13 @@ task("withdraw", "Withdraws the funds from the contract").setAction(
       const balance = await hre.ethers.provider.getBalance(owner.address);
       const bal = hre.ethers.utils.formatEther(balance);
 
+      console.log("########### CONTRACT BALANCE ###########");
       await hre.run("balance");
+
+      console.log("########### WITHDRAW FINISHED ###########");
       console.table({
         "Transaction Hash": completedTx.transactionHash,
-        "Sent To Account": owner,
+        "Sent To Account": owner.address,
         "Account Balance": `${bal.toString()} ETH`,
       });
     } else {

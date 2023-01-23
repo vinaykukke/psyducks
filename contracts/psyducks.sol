@@ -224,13 +224,12 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
     uint256 totalOwnable = balanceOf(_msgSender()) + amount;
     uint256 totalPrice = _PRICE * amount;
 
-    /** LimitExceeded event */
     if (totalOwnable <= PURCHASE_LIMIT) {
+      /** LimitExceeded event */
       emit LimitExceeded(_msgSender(), "LIMIT_EXCEEDED");
+      /** Limit the number of mints per account */
+      require((totalOwnable) <= PURCHASE_LIMIT, 'You have exceeded the PURCHASE LIMIT.');
     }
-
-    /** Limit the number of mints per account */
-    require((balanceOf(_msgSender()) + amount) <= PURCHASE_LIMIT, 'You have exceeded the PURCHASE LIMIT.');
 
     /** Check if the user is paying the correct price */
     require(msg.value >= totalPrice, "Incorrect Ether value sent.");

@@ -21,10 +21,4 @@ task("mint", "Mint NFT's for the owner").setAction(async (_taskArgs, hre) => {
       "********************* Owner Reserve End *********************"
     );
   }
-
-  console.log(
-    "######################### FETCHING CONTRACT BALANCE #########################"
-  );
-
-  await hre.run("balance");
 });

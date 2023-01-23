@@ -30,7 +30,8 @@ const Mintable = () => {
 
   const mint = async () => {
     try {
-      const price = mintCount * mintPrice;
+      /** Fixing the JS floating point precision problem */
+      const price = Number((mintCount * mintPrice).toFixed(3));
       const options = {
         value: ethers.utils.parseEther(price.toString()),
       };
