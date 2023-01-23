@@ -20,6 +20,8 @@ import "./tasks/details";
 import "./tasks/withdraw";
 /** Initiate the cashback scheme */
 import "./tasks/cashBack";
+/** Send money to winner */
+import "./tasks/sendMoney";
 /** Initiate phase two */
 import "./tasks/pahseTwo";
 /** Flag the collection as sold out */

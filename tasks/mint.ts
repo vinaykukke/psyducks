@@ -2,16 +2,11 @@ import { BigNumber } from "ethers";
 import { task } from "hardhat/config";
 import { getContract } from "./helpers/contract";
 
-task("mint", "Mint NFT's").setAction(async (_taskArgs, hre) => {
+task("mint", "Mint NFT's for the owner").setAction(async (_taskArgs, hre) => {
   const contract = await getContract("PsyDucks", hre);
-  const [owner, ...accounts] = await hre.ethers.getSigners();
-  const pricePerToken: BigNumber = await contract._PRICE();
+  const [owner] = await hre.ethers.getSigners();
   const phase: BigNumber = await contract.PHASE();
   const currentPhase = phase.toNumber();
-  const currentPrice = hre.ethers.utils
-    .formatEther(pricePerToken.toString())
-    .toString();
-  const price = 20 * parseFloat(currentPrice);
 
   if (currentPhase === 1) {
     console.log(
@@ -25,23 +20,6 @@ task("mint", "Mint NFT's").setAction(async (_taskArgs, hre) => {
     console.log(
       "********************* Owner Reserve End *********************"
     );
-  }
-
-  for (const i in accounts) {
-    if (Object.prototype.hasOwnProperty.call(accounts, i)) {
-      const account = accounts[i];
-      const connectedContract = contract.connect(account);
-
-      const tx = await connectedContract.mint(20, {
-        value: hre.ethers.utils.parseEther(price.toString()),
-      });
-
-      const completedTx = await tx.wait();
-      console.log(
-        `Transaction ${i} completed with a hash:`,
-        completedTx.transactionHash
-      );
-    }
   }
 
   console.log(

@@ -21,7 +21,6 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
   /** Cashback winner */
   struct Winner {
     address _address;
-    uint256 amount;
     uint256 timestamp;
   }
 
@@ -49,16 +48,12 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
   uint256 public _PRICE = 0.09 ether; //0.09 ETH
   /** Purchase limit */
   uint256 public PURCHASE_LIMIT = 20;
-  /** Max contract value */
-  uint256 public MAX_CONTRACT_VALUE = 1000 ether; // 1000 ETH
-  /** Min contract balance required for cash back to trigger */
-  uint256 public constant MIN_CASH_BACK_VALUE = 10 ether; // 10 ETH
   /** List of winners */
   Winner[] public WINNERS;
   /** Base URI */
-  string public BASE_URI = "ipfs://QmPCApPNk4R5j9jzJ4FKGqVb4U3Qo7eXb5ysEdcUqtveEA/";
+  string public BASE_URI = "ipfs://QmdcLYmqEwunWDfFqwyGiywnMUVbc8WekEuAX3fpVW4fpa/";
   /** Contract URI */
-  string public CONTRACT_URI = "ipfs://QmdcYEZ6rYKfGpLhtUNY85TeUeyjeVsjTs4CyDsj8WAV8z";
+  string public CONTRACT_URI = "https://ipfs.filebase.io/ipfs/Qmah5n9gejGgCpzKrgKqx31jsReYbCxuy6en3Yutv8iKKx";
 
 
   constructor() {
@@ -190,7 +185,6 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
     _PRICE = 0.9 ether;
     PURCHASE_LIMIT = 40;
     MAX_MINTABLE = MAX_SUPPLY;
-    MAX_CONTRACT_VALUE = 10000 ether;
   }
 
   /** Return the total supply */
@@ -212,24 +206,16 @@ contract PsyDucks is ERC721("PsyDucks", "PSY"), ERC2981, DefaultOperatorFilterer
   function _afterTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize) internal virtual override {
     /** Call parent hook */
     super._afterTokenTransfer(from, to, tokenId, batchSize);
-    /** Contract balance */
-    uint256 _balance = address(this).balance;
     /** Transfer Presets */
     bool notMintOrBurn = from != address(0) && to != address(0);
     bool notOwner = from != __owner;
-    bool conditionMet = notMintOrBurn && notOwner && _balance > MIN_CASH_BACK_VALUE;
+    bool conditionMet = notMintOrBurn && notOwner && INIT_CASH_BACK;
 
-    if (INIT_CASH_BACK && conditionMet) {
-      address payable _from = payable(from);
-      uint256 transferValue = _balance / 100;
-      _from.transfer(transferValue);
-
+    if (conditionMet) {
       /** Re-setting the cash-back */
       INIT_CASH_BACK = false;
       /** Adding winners to the list */
-      WINNERS.push(Winner(from, transferValue, block.timestamp));
-      /** Emit the Cash Back event */
-      emit Cashback(from, transferValue, block.timestamp);
+      WINNERS.push(Winner(from, block.timestamp));
     }
   }
 

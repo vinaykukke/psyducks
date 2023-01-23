@@ -9,8 +9,11 @@ task("withdraw", "Withdraws the funds from the contract").setAction(
     const contractBalance = await hre.ethers.provider.getBalance(
       env("CONTRACT_ADDRESS")
     );
+    const conditionsMet =
+      contractBalance.toString() !== "0" &&
+      owner.address === env("OWNER_ADDRESS");
 
-    if (contractBalance.toString() !== "0") {
+    if (conditionsMet) {
       const tx = await contract.connect(owner).withdraw();
       const completedTx = await tx.wait();
 
@@ -19,7 +22,8 @@ task("withdraw", "Withdraws the funds from the contract").setAction(
 
       await hre.run("balance");
       console.table({
-        "Withdraw Transaction Hash": completedTx.transactionHash,
+        "Transaction Hash": completedTx.transactionHash,
+        "Sent To Account": owner,
         "Account Balance": `${bal.toString()} ETH`,
       });
     } else {

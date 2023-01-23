@@ -7,7 +7,7 @@ import { convertToEth } from "./helpers/ethConver";
 task("details", "Get all the relevant contract details").setAction(
   async (_taskArgs, hre) => {
     const contract = await getContract("PsyDucks", hre);
-    // const totalSuppply: BigNumber = await contract.totalSupply();
+    const totalSuppply: BigNumber = await contract.totalSupply();
     const phase: BigNumber = await contract.PHASE();
     const ownerMint = await contract.OWNERS_SHARE_MINTED();
     const isSoldOut = await contract.SOLD_OUT();
@@ -18,8 +18,8 @@ task("details", "Get all the relevant contract details").setAction(
     const purchaseLimit: BigNumber = await contract.PURCHASE_LIMIT();
 
     console.table({
-      "Maximum Available": available.toNumber(),
-      // "Current Supply": totalSuppply.toNumber(),
+      "Maximum Mintable": available.toNumber(),
+      "Current Supply": totalSuppply.toNumber(),
       "Owners Share Minted": ownerMint,
       "Current Phase": phase.toNumber(),
       "Purchase Limit": purchaseLimit.toNumber(),
