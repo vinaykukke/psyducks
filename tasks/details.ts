@@ -18,8 +18,9 @@ task("details", "Get all the relevant contract details").setAction(
     );
     const available: BigNumber = await contract.MAX_MINTABLE();
     const purchaseLimit: BigNumber = await contract.PURCHASE_LIMIT();
-    const api = env("OPENSEA_STATS_API");
-    const res = await axios.get<any, AxiosResponse<IOpenseaStats>>(api);
+    const res = await axios.get<any, AxiosResponse<IOpenseaStats>>(
+      env("OPENSEA_STATS_API")
+    );
 
     console.table({
       "Maximum Mintable": available.toNumber(),

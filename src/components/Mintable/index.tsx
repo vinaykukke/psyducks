@@ -4,7 +4,7 @@ import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useEth } from "src/contexts/EthContext";
-import Stepper from "components/index";
+import Stepper from "components/Stepper/index";
 import ErrorModal from "components/ErrorModal";
 import styles from "../../../styles/Home.module.scss";
 
@@ -73,7 +73,7 @@ const Mintable = () => {
               {account}
             </Typography>
           </h2>
-          <h3>Each NFT will cost 0.09 ETH. There are no price tiers.</h3>
+          <h3>Each NFT will cost {mintPrice} ETH. There are no price tiers.</h3>
           <Typography fontStyle="italic" color="orange">
             Note: 30 ducks are being withheld from the sale. These will be used
             for giveaways.

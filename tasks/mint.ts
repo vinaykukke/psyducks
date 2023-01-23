@@ -1,16 +1,18 @@
-import { BigNumber } from "ethers";
 import { task } from "hardhat/config";
 import { getContract } from "./helpers/contract";
 
 task("mint", "Mint NFT's for the owner").setAction(async (_taskArgs, hre) => {
   const contract = await getContract("PsyDucks", hre);
   const [owner] = await hre.ethers.getSigners();
-  const phase: BigNumber = await contract.PHASE();
-  const currentPhase = phase.toNumber();
+  const soldOut: boolean = await contract.SOLD_OUT();
 
-  if (currentPhase === 1) {
+  if (soldOut) {
     console.log(
-      "********************* Owner Reserve Start *********************"
+      "######################### THE COLLECTION IS COMPLETELY SOLD OUT - CANNOT MINT! #########################"
+    );
+  } else {
+    console.log(
+      "######################### OWNER RESERVE START #########################"
     );
     const tx = await contract.connect(owner).reserve();
     const completedTx = await tx.wait();
@@ -18,7 +20,7 @@ task("mint", "Mint NFT's for the owner").setAction(async (_taskArgs, hre) => {
       "Transaction Hash": completedTx.transactionHash,
     });
     console.log(
-      "********************* Owner Reserve End *********************"
+      "######################### OWNER RESERVE END #########################"
     );
   }
 });

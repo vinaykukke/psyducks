@@ -55,12 +55,14 @@ const EthProvider = (props: any) => {
       let account: string = null;
       let contract: Contract = null;
       let accountBalance: number = null;
+      let phase: BigNumber = null;
 
       try {
         /** This is conected to the active / connected account in metamask */
         signer = provider.getSigner();
         account = await signer.getAddress();
         contract = new Contract(CONTRACT_ADDRESS, artifact.abi, signer);
+        phase = await contract.PHASE();
       } catch (err) {
         console.error("Contract not deployed to the network!", err);
       }
@@ -69,6 +71,7 @@ const EthProvider = (props: any) => {
         type: actions.init,
         data: {
           artifact,
+          phase: phase.toNumber(),
           provider,
           signer,
           account,

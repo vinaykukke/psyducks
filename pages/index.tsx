@@ -61,14 +61,14 @@ export default function Home() {
           <h2 className={styles.about_header}>NFT Collection</h2>
           <p className={`${styles.gradient_four} ${styles.gradient_text}`}>
             The community loves NFT's and we love the community, by owning and
-            trading your duck you stand to win some money back.
+            trading your ducks you stand to win some money back.
           </p>
           <p>
             PsyDucks is a collection of 10,000 NFTs—unique digital collectibles
             living on the Ethereum blockchain. Your Duck doubles as a token for
             your future riches. Once every month (for 10 months in a year) a
             lucky duck holder will get ETH sent to their wallets, the amount of
-            money depends on the liquidity of the contract.
+            money depends on the total volume traded.
           </p>
           <p>
             The project will be released in two phases. Phase-one will contain
@@ -76,22 +76,12 @@ export default function Home() {
             will contain an additional 10,000 unique NFT's each of which will
             cost 0.9 ETH - making it a total of 20,000 unique collectibles
             (Phase-two will be activated depending on the demand from the
-            community). Phase-one will allow the smart contract to hold a
-            maximum of 1000 ETH - after which an automatic withdrawal will be
-            initiated and the value of the contract will be reduced to 10 ETH,
-            this will continue until phase-two is initiated. In phase-two the
-            contract will be allowed to hold a maximum of 10,000 ETH each time
-            we reach this threshold an automatic withdrawal will be initiated
-            and the value of the contract will be reduced to 1000 ETH. There
-            will be no more phases.
+            community).
           </p>
           <p>
-            In each of the phases you can stand to win 1% of the contract value
-            by trading - the cashback scheme will only be initiated once the
-            contract value touches 10 ETH. In phase-one the value of the
-            contract will never go below 10 ETH once it is crossed and in
-            phase-two the value of the contract will never go below 1000 ETH
-            once it is crossed.
+            In each of the phases you can stand to win 1% of the total traded
+            volume - the cashback scheme will only be initiated once the total
+            traded volume touches 100 ETH.
           </p>
           <p>
             All the numbers are fixed in the smart contract and will never
