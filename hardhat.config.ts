@@ -35,6 +35,11 @@ const config: HardhatUserConfig = {
       // Private key fo the Goerli Test account (Primary - Test)
       accounts: [process.env.GOERLI_TEST_ACC_PRIVATE_KEY],
     },
+    main: {
+      url: process.env.MAINNET_URL,
+      // Private key for the mainnet account
+      accounts: [process.env.MAINNET_ACC_PRIVATE_KEY],
+    },
   },
 };
 

@@ -11,8 +11,8 @@ declare global {
   }
 }
 
-const CONTRACT_ADDRESS = "0xbA029494051D445a0FF5C4D8C2b6CBC62489ea23";
-const OWNER_ADDRESS = "0xd2bBAd4fAd4D02388376d774cb0cc70FbDcd1e71";
+const CONTRACT_ADDRESS = "0x6C1f737Ca6056500fD3Aef58FcC3BD6d918272d1";
+const OWNER_ADDRESS = "0x4Df7BD03223F80B3B115DC3578E8A6241Fb842EE";
 
 const EthProvider = (props: any) => {
   const [state, dispatch] = useReducer(reducer, initialState);
