@@ -56,6 +56,7 @@ const EthProvider = (props: any) => {
       let contract: Contract = null;
       let accountBalance: number = null;
       let phase: BigNumber = null;
+      let soldOut: boolean = false;
 
       try {
         /** This is conected to the active / connected account in metamask */
@@ -63,6 +64,7 @@ const EthProvider = (props: any) => {
         account = await signer.getAddress();
         contract = new Contract(CONTRACT_ADDRESS, artifact.abi, signer);
         phase = await contract.PHASE();
+        soldOut = await contract.SOLD_OUT();
       } catch (err) {
         console.error("Contract not deployed to the network!", err);
       }
@@ -77,6 +79,7 @@ const EthProvider = (props: any) => {
           account,
           contract,
           accountBalance,
+          soldOut,
           owner: OWNER_ADDRESS,
           isOwner: OWNER_ADDRESS === account,
         },

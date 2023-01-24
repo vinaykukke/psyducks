@@ -12,7 +12,7 @@ const SoldOut = () => (
     This NFT collection is sold out.
     <br />
     <Button
-      href="https://opensea.io/collection/psyducks"
+      href="https://opensea.io/collection/psy-ducks"
       target="_blank"
       className={styles.visit_opensea__button}
     >
