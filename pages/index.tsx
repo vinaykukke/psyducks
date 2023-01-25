@@ -1,5 +1,3 @@
-// import { useEffect } from "react";
-// import { BigNumber } from "ethers";
 import Head from "next/head";
 import Image from "next/image";
 import Mintable from "components/Mintable";
@@ -8,34 +6,12 @@ import Orbit from "components/Orbit";
 import Header from "components/Header";
 import { useEth } from "src/contexts/EthContext";
 import styles from "../styles/Home.module.scss";
+import Link from "next/link";
 
 export default function Home() {
   const {
     state: { soldOut },
   } = useEth();
-
-  // const [purchases, setPurchases] = useState([]);
-
-  // const handlePurchase = (
-  //   purchasedBy: string,
-  //   forAmount: BigNumber,
-  //   numberPurchased: BigNumber,
-  //   at: BigNumber
-  // ) =>
-  //   setPurchases((prev) => [
-  //     ...prev,
-  //     { purchasedBy, forAmount, numberPurchased, at },
-  //   ]);
-
-  // useEffect(() => {
-  //   if (contract) {
-  //     contract.on("Purchased", handlePurchase);
-
-  //     return () => {
-  //       contract.off("Purchased", handlePurchase);
-  //     };
-  //   }
-  // }, [contract]);
 
   return (
     <>
@@ -110,22 +86,26 @@ export default function Home() {
       </main>
       <footer className={styles.footer}>
         <div className={styles.logo_container}>
-          <Image
-            id="developer"
-            className={styles.developer}
-            src="/vk.png"
-            width={40}
-            height={40}
-            alt="vinay kukke - full stack developer"
-            title="Visit the developers website"
-          />
-          <Image
-            src="/open-sea.png"
-            width={40}
-            height={40}
-            alt="opensea"
-            title="Checkout collection on opensea"
-          />
+          <Link href="https://kukke.dev/" target="_blank">
+            <Image
+              id="developer"
+              className={styles.developer}
+              src="/vk.png"
+              width={40}
+              height={40}
+              alt="vinay kukke - full stack developer"
+              title="Visit the developers website"
+            />
+          </Link>
+          <Link href="https://opensea.io/collection/psy-ducks" target="_blank">
+            <Image
+              src="/open-sea.png"
+              width={40}
+              height={40}
+              alt="opensea"
+              title="Checkout collection on opensea"
+            />
+          </Link>
         </div>
         <div className={styles.copyright}>© UNSIGNED SOFTWARE PVT LTD.</div>
         <Image src="/duck.png" width={50} height={50} alt="psyduck - nft" />

@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Button from "@mui/material/Button";
 import { useEth } from "src/contexts/EthContext";
 import Stepper from "components/Stepper/index";
-import ErrorModal from "components/ErrorModal";
+import DisplayModal from "components/Modal";
+import { actions } from "src/contexts/EthContext/state";
 import styles from "../../../styles/Home.module.scss";
 
 const Mintable = () => {
   const {
     connect,
+    dispatch,
     state: {
       account,
       contract,
@@ -23,12 +26,37 @@ const Mintable = () => {
   } = useEth();
   const [mintCount, setMintCount] = useState(0);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [loading, setLoading] = useState(false);
   const HALT_MINT = available <= 0;
   const ALLOW_MINT = !HALT_MINT && account;
   const disableMint = mintCount === 0;
   const PARTIALLY_AVAILABLE = available > 0 && available < purchaseLimit;
+  const showModal = Boolean(error) || Boolean(success);
+
+  const handlePurchase = (
+    _purchasedBy: string,
+    _forAmount: BigNumber,
+    numberPurchased: BigNumber,
+    _at: BigNumber
+  ) => {
+    const balance = accountBalance + numberPurchased.toNumber();
+    dispatch({ type: actions.balanceChange, data: { balance } });
+    dispatch({ type: actions.purchased });
+  };
+
+  useEffect(() => {
+    if (contract) {
+      contract.on("Purchased", handlePurchase);
+
+      return () => {
+        contract.off("Purchased", handlePurchase);
+      };
+    }
+  }, [contract, accountBalance]);
 
   const mint = async () => {
+    setLoading(true);
     try {
       /** Fixing the JS floating point precision problem */
       const price = Number((mintCount * mintPrice).toFixed(3));
@@ -41,11 +69,13 @@ const Mintable = () => {
       if (!isOwner) mintTx = await contract.mint(mintCount, options);
 
       const completedTx = await mintTx.wait();
+      setSuccess(completedTx.transactionHash);
       console.log("Your NFT's have been mined at: ", completedTx);
     } catch (error) {
       setError(error);
       console.error("Minting Error: ", error);
     }
+    setLoading(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,11 +104,21 @@ const Mintable = () => {
             </Typography>
           </h2>
           <h3>Each NFT will cost {mintPrice} ETH. There are no price tiers.</h3>
-          <Typography fontStyle="italic" color="orange">
+          <Typography
+            fontStyle="italic"
+            color="orange"
+            fontFamily="joystix"
+            fontSize="0.75rem"
+          >
             Note: 30 ducks are being withheld from the sale. These will be used
             for giveaways.
           </Typography>
-          <Typography fontStyle="italic" color="orange">
+          <Typography
+            fontStyle="italic"
+            color="orange"
+            fontFamily="joystix"
+            fontSize="0.75rem"
+          >
             ** There is a purchase limit of {purchaseLimit} per wallet. **
           </Typography>
         </Box>
@@ -86,13 +126,14 @@ const Mintable = () => {
       {ALLOW_MINT && (
         <div className={styles.mint__form}>
           <Stepper mintCount={mintCount} handleChange={handleInputChange} />
-          <Button
+          <LoadingButton
             className={styles.mint__button}
             onClick={mint}
-            disabled={disableMint}
+            loading={loading}
+            disabled={disableMint || loading}
           >
             Mint
-          </Button>
+          </LoadingButton>
         </div>
       )}
       {HALT_MINT && (
@@ -102,16 +143,28 @@ const Mintable = () => {
       )}
       {!isOwner && PARTIALLY_AVAILABLE && (
         <>
-          <Typography fontStyle="italic" color="turquoise">
+          <Typography
+            fontStyle="italic"
+            color="turquoise"
+            fontFamily="joystix"
+            fontSize="0.75rem"
+          >
             ** You have previously purchased {accountBalance} out of your
             available 20 NFT's. **
           </Typography>
-          <Typography color="green">
+          <Typography color="green" fontFamily="joystix" fontSize="0.75rem">
             Available: {available}/{purchaseLimit}
           </Typography>
         </>
       )}
-      {error && <ErrorModal error={error} />}
+      {showModal && (
+        <DisplayModal
+          error={error}
+          success={success}
+          setError={setError}
+          setSuccess={setSuccess}
+        />
+      )}
     </>
   );
 };
