@@ -25,6 +25,7 @@ const Mintable = () => {
     },
   } = useEth();
   const [mintCount, setMintCount] = useState(0);
+  const [metamaskStatus, setMetamaskstatus] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -44,6 +45,10 @@ const Mintable = () => {
     dispatch({ type: actions.balanceChange, data: { balance } });
     dispatch({ type: actions.purchased });
   };
+
+  useEffect(() => {
+    if (window.ethereum) setMetamaskstatus(true);
+  }, []);
 
   useEffect(() => {
     if (contract) {
@@ -90,10 +95,32 @@ const Mintable = () => {
 
   return (
     <>
-      {!account && (
+      {metamaskStatus && !account && (
         <Button className={styles.metamask__button} onClick={connect}>
           Connect Metamask
         </Button>
+      )}
+      {!metamaskStatus && (
+        <Box textAlign="center" marginBottom="2rem" id="buy">
+          <Typography
+            fontWeight="bold"
+            fontStyle="italic"
+            color="orange"
+            fontFamily="joystix"
+          >
+            Please install Metamask
+          </Typography>
+          <p>OR</p>
+          <Typography
+            fontWeight="bold"
+            fontStyle="italic"
+            color="orange"
+            fontFamily="joystix"
+          >
+            If you are viewing this from your mobile, please switch to a desktop
+            browser for the best experience.
+          </Typography>
+        </Box>
       )}
       {account && (
         <Box textAlign="center" marginBottom="2rem" id="buy">

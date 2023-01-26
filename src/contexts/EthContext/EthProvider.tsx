@@ -37,7 +37,7 @@ const EthProvider = (props: any) => {
        * Prompts user for metamask connection.
        * Will not prompt user for connection if connection was made once in the past.
        */
-      const accounts: string[] = await window.ethereum.request({
+      const accounts: string[] = await window.ethereum?.request({
         method: "eth_requestAccounts",
       });
 
@@ -53,7 +53,7 @@ const EthProvider = (props: any) => {
   }
 
   const init = useCallback(async (artifact: any) => {
-    if (artifact) {
+    if (artifact && window.ethereum) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       let signer: JsonRpcSigner = null;
       let account: string = null;
@@ -141,11 +141,11 @@ const EthProvider = (props: any) => {
     const handleChange = () => init(state.artifact);
 
     /** Attach event listeners */
-    events.forEach((e) => window.ethereum.on(e, handleChange));
+    events.forEach((e) => window.ethereum?.on(e, handleChange));
 
     /** Remove event listeners */
     return () =>
-      events.forEach((e) => window.ethereum.removeListener(e, handleChange));
+      events.forEach((e) => window.ethereum?.removeListener(e, handleChange));
   }, [init, state.artifact]);
 
   return (
