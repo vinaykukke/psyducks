@@ -77,7 +77,7 @@ const EthProvider = (props: any) => {
         type: actions.init,
         data: {
           artifact,
-          phase: phase.toNumber(),
+          phase: phase?.toNumber(),
           provider,
           signer,
           account,

@@ -40,7 +40,7 @@ export default function Home() {
             trading your ducks you stand to win some money back.
           </p>
           <p>
-            PsyDucks is a collection of 10,000 NFTs—unique digital collectibles
+            PsyDucks is a collection of 20,000 NFTs—unique digital collectibles
             living on the Ethereum blockchain. Your Duck doubles as a token for
             your future riches. Once every month (for 10 months in a year) a
             lucky duck holder will get ETH sent to their wallets, the amount of
