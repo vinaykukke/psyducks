@@ -96,7 +96,7 @@ const Mintable = () => {
   return (
     <>
       {metamaskStatus && !account && (
-        <Button className={styles.metamask__button} onClick={connect}>
+        <Button id="buy" className={styles.metamask__button} onClick={connect}>
           Connect Metamask
         </Button>
       )}

@@ -1,5 +1,6 @@
 :root {
-  --background: linear-gradient(to bottom, #000000, #000428, #004e92);
+  --background-dark: linear-gradient(to bottom, #000000, #000428, #004e92);
+  --background-light: linear-gradient(to bottom, #dcf8ef, #fee2f8);
   --modal-background: rgb(38, 43, 47);
   --gradient-one: linear-gradient(
     60deg,
@@ -43,7 +44,7 @@ body {
 
   /** Root Font size */
   font-size: var(--default-font-size);
-  background-color: var(--background);
+  background-color: var(--background-dark);
 
   /* Responsive layout - Changing the font on mobile screens */
   @media screen and (max-width: 800px) {
@@ -66,6 +67,16 @@ a {
   }
   body {
     color: white;
-    background: var(--background);
+    background: var(--background-dark);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  html {
+    color-scheme: light;
+  }
+  body {
+    color: black;
+    background: var(--background-light);
   }
 }

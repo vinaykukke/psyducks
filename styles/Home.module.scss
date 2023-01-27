@@ -48,9 +48,11 @@
       }
     }
 
-    .developer {
-      filter: invert(1);
-    }
+    // .developer {
+    //   @media (prefers-color-scheme: dark) {
+    //     filter: invert(1);
+    //   }
+    // }
   }
 
   .copyright {
@@ -279,14 +281,21 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .card,
   .footer {
-    border-color: #222;
+    img[alt="vinay kukke - full stack developer"] {
+      filter: invert(1);
+    }
   }
-  .code {
-    background: #111;
-  }
-  .logo img {
-    filter: invert(1);
+}
+
+@media (prefers-color-scheme: light) {
+  .footer {
+    img[alt="opensea"] {
+      filter: invert(1);
+    }
+
+    img[alt="psyduck - nft"] {
+      filter: invert(1);
+    }
   }
 }
