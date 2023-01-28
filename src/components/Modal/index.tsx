@@ -1,11 +1,11 @@
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { BigNumber } from "ethers";
 import styles from "./modal.module.scss";
-import Image from "next/image";
-import Link from "next/link";
 
 interface IProps {
   setError: (value: any) => void;
