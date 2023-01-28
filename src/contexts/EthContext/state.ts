@@ -63,7 +63,7 @@ const reducer = (state: any, action: any) => {
 
   switch (type) {
     case actions.init:
-      const currentPhase = state.phase === 1 ? "phase_one" : "phase_two";
+      const currentPhase = data.phase === 1 ? "phase_one" : "phase_two";
       const price = data.isOwner ? 0 : PRICES[currentPhase];
       const purchaseLimit = data.isOwner
         ? PURCHASE_LIMIT.owner
