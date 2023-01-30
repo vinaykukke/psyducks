@@ -67,8 +67,9 @@ const EthProvider = (props: any) => {
         signer = provider.getSigner();
         account = await signer.getAddress();
         contract = new Contract(CONTRACT_ADDRESS, artifact.abi, signer);
-        phase = await contract.PHASE();
+        phase = (await contract.PHASE()).toNumber();
         soldOut = await contract.SOLD_OUT();
+        accountBalance = (await contract.balanceOf(account)).toNumber();
       } catch (err) {
         console.error("Contract not deployed to the network!", err);
       }
@@ -77,7 +78,7 @@ const EthProvider = (props: any) => {
         type: actions.init,
         data: {
           artifact,
-          phase: phase?.toNumber(),
+          phase,
           provider,
           signer,
           account,

@@ -24,6 +24,7 @@ const Mintable = () => {
       accountBalance,
     },
   } = useEth();
+
   const [mintCount, setMintCount] = useState(0);
   const [metamaskStatus, setMetamaskstatus] = useState(false);
   const [error, setError] = useState(null);
