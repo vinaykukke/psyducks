@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { BigNumber, ethers } from "ethers";
+import { Web3Button } from "@web3modal/react";
+import { useAccount } from "wagmi";
 import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
-import Button from "@mui/material/Button";
 import { useEth } from "src/contexts/EthContext";
 import Stepper from "components/Stepper/index";
 import DisplayModal from "components/Modal";
@@ -12,10 +13,8 @@ import styles from "../../../styles/Home.module.scss";
 
 const Mintable = () => {
   const {
-    connect,
     dispatch,
     state: {
-      account,
       contract,
       purchaseLimit,
       price: mintPrice,
@@ -24,17 +23,17 @@ const Mintable = () => {
       accountBalance,
     },
   } = useEth();
-
+  const { isConnected } = useAccount();
   const [mintCount, setMintCount] = useState(0);
-  const [metamaskStatus, setMetamaskstatus] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   const HALT_MINT = available <= 0;
-  const ALLOW_MINT = !HALT_MINT && account;
+  const ALLOW_MINT = !HALT_MINT && isConnected;
   const disableMint = mintCount === 0;
   const PARTIALLY_AVAILABLE = available > 0 && available < purchaseLimit;
   const showModal = Boolean(error) || Boolean(success);
+  const statusIndicator = isConnected ? styles.online : styles.offline;
 
   const handlePurchase = (
     _purchasedBy: string,
@@ -46,10 +45,6 @@ const Mintable = () => {
     dispatch({ type: actions.balanceChange, data: { balance } });
     dispatch({ type: actions.purchased });
   };
-
-  useEffect(() => {
-    if (window.ethereum) setMetamaskstatus(true);
-  }, []);
 
   useEffect(() => {
     if (contract) {
@@ -96,41 +91,13 @@ const Mintable = () => {
 
   return (
     <>
-      {metamaskStatus && !account && (
-        <Button id="buy" className={styles.metamask__button} onClick={connect}>
-          Connect Metamask
-        </Button>
-      )}
-      {!metamaskStatus && (
+      <Web3Button icon="show" label="Connect Wallet" balance="show" />
+      <p className={styles.status_indicator}>
+        <span className={`${styles.status} ${statusIndicator}`} />
+        <span>{isConnected ? "connected" : "disconnected"}</span>
+      </p>
+      {isConnected && (
         <Box textAlign="center" marginBottom="2rem" id="buy">
-          <Typography
-            fontWeight="bold"
-            fontStyle="italic"
-            color="orange"
-            fontFamily="joystix"
-          >
-            Please install Metamask
-          </Typography>
-          <p>OR</p>
-          <Typography
-            fontWeight="bold"
-            fontStyle="italic"
-            color="orange"
-            fontFamily="joystix"
-          >
-            If you are viewing this from your mobile, please switch to a desktop
-            browser for the best experience.
-          </Typography>
-        </Box>
-      )}
-      {account && (
-        <Box textAlign="center" marginBottom="2rem" id="buy">
-          <h2>
-            Connected with account:
-            <Typography fontWeight="bold" fontStyle="italic">
-              {account}
-            </Typography>
-          </h2>
           <h3>Each NFT will cost {mintPrice} ETH. There are no price tiers.</h3>
           <Typography
             fontStyle="italic"
