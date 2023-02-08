@@ -1,11 +1,8 @@
 import { ethers } from "ethers";
-import { JsonRpcSigner } from "@ethersproject/providers";
 import { Contract } from "ethers";
 
 enum actions {
   init = "INIT",
-  connect = "METAMASK_CONNECT",
-  disconnect = "METAMASK_DISCONNECT",
   changePhase = "PHASE_CHANGE",
   purchased = "PURCHASED",
   balanceChange = "ACCOUNT_BALANCE_CHAHGED",
@@ -23,10 +20,8 @@ enum PURCHASE_LIMIT {
 }
 export interface IInitialState {
   artifact: any;
-  connected: boolean;
   account: string;
   networkID: number;
-  signer: JsonRpcSigner;
   contract: Contract;
   accountBalance: number;
   price: number;
@@ -37,14 +32,13 @@ export interface IInitialState {
   isOwner: boolean;
   soldOut: boolean;
   provider: ethers.providers.Web3Provider;
+  ownersShareMinted: boolean;
 }
 
 const initialState: IInitialState = {
   artifact: null,
-  connected: false,
   account: null,
   networkID: null,
-  signer: null,
   contract: null,
   accountBalance: null,
   price: PRICES.phase_one,
@@ -55,6 +49,7 @@ const initialState: IInitialState = {
   isOwner: false,
   soldOut: false,
   provider: null,
+  ownersShareMinted: false,
 };
 
 const reducer = (state: any, action: any) => {
@@ -70,14 +65,6 @@ const reducer = (state: any, action: any) => {
         : PURCHASE_LIMIT.regular;
 
       res = { ...state, ...data, price, purchaseLimit };
-      break;
-
-    case actions.connect:
-      res = { ...state, connected: true, account: data.account };
-      break;
-
-    case actions.disconnect:
-      res = { ...state, connected: false, account: null };
       break;
 
     case actions.changePhase:

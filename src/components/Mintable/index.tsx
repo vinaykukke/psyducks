@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BigNumber, ethers } from "ethers";
+import { useAccount, useSigner } from "wagmi";
 import { Web3Button } from "@web3modal/react";
-import { useAccount } from "wagmi";
 import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -24,12 +24,13 @@ const Mintable = () => {
     },
   } = useEth();
   const { isConnected } = useAccount();
+  const { data: signer } = useSigner();
   const [mintCount, setMintCount] = useState(0);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
   const HALT_MINT = available <= 0;
-  const ALLOW_MINT = !HALT_MINT && isConnected;
+  const ALLOW_MINT = isConnected && !HALT_MINT;
   const disableMint = mintCount === 0;
   const PARTIALLY_AVAILABLE = available > 0 && available < purchaseLimit;
   const showModal = Boolean(error) || Boolean(success);
@@ -66,8 +67,9 @@ const Mintable = () => {
       };
       let mintTx;
 
-      if (isOwner) mintTx = await contract.reserve(options);
-      if (!isOwner) mintTx = await contract.mint(mintCount, options);
+      if (isOwner) mintTx = await contract.connect(signer).reserve(options);
+      if (!isOwner)
+        mintTx = await contract.connect(signer).mint(mintCount, options);
 
       const completedTx = await mintTx.wait();
       setSuccess(completedTx.transactionHash);

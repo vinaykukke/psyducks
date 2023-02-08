@@ -1,10 +1,15 @@
 import { useReducer, useCallback, useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
-import { ethers, Contract, BigNumber } from "ethers";
-import { JsonRpcSigner } from "@ethersproject/providers";
+import { Contract, BigNumber } from "ethers";
 import { EthereumClient, modalConnectors } from "@web3modal/ethereum";
 import { Web3Modal, useWeb3ModalTheme } from "@web3modal/react";
-import { configureChains, createClient, WagmiConfig } from "wagmi";
+import {
+  configureChains,
+  createClient,
+  WagmiConfig,
+  useProvider,
+  useAccount,
+} from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { mainnet } from "wagmi/chains";
@@ -15,8 +20,9 @@ import { reducer, actions, initialState } from "./state";
 /** For local development */
 // import { localhost } from "./localhost";
 // const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-// const OWNER_ADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-// const configChains = [mainnet, localhost]
+// const OWNER_ADDRESS =
+//   "0xf39Fd6e51aad88F6F4ce6aB8827279cfffb92266".toLowerCase();
+// const configChains = [localhost, mainnet];
 
 const CONTRACT_ADDRESS = "0x6C1f737Ca6056500fD3Aef58FcC3BD6d918272d1";
 const OWNER_ADDRESS =
@@ -45,6 +51,8 @@ const client = createClient({
 const ethereumClient = new EthereumClient(client, chains);
 
 const EthProvider = (props: any) => {
+  const provider = useProvider();
+  const { address, isConnected } = useAccount();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [ready, setReady] = useState(false);
   const {
@@ -58,43 +66,40 @@ const EthProvider = (props: any) => {
   };
 
   const init = useCallback(async () => {
-    if (artifact && window.ethereum) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      let signer: JsonRpcSigner = null;
-      let account: string = null;
-      let contract: Contract = null;
-      let accountBalance: number = null;
-      let phase: BigNumber = null;
-      let soldOut: boolean = false;
+    let account: string = null;
+    let contract: Contract = null;
+    let accountBalance: number = null;
+    let phase: BigNumber = null;
+    let soldOut: boolean = null;
+    let ownersShareMinted: boolean = null;
 
-      try {
-        /** This is conected to the active / connected account in metamask */
-        signer = provider.getSigner();
-        account = (await signer.getAddress()).toLowerCase();
-        contract = new Contract(CONTRACT_ADDRESS, artifact.abi, signer);
-        phase = (await contract.PHASE()).toNumber();
-        soldOut = await contract.SOLD_OUT();
-        accountBalance = (await contract.balanceOf(account)).toNumber();
-      } catch (err) {
-        console.error("Contract not deployed to the network!", err);
-      }
-
-      dispatch({
-        type: actions.init,
-        data: {
-          artifact,
-          phase,
-          provider,
-          signer,
-          account,
-          contract,
-          accountBalance,
-          soldOut,
-          owner: OWNER_ADDRESS,
-          isOwner: OWNER_ADDRESS === account,
-        },
-      });
+    try {
+      /** This is conected to the active / connected account in metamask */
+      account = address.toLowerCase();
+      contract = new Contract(CONTRACT_ADDRESS, artifact.abi, provider);
+      phase = (await contract.PHASE()).toNumber();
+      soldOut = await contract.SOLD_OUT();
+      accountBalance = (await contract.balanceOf(account)).toNumber();
+      ownersShareMinted = await contract.OWNERS_SHARE_MINTED();
+    } catch (err) {
+      console.error("Contract not deployed to the network!", err);
     }
+
+    dispatch({
+      type: actions.init,
+      data: {
+        artifact,
+        phase,
+        provider,
+        account,
+        contract,
+        accountBalance,
+        ownersShareMinted,
+        soldOut,
+        owner: OWNER_ADDRESS,
+        isOwner: OWNER_ADDRESS === account,
+      },
+    });
   }, []);
 
   useEffect(() => setReady(true), []);
@@ -144,8 +149,8 @@ const EthProvider = (props: any) => {
       }
     };
 
-    tryInit();
-  }, [init]);
+    if (isConnected) tryInit();
+  }, [init, isConnected]);
 
   useEffect(() => {
     /** Events are provide by MetaMask */
