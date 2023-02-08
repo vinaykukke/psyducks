@@ -10,6 +10,7 @@ import Stepper from "components/Stepper/index";
 import DisplayModal from "components/Modal";
 import { actions } from "src/contexts/EthContext/state";
 import styles from "../../../styles/Home.module.scss";
+// import InputStepper from "components/InputStepper";
 
 const Mintable = () => {
   const {
@@ -123,6 +124,7 @@ const Mintable = () => {
       {ALLOW_MINT && (
         <div className={styles.mint__form}>
           <Stepper mintCount={mintCount} handleChange={handleInputChange} />
+          {/* <InputStepper /> */}
           <LoadingButton
             className={styles.mint__button}
             onClick={mint}
