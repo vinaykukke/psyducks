@@ -3,17 +3,11 @@ import { Contract } from "ethers";
 
 enum actions {
   init = "INIT",
-  changePhase = "PHASE_CHANGE",
   purchased = "PURCHASED",
   balanceChange = "ACCOUNT_BALANCE_CHAHGED",
   soldOut = "SOLD_OUT",
 }
 
-/** Prices per NFT per phase */
-enum PRICES {
-  phase_one = 0.09,
-  phase_two = 0.9,
-}
 enum PURCHASE_LIMIT {
   regular = 20,
   owner = 30,
@@ -27,7 +21,6 @@ export interface IInitialState {
   price: number;
   purchaseLimit: number;
   available: number;
-  phase: 1 | 2;
   owner: string;
   isOwner: boolean;
   soldOut: boolean;
@@ -41,10 +34,9 @@ const initialState: IInitialState = {
   networkID: null,
   contract: null,
   accountBalance: null,
-  price: PRICES.phase_one,
+  price: 0.09,
   purchaseLimit: PURCHASE_LIMIT.regular,
   available: PURCHASE_LIMIT.regular,
-  phase: 1,
   owner: null,
   isOwner: false,
   soldOut: false,
@@ -58,17 +50,12 @@ const reducer = (state: any, action: any) => {
 
   switch (type) {
     case actions.init:
-      const currentPhase = data.phase === 1 ? "phase_one" : "phase_two";
-      const price = data.isOwner ? 0 : PRICES[currentPhase];
+      const price = data.isOwner ? 0 : 0.09;
       const purchaseLimit = data.isOwner
         ? PURCHASE_LIMIT.owner
         : PURCHASE_LIMIT.regular;
 
       res = { ...state, ...data, price, purchaseLimit };
-      break;
-
-    case actions.changePhase:
-      res = { ...state, price: PRICES.phase_two, phase: 2 };
       break;
 
     case actions.purchased:

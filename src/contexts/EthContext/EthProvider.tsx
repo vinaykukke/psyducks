@@ -69,7 +69,6 @@ const EthProvider = (props: any) => {
     let account: string = null;
     let contract: Contract = null;
     let accountBalance: number = null;
-    let phase: BigNumber = null;
     let soldOut: boolean = null;
     let ownersShareMinted: boolean = null;
 
@@ -77,7 +76,6 @@ const EthProvider = (props: any) => {
       /** This is conected to the active / connected account in metamask */
       account = address.toLowerCase();
       contract = new Contract(CONTRACT_ADDRESS, artifact.abi, provider);
-      phase = (await contract.PHASE()).toNumber();
       soldOut = await contract.SOLD_OUT();
       accountBalance = (await contract.balanceOf(account)).toNumber();
       ownersShareMinted = await contract.OWNERS_SHARE_MINTED();
@@ -89,7 +87,6 @@ const EthProvider = (props: any) => {
       type: actions.init,
       data: {
         artifact,
-        phase,
         provider,
         account,
         contract,
@@ -100,7 +97,7 @@ const EthProvider = (props: any) => {
         isOwner: OWNER_ADDRESS === account,
       },
     });
-  }, []);
+  }, [address]);
 
   useEffect(() => setReady(true), []);
   useEffect(() => {
@@ -152,10 +149,11 @@ const EthProvider = (props: any) => {
     if (isConnected) tryInit();
   }, [init, isConnected]);
 
+  /** This is only desktop. On the mobile user will have to disconnect and reconnect */
   useEffect(() => {
     /** Events are provide by MetaMask */
     const events = ["chainChanged", "accountsChanged"];
-    const handleChange = () => init();
+    const handleChange = async () => await init();
 
     /** Attach event listeners */
     events.forEach((e) => window.ethereum?.on(e, handleChange));
