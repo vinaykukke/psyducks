@@ -16,10 +16,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>PsyDucks</title>
+        <title>Psy</title>
         <meta
           name="description"
-          content="PasyDucks - Mint your cash back NFT's"
+          content="Psy - The worlds first blockchain lottery"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -40,28 +40,27 @@ export default function Home() {
             trading your ducks you stand to win some money back.
           </p>
           <p>
-            PsyDucks is a collection of 20,000 NFTs—unique digital collectibles
-            living on the Ethereum blockchain. Your Duck doubles as a token for
-            your future riches. Once every month (for 10 months in a year) a
-            lucky duck holder will get ETH sent to their wallets, the amount of
-            money depends on the total volume traded.
+            PSY is a lottery system implemented on the blockchain - (Win upto
+            10000 ETH).
           </p>
           <p>
-            The project will be released in two phases. Phase-one will contain
-            10,000 unique NFT's each of which will cost 0.09 ETH and phase-two
-            will contain an additional 10,000 unique NFT's each of which will
-            cost 0.9 ETH - making it a total of 20,000 unique collectibles
-            (Phase-two will be activated depending on the demand from the
-            community).
+            PsyDucks is the first in a series of 4 collections that will be
+            released this year. The collections will be released in 4 different
+            phases (3 collections totalling 70,000 tokens and one Open Edition
+            collection). Anyone holding any of the 70,000 token will qualify for
+            the lottery, the ID of your tokens you hold will act as the numbers
+            you choose for the lottery.
           </p>
           <p>
-            In each of the phases you can stand to win 1% of the total traded
-            volume - the cashback scheme will only be initiated once the total
-            traded volume touches 100 ETH.
+            All tokens apart from being considered for the jackpot will also
+            give you returns some return - by trading one of our tokens you can
+            will upto 10% of the total volume trade for that collection.
           </p>
           <p>
-            All the numbers are fixed in the smart contract and will never
-            change.
+            Half of the money that is made from all the NFT collections will be
+            added into a lotto pool. The lotto pool will live in its own
+            contract, the jackpot winner will be added to the contract and only
+            the winner can release funds from the lotto pool.
           </p>
         </section>
         <section id="inspiration" className={styles.inspiration}>
@@ -73,14 +72,33 @@ export default function Home() {
             fun.
           </p>
           <p>
-            Imagine if china or the united states suddenly decided to keep all
-            the goods they produced in the hopes that the prices might go up.
-            The world economy would come to a stand still over night. The world
-            is a beautiful place because of trading.
+            We want all the fun of gambling mixed in with the fun of trading and
+            gaming without any of the hassels. We want to get rid of the "saving
+            mentality" and make owning and trading NFT's fun.
           </p>
           <p>
-            We want to get rid of the "saving mentality" and make owning and
-            trading NFT's fun.
+            We are very inspired buy the gaming and artist communities in the
+            NFT space. The idea is to make a roadmap of evolution. Everthing on
+            this earth evolves and changes - so will we and our collecation. As
+            with all lottery systems once the lotto pool has been emptied, it
+            much again be refilled.
+          </p>
+          <p>So...</p>
+          <p>
+            Once a year - at the beginning of the year we will refill our lotto
+            pool, buy releasing new NFT collections. These new collections will
+            reflect closely what we observe in the real world with gaming and
+            art - Evolution! Taking inspiration from real world games and art
+            styles.
+          </p>
+          <p>
+            We will start from the simplest form of 8-bit art from the 80's and
+            90's - paying homage to our humble beginnings.
+          </p>
+          <p>
+            For our phase-1 collection we take inspiration from the 1984 classic
+            - duck hunt! Let's be honest, this game changed everyone's life.
+            F.O.R.E.V.E.R.
           </p>
         </section>
       </main>

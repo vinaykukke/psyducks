@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <div className={styles.header}>
       <span className={`${styles.gradient_one} ${styles.gradient_text}`}>
-        PsyDucks
+        Psy
       </span>
       <div className={styles.logo_container}>
         <div className={styles.menu_items}>
