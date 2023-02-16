@@ -7,11 +7,19 @@ import Header from "components/Header";
 import { useEth } from "src/contexts/EthContext";
 import styles from "../styles/Home.module.scss";
 import Link from "next/link";
+import nft from "components/token";
+import { Button, Grid } from "@mui/material";
+import { useState } from "react";
 
 export default function Home() {
   const {
     state: { soldOut },
   } = useEth();
+  const [nfts, setNfts] = useState([]);
+
+  const handleClick = () => {
+    setNfts((prev) => [...prev, nft()]);
+  };
 
   return (
     <>
@@ -101,6 +109,17 @@ export default function Home() {
             F.O.R.E.V.E.R.
           </p>
         </section>
+        <Button onClick={handleClick}>NFT</Button>
+        <Grid>
+          {nfts.map((item) => (
+            <img
+              width={600}
+              height={600}
+              src={`data:image/svg+xml;base64,${item}`}
+              alt=""
+            />
+          ))}
+        </Grid>
       </main>
       <footer className={styles.footer}>
         <div className={styles.logo_container}>

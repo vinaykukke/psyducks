@@ -9,14 +9,30 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "operator-filter-registry/src/DefaultOperatorFilterer.sol";
 
-contract PsyDucksLottoPool is ERC721("PsyDucks Lotto Pool", "PSY_LOTTO"), ERC2981, DefaultOperatorFilterer {
+contract PsyLottoPool is ERC721("Psy Lotto Pool", "PSY_LOTTO"), ERC2981, DefaultOperatorFilterer {
   using Counters for Counters.Counter;
   using Strings for uint256;
+
+  /** Events */
+  event Jackpot(address winner, uint256 amount, uint256 timestamp);
+  event SetWinner(address winner);
+  event ResetWinner(uint256 timestamp);
+
+  /** Lotto winners */
+  struct Winner {
+    address _address;
+    uint256 amount;
+    uint256 timestamp;
+  }
 
   /** Counter */
   Counters.Counter private _tokenIdCounter;
   /** Owners address */
   address payable __owner;
+  /** List of winners */
+  Winner[] public WINNERS;
+  /** Jackpit winner */
+  address payable jackpotWinner;
   /** Base URI */
   string public BASE_URI = "ipfs://QmdcLYmqEwunWDfFqwyGiywnMUVbc8WekEuAX3fpVW4fpa/";
   /** Contract URI */
@@ -32,6 +48,13 @@ contract PsyDucksLottoPool is ERC721("PsyDucks Lotto Pool", "PSY_LOTTO"), ERC298
   /** Owner modifier */
   modifier onlyOwner() {
     require(__owner == _msgSender(), "Caller is not the owner!");
+    _;
+  }
+
+  /** Winner modifier */
+  modifier onlyWinner() {
+    require(jackpotWinner != address(0), "Jackpot winner has not yet been announced!");
+    require(jackpotWinner == _msgSender(), "Caller is not the Jackpot winner!");
     _;
   }
 
@@ -117,9 +140,23 @@ contract PsyDucksLottoPool is ERC721("PsyDucks Lotto Pool", "PSY_LOTTO"), ERC298
     __owner = payable(to);
   }
 
-  /** Mint PsyDucks */
+  /** Add to the lotto pool - can be used to collect donations */
   function addToPool() public payable {
-    require(msg.value > 0, "Incorrect Ether value sent!");
+    require(msg.value > 0, "Cannot send 0 ETH!");
+  }
+
+  /** Set Winner */
+  function setWinner(address payable winner) public onlyOwner {
+    require(winner != address(0), "Invalid Address!");
+    jackpotWinner = winner;
+    WINNERS.push(Winner(winner,address(this).balance, block.timestamp));
+    emit SetWinner(winner);
+  }
+
+  /** Reset Winner */
+  function resetWinner() public onlyOwner {
+    jackpotWinner = payable(address(0));
+    emit ResetWinner(block.timestamp);
   }
 
   /** Withdraw funds from the contract */
@@ -129,12 +166,26 @@ contract PsyDucksLottoPool is ERC721("PsyDucks Lotto Pool", "PSY_LOTTO"), ERC298
     __owner.transfer(balance);
   }
 
-  /** Mint PsyDucks */
+  /** Payout the jackpot winnings to the winner */
+  function payout(uint256 percentage) public onlyWinner {
+    uint256 balance = address(this).balance;
+    require(balance > 0, "Insufficient Funds!");
+    require(percentage == 0, "Sorry, you have missed the deadline to withdraw the funds!");
+    jackpotWinner.transfer(balance);
+    emit Jackpot(jackpotWinner, balance, block.timestamp);
+    jackpotWinner = payable(address(0));
+  }
+
+  /** Mint */
   function mint() public onlyOwner {
     /** Increment */
     _tokenIdCounter.increment();
-
     /** Mint NFT to the msg sender */
     _safeMint(_msgSender(), _tokenIdCounter.current());
+  }
+
+  /** Contract destruction */
+  function destroy() public onlyOwner {
+    selfdestruct(payable(__owner));
   }
 }

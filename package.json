@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next export"
+    "export": "next export",
+    "generate": "node ./src/components/token/helpers/node.js"
   },
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.6.3",
