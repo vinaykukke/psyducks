@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "operator-filter-registry/src/DefaultOperatorFilterer.sol";
 
-contract PsyFriends is ERC721("PsyFriends", "PSY_FRIENDS"), ERC2981, DefaultOperatorFilterer {
+contract Unpsyned is ERC721("UNPSYNED", "UN_PSY_NED"), ERC2981, DefaultOperatorFilterer {
   using Counters for Counters.Counter;
   using Strings for uint256;
 
@@ -26,18 +26,16 @@ contract PsyFriends is ERC721("PsyFriends", "PSY_FRIENDS"), ERC2981, DefaultOper
   Counters.Counter private _tokenIdCounter;
   /** Owners address */
   address payable __owner;
-  /** Initiate cash-back */
-  bool public INIT_CASH_BACK = false;
   /** Price */ 
   uint256 public _PRICE = 0 ether;
   /** Purchase limit */
   uint256 public PURCHASE_LIMIT = 200;
+  /** Max Supply */
+  uint256 public constant MAX_SUPPLY = 50000;
+  /** Maps NFTs to tokenID */
+  mapping(uint256 => string) nftIndex;
   /** List of winners */
   Winner[] public WINNERS;
-  /** Base URI */
-  string public BASE_URI = "ipfs://QmdcLYmqEwunWDfFqwyGiywnMUVbc8WekEuAX3fpVW4fpa/";
-  /** Contract URI */
-  string public CONTRACT_URI = "https://ipfs.filebase.io/ipfs/Qmah5n9gejGgCpzKrgKqx31jsReYbCxuy6en3Yutv8iKKx";
 
 
   constructor() {
@@ -105,34 +103,43 @@ contract PsyFriends is ERC721("PsyFriends", "PSY_FRIENDS"), ERC2981, DefaultOper
   }
 
   function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) {
+    /** Token should exist */
     _requireMinted(tokenId);
+  
+    /** On-chain token URI */
+    string memory json = Base64.encode(bytes(string(abi.encodePacked(
+      '{"name": "Unpsyned #', tokenId.toString(), '", "description": "This collection is part of the PSY lottery system. Mathematics reveals its secrets only to those who approach it with pure love - for its own beauty.",',
+      '"tokenId": ', tokenId.toString(), ',',
+      '"attributes": [',
+        '{',
+          '"trait_type": "PI",',
+          '"value": "3.14159265359"',
+        '},',
+        '{',
+          '"trait_type": "PHI",',
+          '"value": "1.61803398875"',
+        '},',
+        '{',
+          '"trait_type": "E",',
+          '"value": "2.71828182845"',
+        '},',
+        '{',
+          '"trait_type": "I",',
+          '"value": "-1^2"',
+        '},',
+        '{',
+          '"trait_type": "MU",',
+          '"value": "1.45607494858"',
+        '},',
+        '{',
+          '"trait_type": "Mood",',
+          '"value": "Spiritual"',
+        '}',
+      '],',
+      '"image": "data:image/svg+xml;base64,', nftIndex[tokenId], '"}'
+    ))));
 
-    string memory baseURI = _baseURI();
-    return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json")) : "";
-  }
-
-  /** Default URI for the NFT's */
-  function _baseURI() internal view override returns (string memory) {
-    return BASE_URI;
-  }
-
-  /** Fail safe for if the storage situation changes for the NFTs */
-  function setBaseURI(string memory uri) public onlyOwner {
-    bytes memory temp = bytes(uri);
-    require(temp.length != 0, "Invalid URI!");
-    BASE_URI = uri;
-  }
-
-  /** Contract level metadata - opensea */
-  function contractURI() public view returns (string memory) {
-    return CONTRACT_URI;
-  }
-
-  /** Fail safe for if the storage situation changes for the NFTs */
-  function setContractURI(string memory uri) public onlyOwner {
-    bytes memory temp = bytes(uri);
-    require(temp.length != 0, "Invalid URI!");
-    CONTRACT_URI = uri;
+    return string(abi.encodePacked('data:application/json;base64,', json));
   }
   
   /** Transfer ownership of the contract */
@@ -147,31 +154,15 @@ contract PsyFriends is ERC721("PsyFriends", "PSY_FRIENDS"), ERC2981, DefaultOper
     return _tokenIdCounter.current();
   }
 
-  /** Initiate Cashback */
-  function initiateCashback() public onlyOwner {
-    INIT_CASH_BACK = true;
-  }
-
   /** Get the total number of winners */
   function totalWinners() public view returns(uint256) {
     return WINNERS.length;
   }
 
-  /** Lucky draw: send 1% of the contract value */
-  function _afterTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize) internal virtual override {
-    /** Call parent hook */
-    super._afterTokenTransfer(from, to, tokenId, batchSize);
-    /** Transfer Presets */
-    bool notMintOrBurn = from != address(0) && to != address(0);
-    bool notOwner = from != __owner;
-    bool conditionMet = notMintOrBurn && notOwner && INIT_CASH_BACK;
-
-    if (conditionMet) {
-      /** Re-setting the cash-back */
-      INIT_CASH_BACK = false;
-      /** Adding winners to the list */
-      WINNERS.push(Winner(from, block.timestamp));
-    }
+  function setWinner(address from) public onlyOwner {
+    /** Adding winners to the list */
+    require(from != address(0), "Invalid Address!");
+    WINNERS.push(Winner(from, block.timestamp));
   }
 
   /** Set a price if needed */
@@ -188,7 +179,7 @@ contract PsyFriends is ERC721("PsyFriends", "PSY_FRIENDS"), ERC2981, DefaultOper
   }
 
   /** Mint PsyDucks */
-  function mint(uint256 amount) public payable {
+  function mint(uint256 amount, string memory nft) public payable {
     uint256 totalOwnable = balanceOf(_msgSender()) + amount;
     uint256 totalPrice = _PRICE * amount;
 
@@ -201,9 +192,10 @@ contract PsyFriends is ERC721("PsyFriends", "PSY_FRIENDS"), ERC2981, DefaultOper
     for (uint256 i = 0; i < amount; i++) {
       /** Increment */
       _tokenIdCounter.increment();
-
       /** Mint NFT to the msg sender */
       _safeMint(_msgSender(), _tokenIdCounter.current());
+      /** Index the NFT */
+      nftIndex[_tokenIdCounter.current()] = nft;
     }
 
     /** Emit the Purchased event */
