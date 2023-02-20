@@ -5,7 +5,7 @@ const path = require("path");
  * This file is a node-js only program
  * Reads a directory and manipulates the SVG files to the desired results
  *
- * Use "YARN GENERATE" to generate the required SVg files
+ * Use "YARN GENERATE" to generate the required Svg files
  */
 (async () => {
   const arr = [];
@@ -13,14 +13,14 @@ const path = require("path");
   const svgCloseTag = `</svg>`;
 
   try {
-    const dirname = path.resolve("assets", "icons");
+    const dirname = path.resolve("NFT", "Unpsyned", "icons");
     const filesInDir = await fsPromises.readdir(dirname, "utf8");
     /** Removing all the .DS_Store hidden files */
     const files = filesInDir.filter((item) => !/(^|\/)\.[^\/\.]/g.test(item));
 
     for (const file of files) {
       const content = await fsPromises.readFile(
-        path.resolve("assets", "icons", file),
+        path.resolve("NFT", "Unpsyned", "icons", file),
         "utf8"
       );
 
@@ -35,11 +35,11 @@ const path = require("path");
     }
 
     await fsPromises.writeFile(
-      path.resolve("src", "components", "token") + "/icons.ts",
-      "export const icons = "
+      path.resolve("src", "components", "token") + "/icons.js",
+      "module.exports = "
     );
     await fsPromises.appendFile(
-      path.resolve("src", "components", "token", "icons.ts"),
+      path.resolve("src", "components", "token", "icons.js"),
       JSON.stringify(arr)
     );
   } catch (err) {
