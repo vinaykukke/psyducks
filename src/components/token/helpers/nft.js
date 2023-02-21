@@ -31,7 +31,7 @@ const random = (icons) => {
   return values[randomIndex];
 };
 
-const triangle = () => `
+const triangle = (i) => `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -42,6 +42,68 @@ const triangle = () => `
     height="500"
   >
     <defs>
+      <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
       <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
         <stop offset="0%" stop-color="#004e92" />
         <stop offset="50%" stop-color="#000428" />
@@ -103,9 +165,12 @@ const triangle = () => `
       </filter>
     </defs>
     <rect width="100%" height="100%" fill="url(#gradient)" rx="30" ry="30"/>
-    <svg x="340" y="380">
-      <g transform="scale(1.5)">
-        ${icons[randomNumber(0, icons.length)]}
+    <svg ${i < 21 ? `x="370" y="400"` : `x="340" y="380"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}
+    >
+      <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+        ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
       </g>
     </svg>
     <g stroke-width="16" stroke="url(#nnneon-grad)" fill="none">
@@ -128,7 +193,7 @@ const triangle = () => `
   </svg>
 `;
 
-const circle = () => `
+const circle = (i) => `
   <svg
   xmlns="http://www.w3.org/2000/svg"
   version="1.1"
@@ -139,6 +204,68 @@ const circle = () => `
   height="500"
 >
   <defs>
+    <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
     <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
       <stop offset="0%" stop-color="#004e92" />
       <stop offset="50%" stop-color="#000428" />
@@ -200,9 +327,11 @@ const circle = () => `
     </filter>
   </defs>
   <rect width="100%" height="100%" fill="url(#gradient)" rx="30" ry="30"/>
-  <svg x="340" y="340">
-    <g transform="scale(1.5)">
-      ${icons[randomNumber(0, icons.length)]}
+  <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+    <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+      ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
     </g>
   </svg>
   <g stroke-width="16" stroke="url(#nnneon-grad)" fill="none">
@@ -226,7 +355,7 @@ const circle = () => `
 </svg>
 `;
 
-const square = () => `
+const square = (i) => `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -237,6 +366,68 @@ const square = () => `
     height="500"
   >
     <defs>
+      <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
       <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
         <stop offset="0%" stop-color="#004e92" />
         <stop offset="50%" stop-color="#000428" />
@@ -298,9 +489,11 @@ const square = () => `
       </filter>
     </defs>
     <rect width="100%" height="100%" fill="url(#gradient)" rx="30" ry="30"/>
-    <svg x="340" y="340">
-      <g transform="scale(1.5)">
-        ${icons[randomNumber(0, icons.length)]}
+    <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+      <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+        ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
       </g>
     </svg>
     <g stroke-width="16" stroke="url(#nnneon-grad)" fill="none">
@@ -338,7 +531,7 @@ const square = () => `
   </svg>
 `;
 
-const hexagon = () => `
+const hexagon = (i) => `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -349,6 +542,68 @@ const hexagon = () => `
     height="500"
   >
     <defs>
+      <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
       <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
         <stop offset="0%" stop-color="#004e92" />
         <stop offset="50%" stop-color="#000428" />
@@ -410,9 +665,11 @@ const hexagon = () => `
       </filter>
     </defs>
     <rect width="100%" height="100%" fill="url(#gradient)" rx="30" ry="30"/>
-    <svg x="340" y="340">
-      <g transform="scale(1.5)">
-        ${icons[randomNumber(0, icons.length)]}
+    <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+      <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+        ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
       </g>
     </svg>
     <g stroke-width="16" stroke="url(#nnneon-grad)" fill="none">
@@ -435,7 +692,7 @@ const hexagon = () => `
   </svg>
 `;
 
-const chaos = () => `
+const chaos = (i) => `
   <svg
   xmlns="http://www.w3.org/2000/svg"
   version="1.1"
@@ -446,6 +703,68 @@ const chaos = () => `
   height="500"
 >
   <defs>
+    <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
     <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
       <stop offset="0%" stop-color="#004e92" />
       <stop offset="50%" stop-color="#000428" />
@@ -636,15 +955,17 @@ const chaos = () => `
       opacity="0.65"
     ></path>
   </g>
-  <svg x="340" y="340">
-    <g transform="scale(1.5)">
-      ${icons[randomNumber(0, icons.length)]}
+  <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+    <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+      ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
     </g>
   </svg>
 </svg>
 `;
 
-const coil = () => `
+const coil = (i) => `
   <svg
   xmlns="http://www.w3.org/2000/svg"
   version="1.1"
@@ -655,6 +976,68 @@ const coil = () => `
   height="500"
   >
     <defs>
+      <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
       <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
         <stop offset="0%" stop-color="#004e92" />
         <stop offset="50%" stop-color="#000428" />
@@ -873,15 +1256,17 @@ const coil = () => `
         opacity="0.05"
       ></circle>
     </g>
-    <svg x="340" y="340">
-      <g transform="scale(1.5)">
-        ${icons[randomNumber(0, icons.length)]}
+    <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+      <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+        ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
       </g>
     </svg>
   </svg>
 `;
 
-const spiral = () => `
+const spiral = (i) => `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -892,6 +1277,68 @@ const spiral = () => `
     height="500"
   >
     <defs>
+      <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
       <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
         <stop offset="0%" stop-color="#004e92" />
         <stop offset="50%" stop-color="#000428" />
@@ -1198,15 +1645,17 @@ const spiral = () => `
       <circle r="5.5" cx="111" cy="230" opacity="0.10"></circle>
       <circle r="5.5" cx="428" cy="65" opacity="0.10"></circle>
     </g>
-    <svg x="340" y="340">
-      <g transform="scale(1.5)">
-        ${icons[randomNumber(0, icons.length)]}
+    <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+      <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+        ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
       </g>
     </svg>
   </svg>
 `;
 
-const blur = () => `
+const blur = (i) => `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -1217,6 +1666,68 @@ const blur = () => `
     height="500"
   >
     <defs>
+      <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
       <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
         <stop offset="0%" stop-color="#004e92" />
         <stop offset="50%" stop-color="#000428" />
@@ -1275,15 +1786,17 @@ const blur = () => `
         fill="hsl(152, 100%, 70%)"
       ></ellipse>
     </g>
-    <svg x="340" y="340">
-      <g transform="scale(1.5)">
-        ${icons[randomNumber(0, icons.length)]}
+    <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+      <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+        ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
       </g>
     </svg>
   </svg>
 `;
 
-const flurry = () => `
+const flurry = (i) => `
   <svg
   xmlns="http://www.w3.org/2000/svg"
   version="1.1"
@@ -1294,6 +1807,68 @@ const flurry = () => `
   height="500"
 >
   <defs>
+    <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
     <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
       <stop offset="0%" stop-color="#004e92" />
       <stop offset="50%" stop-color="#000428" />
@@ -2016,15 +2591,17 @@ const flurry = () => `
       opacity="0.68"
     ></rect>
   </g>
-  <svg x="340" y="340">
-    <g transform="scale(1.5)">
-      ${icons[randomNumber(0, icons.length)]}
+  <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+    <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+      ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
     </g>
   </svg>
 </svg>
 `;
 
-const twinkle = () => `
+const twinkle = (i) => `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -2036,6 +2613,68 @@ const twinkle = () => `
     opacity="1"
   >
     <defs>
+      <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
       <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
         <stop offset="0%" stop-color="#004e92" />
         <stop offset="50%" stop-color="#000428" />
@@ -2755,15 +3394,17 @@ const twinkle = () => `
         opacity="0.70"
       ></line>
     </g>
-    <svg x="340" y="340">
-      <g transform="scale(1.5)">
-        ${icons[randomNumber(0, icons.length)]}
+    <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+      <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+        ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
       </g>
     </svg>
   </svg>
 `;
 
-const scales = () => `
+const scales = (i) => `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -2773,6 +3414,70 @@ const scales = () => `
     width="500"
     height="500"
   >
+    <defs>
+      <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
+    </defs>
     <g>
       <circle r="37.5" cx="0" cy="0" fill="hsl(250, 85%, 50%)"></circle>
       <circle r="37.5" cx="0" cy="75" fill="hsl(233, 85%, 50%)"></circle>
@@ -3127,15 +3832,17 @@ const scales = () => `
       <circle r="37.5" cx="975" cy="787.5" fill="hsl(211, 85%, 50%)"></circle>
       <circle r="37.5" cx="975" cy="862.5" fill="hsl(211, 85%, 50%)"></circle>
     </g>
-    <svg x="340" y="340">
-      <g transform="scale(1.5)">
-        ${icons[randomNumber(0, icons.length)]}
+    <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+      <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+        ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
       </g>
     </svg>
   </svg>
 `;
 
-const rainbow = () => `
+const rainbow = (i) => `
   <svg
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
@@ -3146,6 +3853,68 @@ const rainbow = () => `
     height="500"
   >
     <defs>
+      <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
       <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
         <stop offset="0%" stop-color="#004e92" />
         <stop offset="50%" stop-color="#000428" />
@@ -4658,15 +5427,17 @@ const rainbow = () => `
       fill="hsl(268, 75%, 70%)"
       opacity="0.23"
     ></circle>
-    <svg x="340" y="340">
-      <g transform="scale(1.5)">
-        ${icons[randomNumber(0, icons.length)]}
+    <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+      <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+        ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
       </g>
     </svg>
   </svg>
 `;
 
-const gyrateTriangle = () => `
+const gyrateTriangle = (i) => `
   <svg
   xmlns="http://www.w3.org/2000/svg"
   version="1.1"
@@ -4677,6 +5448,68 @@ const gyrateTriangle = () => `
   height="500"
 >
   <defs>
+    <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
     <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
       <stop offset="0%" stop-color="#004e92" />
       <stop offset="50%" stop-color="#000428" />
@@ -4808,15 +5641,17 @@ const gyrateTriangle = () => `
       opacity="0.05"
     ></polygon>
   </g>
-  <svg x="340" y="340">
-    <g transform="scale(1.5)">
-      ${icons[randomNumber(0, icons.length)]}
+  <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+    <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+      ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
     </g>
   </svg>
 </svg>
 `;
 
-const gyrateHexagon = () => `
+const gyrateHexagon = (i) => `
   <svg
   xmlns="http://www.w3.org/2000/svg"
   version="1.1"
@@ -4827,6 +5662,68 @@ const gyrateHexagon = () => `
   height="500"
 >
   <defs>
+    <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
     <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
       <stop offset="0%" stop-color="#004e92" />
       <stop offset="50%" stop-color="#000428" />
@@ -4958,15 +5855,17 @@ const gyrateHexagon = () => `
       opacity="0.05"
     ></path>
   </g>
-  <svg x="340" y="340">
-    <g transform="scale(1.5)">
-      ${icons[randomNumber(0, icons.length)]}
+  <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+    <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+      ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
     </g>
   </svg>
 </svg>
 `;
 
-const gyrateSquare = () => `
+const gyrateSquare = (i) => `
   <svg
   xmlns="http://www.w3.org/2000/svg"
   version="1.1"
@@ -4977,6 +5876,68 @@ const gyrateSquare = () => `
   height="500"
 >
   <defs>
+    <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
     <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
       <stop offset="0%" stop-color="#004e92" />
       <stop offset="50%" stop-color="#000428" />
@@ -5230,15 +6191,17 @@ const gyrateSquare = () => `
       opacity="0.05"
     ></rect>
   </g>
-  <svg x="340" y="340">
-    <g transform="scale(1.5)">
-      ${icons[randomNumber(0, icons.length)]}
+  <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+    <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+      ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
     </g>
   </svg>
 </svg>
 `;
 
-const gyrateHexagonFlower = () => `
+const gyrateHexagonFlower = (i) => `
   <svg
   xmlns="http://www.w3.org/2000/svg"
   version="1.1"
@@ -5249,6 +6212,68 @@ const gyrateHexagonFlower = () => `
   height="500"
 >
   <defs>
+    <linearGradient
+        gradientTransform="rotate(131, 0.5, 0.5)"
+        x1="50%"
+        y1="0%"
+        x2="50%"
+        y2="100%"
+        id="ffflux-gradient"
+      >
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 72%)"
+          stop-opacity="1"
+          offset="0%"
+        ></stop>
+        <stop
+          stop-color="hsl(${randomNumber(0, 360)}, 100%, 50%)"
+          stop-opacity="1"
+          offset="100%"
+        ></stop>
+      </linearGradient>
+      <filter
+        id="ffflux-filter"
+        x="-20%"
+        y="-20%"
+        width="140%"
+        height="140%"
+        filterUnits="objectBoundingBox"
+        primitiveUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.001"
+          numOctaves="1"
+          seed="2"
+          stitchTiles="stitch"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          result="turbulence"
+        ></feTurbulence>
+        <feGaussianBlur
+          stdDeviation="100 100"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="turbulence"
+          edgeMode="duplicate"
+          result="blur"
+        ></feGaussianBlur>
+        <feBlend
+          mode="overlay"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          in="SourceGraphic"
+          in2="blur"
+          result="blend"
+        ></feBlend>
+      </filter>
     <radialGradient id="gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
       <stop offset="0%" stop-color="#004e92" />
       <stop offset="50%" stop-color="#000428" />
@@ -5410,9 +6435,11 @@ const gyrateHexagonFlower = () => `
       opacity="0.05"
     ></path>
   </g>
-  <svg x="340" y="340">
-    <g transform="scale(1.5)">
-      ${icons[randomNumber(0, icons.length)]}
+  <svg ${i < 21 ? `x="370" y="370"` : `x="340" y="340"`} ${
+  i < 21 ? `width="50" height="50" viewBox="0 0 512 512"` : ""
+}>
+    <g ${i < 21 ? "" : `transform="scale(1.5)"`}>
+      ${i < 21 ? icons[i] : icons[randomNumber(22, icons.length)]}
     </g>
   </svg>
 </svg>
@@ -5426,76 +6453,76 @@ const gyrateHexagonFlower = () => `
  */
 (async () => {
   try {
-    const pattern = () => {
+    const pattern = (i) => {
       let shape = "";
 
       switch (random(SHAPES)) {
         case SHAPES.circle:
-          shape = circle();
+          shape = circle(i);
           break;
 
         case SHAPES.triangle:
-          shape = triangle();
+          shape = triangle(i);
           break;
 
         case SHAPES.square:
-          shape = square();
+          shape = square(i);
           break;
 
         case SHAPES.hexagon:
-          shape = hexagon();
+          shape = hexagon(i);
           break;
 
         case SHAPES.chaos:
-          shape = chaos();
+          shape = chaos(i);
           break;
 
         case SHAPES.coil:
-          shape = coil();
+          shape = coil(i);
           break;
 
         case SHAPES.spiral:
-          shape = spiral();
+          shape = spiral(i);
           break;
 
         case SHAPES.blur:
-          shape = blur();
+          shape = blur(i);
           break;
 
         case SHAPES.flurry:
-          shape = flurry();
+          shape = flurry(i);
           break;
 
         case SHAPES.twinkle:
-          shape = twinkle();
+          shape = twinkle(i);
           break;
 
         case SHAPES.scales:
-          shape = scales();
+          shape = scales(i);
           break;
 
         case SHAPES.rainbow:
-          shape = rainbow();
+          shape = rainbow(i);
           break;
 
         case SHAPES.gyrateHexagon:
-          shape = gyrateHexagon();
+          shape = gyrateHexagon(i);
           break;
 
         case SHAPES.gyrateHexagonFlower:
-          shape = gyrateHexagonFlower();
+          shape = gyrateHexagonFlower(i);
           break;
 
         case SHAPES.gyrateSquare:
-          shape = gyrateSquare();
+          shape = gyrateSquare(i);
           break;
 
         case SHAPES.gyrateTriangle:
-          shape = gyrateTriangle();
+          shape = gyrateTriangle(i);
           break;
 
         default:
-          shape = hexagon();
+          shape = hexagon(i);
           break;
       }
 
@@ -5505,7 +6532,7 @@ const gyrateHexagonFlower = () => `
     for (let i = 0; i < 50000; i++) {
       await fsPromises.writeFile(
         path.resolve("NFT", "Unpsyned", "images") + `/${i + 1}.svg`,
-        pattern()
+        pattern(i)
       );
     }
   } catch (err) {
