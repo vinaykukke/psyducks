@@ -6449,7 +6449,7 @@ const gyrateHexagonFlower = (i) => `
  * This file is a node-js only program
  * Reads a directory and manipulates the SVG files to the desired results
  *
- * Use "YARN GENERATE" to generate the required svg files
+ * Use "YARN NFT" to generate the required svg files
  */
 (async () => {
   try {
