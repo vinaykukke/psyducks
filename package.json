@@ -10,7 +10,8 @@
     "export": "next export",
     "generate": "node ./src/components/token/helpers/node.js",
     "nft": "node ./src/components/token/helpers/nft.js",
-    "meta": "node ./src/components/token/helpers/metadata.js"
+    "meta": "node ./src/components/token/helpers/metadata.js",
+    "convert": "node ./src/components/token/helpers/convert.js"
   },
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.6.3",
@@ -35,6 +36,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.56.1",
+    "sharp": "^0.31.3",
     "wagmi": "^0.11.4",
     "web3modal": "^1.9.12"
   },

@@ -25,6 +25,8 @@ import { reducer, actions, initialState } from "./state";
 // const configChains = [localhost, mainnet];
 
 const CONTRACT_ADDRESS = "0x6C1f737Ca6056500fD3Aef58FcC3BD6d918272d1";
+// const UNPSYNED_CONTRACT_ADDRESS =
+//   "0xbe3a394df7eb7eddbf4b50cef2c70d56b85ce54e".toLowerCase();
 const OWNER_ADDRESS =
   "0x4Df7BD03223F80B3B115DC3578E8A6241Fb842EE".toLowerCase();
 const configChains = [mainnet];
