@@ -9,8 +9,7 @@ const path = require("path");
  */
 (async () => {
   try {
-    const promises = [];
-    for (let i = 0; i < 11111; i++) {
+    for (let i = 0; i < 11112; i++) {
       const json = {
         name: `Unpsyned #${i}`,
         description:
@@ -42,7 +41,7 @@ const path = require("path");
             value: "Spiritual",
           },
         ],
-        image: `ipfs://QmYXrRUFo285PNnaT2Y2MzhieFqrUU9KxEmtWWJ4sCAZUx/${i}.svg`,
+        image: `ipfs://QmSm4AACQHAE5mcvqBS9oaFPZPUCisTvWZSvXpwpMk7BqY/${i}.png`,
       };
 
       await fsPromises.writeFile(

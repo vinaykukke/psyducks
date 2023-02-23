@@ -17,13 +17,15 @@ const sharp = require("sharp");
 
     for (let i = 0; i < files.length; i++) {
       const fileName = files[i];
-      sharp(path.resolve("NFT", "Unpsyned", "images - final", fileName))
+      sharp(path.resolve("NFT", "Unpsyned", "images - final", fileName), {
+        density: 500,
+      })
         .png()
         .toFile(
           path.resolve(
             "NFT",
             "Unpsyned",
-            "images - png",
+            "images - png - new",
             fileName.replace(".svg", ".png")
           )
         )
