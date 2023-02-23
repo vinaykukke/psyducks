@@ -33,7 +33,7 @@ contract Unpsyned is ERC721("UNPSYNED", "UN_PSY_NED") {
   /** List of winners */
   Winner[] public WINNERS;
   /** Base URI */
-  string public BASE_URI = "ipfs://QmbzE6BJS3qP4kVihYGZNhNnXBozcj938z5iPgVWJWfNhc/";
+  string public BASE_URI = "ipfs://QmQYTLaykSSQ1eqHpLAmrXEmFSQFMRo4bHcTwJdRzaV3Pv/";
   /** Contract URI */
   string public CONTRACT_URI = "https://ipfs.filebase.io/ipfs/QmWjDrhW6QKxdny5jvpgz3q23XWQRvG8fTGmfPXntc8mPX";
 
