@@ -1,12 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
+import { Typography } from "@mui/material";
 import Mintable from "components/Mintable";
 import SoldOut from "components/SoldOut";
 import Orbit from "components/Orbit";
 import Header from "components/Header";
 import { useEth } from "src/contexts/EthContext";
-import styles from "../styles/Home.module.scss";
-import Link from "next/link";
+import styles from "styles/psyducks.module.scss";
 
 export default function Home() {
   const {
@@ -16,15 +17,15 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Psy</title>
+        <title>Psy - Ducks</title>
         <meta
           name="description"
           content="Psy - The worlds first blockchain lottery"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/psyducks/favicon.ico" />
       </Head>
       <Header />
-      <div className={styles.parallax}>¡quack!</div>
+      <div className={styles.parallax}>Decentralised lottery</div>
       <main className={styles.main}>
         <h1
           className={`${styles.gradient_two} ${styles.gradient_text} ${styles.title}`}
@@ -46,15 +47,22 @@ export default function Home() {
           <p>
             PsyDucks is the first in a series of 4 collections that will be
             released this year. The collections will be released in 4 different
-            phases (3 collections totalling 70,000 tokens and one Open Edition
-            collection). Anyone holding any of the 70,000 token will qualify for
-            the lottery, the ID of your tokens you hold will act as the numbers
-            you choose for the lottery.
+            phases. Anyone holding any of our tokens will qualify for the
+            lottery, the ID of your tokens you hold will act as the numbers you
+            choose for the lottery.
           </p>
           <p>
             All tokens apart from being considered for the jackpot will also
             give you returns some return - by trading one of our tokens you can
             will upto 10% of the total volume trade for that collection.
+            <Typography
+              fontStyle="italic"
+              color="orange"
+              fontFamily="joystix"
+              fontSize="0.75rem"
+            >
+              ** If creator royalties are respected **
+            </Typography>
           </p>
           <p>
             Half of the money that is made from all the NFT collections will be

@@ -9,7 +9,7 @@ import { useEth } from "src/contexts/EthContext";
 import Stepper from "components/Stepper/index";
 import DisplayModal from "components/Modal";
 import { actions } from "src/contexts/EthContext/state";
-import styles from "../../../styles/Home.module.scss";
+import styles from "styles/psyducks.module.scss";
 // import InputStepper from "components/InputStepper";
 
 const Mintable = () => {
