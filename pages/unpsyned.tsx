@@ -1,4 +1,5 @@
 import Head from "next/head";
+import InputStepper from "components/InputStepper";
 import styles from "styles/unpsyned.module.scss";
 
 const Unpsyned = () => {
@@ -10,11 +11,11 @@ const Unpsyned = () => {
           name="description"
           content="Psy - The worlds first blockchain lottery"
         />
-        <link rel="icon" href="/unpsyned/favicon.ico" />
       </Head>
       <main className={styles.main}>
         <p>unpsyned</p>
         <p>coming soon!</p>
+        <InputStepper />
       </main>
     </>
   );
