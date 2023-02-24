@@ -1,9 +1,13 @@
 import { useRef, useState } from "react";
+import { actions, useEth } from "src/contexts/EthContext";
 import styles from "./inputStepper.module.scss";
 
 const InputStepper = () => {
+  const {
+    dispatch,
+    state: { mintCount },
+  } = useEth();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [value, setValue] = useState(0);
   const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +20,7 @@ const InputStepper = () => {
     }
 
     setError("");
-    setValue(value);
+    dispatch({ type: actions.mintCount, data: { count: value } });
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -31,7 +35,7 @@ const InputStepper = () => {
 
     if (newValue >= min && newValue <= max) {
       setError("");
-      setValue(newValue);
+      dispatch({ type: actions.mintCount, data: { count: newValue } });
     }
   };
 
@@ -59,7 +63,7 @@ const InputStepper = () => {
           min="0"
           max="200"
           step="1"
-          value={value}
+          value={mintCount}
           id="my-input"
           onChange={handleChange}
         />

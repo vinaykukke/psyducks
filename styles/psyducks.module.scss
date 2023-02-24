@@ -167,6 +167,8 @@
 
 .mint__form {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 }
 
@@ -188,73 +190,22 @@
   -webkit-text-fill-color: transparent;
 }
 
-.metamask__button {
-  margin: 20px;
-  height: 55px;
-  border: none;
-  padding: 0.8em 2.5em;
-  outline: none;
-  color: white;
-  position: relative;
-  z-index: 1;
-  cursor: pointer;
-  background: none;
-  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.45);
-  font-size: 1rem;
-
-  &:before,
-  &:after {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    border-radius: 10em;
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-    width: 105%;
-    height: 105%;
-    content: "";
-    z-index: -2;
-    background-size: 400% 400%;
-    background: var(--gradient-one);
-  }
-
-  &:before {
-    -webkit-filter: blur(7px);
-    filter: blur(7px);
-    -webkit-transition: all 0.25s ease;
-    transition: all 0.25s ease;
-    -webkit-animation: pulse 10s infinite ease;
-    animation: pulse 10s infinite ease;
-  }
-
-  &:after {
-    -webkit-filter: blur(0.3px);
-    filter: blur(0.3px);
-  }
-
-  &:hover:before {
-    width: 115%;
-    height: 115%;
-  }
-}
-
 .mint__button {
   width: 160px;
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 600;
-  color: #fff;
   cursor: pointer;
-  margin: 20px;
+  margin: 20px 0;
   height: 55px;
   text-align: center;
   border: none;
   background-size: 300% 100%;
-  border-radius: 50px;
   -o-transition: all 0.4s ease-in-out;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
   background-image: var(--gradient-three);
-  box-shadow: 0 4px 15px 0 rgba(65, 132, 234, 0.75);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 
   &:disabled {
     cursor: not-allowed !important;

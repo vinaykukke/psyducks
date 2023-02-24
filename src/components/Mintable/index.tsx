@@ -6,11 +6,10 @@ import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useEth } from "src/contexts/EthContext";
-import Stepper from "components/Stepper/index";
 import DisplayModal from "components/Modal";
+import InputStepper from "components/InputStepper";
 import { actions } from "src/contexts/EthContext/state";
 import styles from "styles/psyducks.module.scss";
-// import InputStepper from "components/InputStepper";
 
 const Mintable = () => {
   const {
@@ -22,11 +21,11 @@ const Mintable = () => {
       available,
       isOwner,
       accountBalance,
+      mintCount,
     },
   } = useEth();
   const { isConnected } = useAccount();
   const { data: signer } = useSigner();
-  const [mintCount, setMintCount] = useState(0);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -82,16 +81,6 @@ const Mintable = () => {
     setLoading(false);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = parseInt(e.target.value);
-    setMintCount(value);
-  };
-
-  useEffect(() => {
-    const limit = isOwner ? purchaseLimit : 0;
-    setMintCount(limit);
-  }, [isOwner]);
-
   return (
     <>
       <Web3Button icon="show" label="Connect Wallet" balance="show" />
@@ -123,8 +112,7 @@ const Mintable = () => {
       )}
       {ALLOW_MINT && (
         <div className={styles.mint__form}>
-          <Stepper mintCount={mintCount} handleChange={handleInputChange} />
-          {/* <InputStepper /> */}
+          <InputStepper />
           <LoadingButton
             className={styles.mint__button}
             onClick={mint}

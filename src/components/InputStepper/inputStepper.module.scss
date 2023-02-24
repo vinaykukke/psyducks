@@ -8,7 +8,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
     border-radius: 45px;
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
     box-sizing: border-box;
@@ -18,17 +17,32 @@
     font-weight: 600;
     width: 210px;
 
+    @media (prefers-color-scheme: dark) {
+      background-color: rgb(38, 43, 47);
+    }
+
+    @media (prefers-color-scheme: light) {
+      background-color: #ffffff;
+    }
+
     input[type="number"] {
-      -moz-appearance: textfield;
       text-align: center;
       font-size: 40px;
       border: none;
-      background-color: #ffffff;
-      color: #202030;
       font-weight: 600;
 
       &:focus {
         outline: none;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        color: #ffffff;
+        background-color: rgb(38, 43, 47);
+      }
+
+      @media (prefers-color-scheme: light) {
+        color: #202030;
+        background-color: #ffffff;
       }
     }
 
@@ -40,11 +54,18 @@
 
     button.decrement,
     button.increment {
-      background-color: #ffffff;
       border: none;
       font-size: 40px;
       cursor: pointer;
       font-weight: 600;
+
+      @media (prefers-color-scheme: dark) {
+        background-color: rgb(38, 43, 47);
+      }
+
+      @media (prefers-color-scheme: light) {
+        background-color: #ffffff;
+      }
     }
 
     .decrement {
@@ -60,6 +81,5 @@
 
   .stepperError {
     color: red;
-    height: 25px;
   }
 }

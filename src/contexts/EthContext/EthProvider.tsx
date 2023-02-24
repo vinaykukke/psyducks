@@ -57,6 +57,7 @@ const EthProvider = (props: any) => {
   const { address, isConnected } = useAccount();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [ready, setReady] = useState(false);
+
   const {
     palette: { mode },
   } = useTheme();

@@ -6,6 +6,7 @@ enum actions {
   purchased = "PURCHASED",
   balanceChange = "ACCOUNT_BALANCE_CHAHGED",
   soldOut = "SOLD_OUT",
+  mintCount = "MINT_COUNT",
 }
 
 enum PURCHASE_LIMIT {
@@ -26,6 +27,7 @@ export interface IInitialState {
   soldOut: boolean;
   provider: ethers.providers.Web3Provider;
   ownersShareMinted: boolean;
+  mintCount: number;
 }
 
 const initialState: IInitialState = {
@@ -42,6 +44,7 @@ const initialState: IInitialState = {
   soldOut: false,
   provider: null,
   ownersShareMinted: false,
+  mintCount: 0,
 };
 
 const reducer = (state: any, action: any) => {
@@ -76,6 +79,13 @@ const reducer = (state: any, action: any) => {
       res = {
         ...state,
         soldOut: true,
+      };
+      break;
+
+    case actions.mintCount:
+      res = {
+        ...state,
+        mintCount: data.count,
       };
       break;
 
