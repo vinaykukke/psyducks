@@ -5,7 +5,7 @@ import styles from "./inputStepper.module.scss";
 const InputStepper = () => {
   const {
     dispatch,
-    state: { mintCount },
+    state: { mintCount, purchaseLimit },
   } = useEth();
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
@@ -13,9 +13,9 @@ const InputStepper = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.currentTarget.value);
 
-    if (value > 200) {
+    if (value > purchaseLimit) {
       e.preventDefault();
-      setError("There is a purchase limit of 200!");
+      setError(`There is a purchase limit of ${purchaseLimit}!`);
       return;
     }
 
@@ -26,12 +26,12 @@ const InputStepper = () => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const inputEl = inputRef.current;
     const id = e.currentTarget.id;
-    const min = parseInt(inputEl.getAttribute("min"));
-    const max = parseInt(inputEl.getAttribute("max"));
-    const step = parseInt(inputEl.getAttribute("step"));
+    const min = Number(inputEl.getAttribute("min"));
+    const max = Number(inputEl.getAttribute("max"));
+    const step = Number(inputEl.getAttribute("step"));
     const val = inputEl.getAttribute("value");
     const calcStep = id === "increment" ? step * 1 : step * -1;
-    const newValue = parseInt(val) + calcStep;
+    const newValue = Number(val) + calcStep;
 
     if (newValue >= min && newValue <= max) {
       setError("");
@@ -60,8 +60,8 @@ const InputStepper = () => {
         <input
           ref={inputRef}
           type="number"
-          min="0"
-          max="200"
+          min={0}
+          max={purchaseLimit}
           step="1"
           value={mintCount}
           id="my-input"

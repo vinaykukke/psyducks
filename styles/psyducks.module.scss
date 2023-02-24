@@ -47,12 +47,6 @@
         height: 2.5rem;
       }
     }
-
-    // .developer {
-    //   @media (prefers-color-scheme: dark) {
-    //     filter: invert(1);
-    //   }
-    // }
   }
 
   .copyright {
@@ -79,7 +73,7 @@
 }
 
 .title {
-  margin: 0;
+  margin-bottom: 5rem;
   line-height: 1.15;
   font-size: 4rem;
 }

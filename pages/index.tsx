@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Typography } from "@mui/material";
 import Mintable from "components/Mintable";
 import SoldOut from "components/SoldOut";
-import Orbit from "components/Orbit";
 import Header from "components/Header";
 import { useEth } from "src/contexts/EthContext";
 import styles from "styles/psyducks.module.scss";
@@ -32,7 +31,6 @@ export default function Home() {
         >
           Welcome
         </h1>
-        <Orbit />
         {soldOut ? <SoldOut /> : <Mintable />}
         <section id="about" className={styles.about}>
           <h2 className={styles.about_header}>NFT Collection</h2>
@@ -56,6 +54,7 @@ export default function Home() {
             give you returns some return - by trading one of our tokens you can
             will upto 10% of the total volume trade for that collection.
             <Typography
+              variant="caption"
               fontStyle="italic"
               color="orange"
               fontFamily="joystix"
