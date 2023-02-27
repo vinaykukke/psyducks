@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { BigNumber, ethers } from "ethers";
 import { useAccount, useSigner } from "wagmi";
 import { Web3Button } from "@web3modal/react";
@@ -26,6 +27,7 @@ const Mintable = () => {
   } = useEth();
   const { isConnected } = useAccount();
   const { data: signer } = useSigner();
+  const router = useRouter();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -34,7 +36,7 @@ const Mintable = () => {
   const disableMint = mintCount === 0;
   const PARTIALLY_AVAILABLE = available > 0 && available < purchaseLimit;
   const showModal = Boolean(error) || Boolean(success);
-  const statusIndicator = isConnected ? styles.online : styles.offline;
+  const isUnpsyned = router.pathname.replace("/", "") === "unpsyned";
 
   const handlePurchase = (
     _purchasedBy: string,
@@ -67,7 +69,13 @@ const Mintable = () => {
       };
       let mintTx;
 
-      if (isOwner) mintTx = await contract.connect(signer).reserve(options);
+      if (isOwner) {
+        if (isUnpsyned) {
+          mintTx = await contract.connect(signer).reserve(mintCount);
+        } else {
+          mintTx = await contract.connect(signer).reserve();
+        }
+      }
       if (!isOwner)
         mintTx = await contract.connect(signer).mint(mintCount, options);
 
@@ -84,10 +92,6 @@ const Mintable = () => {
   return (
     <>
       <Web3Button icon="show" label="Connect Wallet" balance="show" />
-      <p className={styles.status_indicator}>
-        <span className={`${styles.status} ${statusIndicator}`} />
-        <span>{isConnected ? "connected" : "disconnected"}</span>
-      </p>
       {isConnected && (
         <Box textAlign="center" marginBottom="2rem" id="buy">
           <h3>Each NFT will cost {mintPrice} ETH. There are no price tiers.</h3>

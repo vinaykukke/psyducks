@@ -1,6 +1,7 @@
 import { useReducer, useCallback, useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
-import { Contract, BigNumber } from "ethers";
+import { useRouter } from "next/router";
+import { Contract, BigNumber, utils } from "ethers";
 import { EthereumClient, modalConnectors } from "@web3modal/ethereum";
 import { Web3Modal, useWeb3ModalTheme } from "@web3modal/react";
 import {
@@ -13,7 +14,8 @@ import {
 import { publicProvider } from "wagmi/providers/public";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { mainnet } from "wagmi/chains";
-import artifact from "src/abi/PsyDucks.json";
+import psyducksArtifact from "src/abi/PsyDucks.json";
+import unpsynedArtifact from "src/abi/Unpsyned.json";
 import EthContext from "./EthContext";
 import { reducer, actions, initialState } from "./state";
 
@@ -24,9 +26,9 @@ import { reducer, actions, initialState } from "./state";
 //   "0xf39Fd6e51aad88F6F4ce6aB8827279cfffb92266".toLowerCase();
 // const configChains = [localhost, mainnet];
 
-const CONTRACT_ADDRESS = "0x6C1f737Ca6056500fD3Aef58FcC3BD6d918272d1";
-// const UNPSYNED_CONTRACT_ADDRESS =
-//   "0xbe3a394df7eb7eddbf4b50cef2c70d56b85ce54e".toLowerCase();
+const PSYDUCKS_CONTRACT_ADDRESS = "0x6C1f737Ca6056500fD3Aef58FcC3BD6d918272d1";
+const UNPSYNED_CONTRACT_ADDRESS =
+  "0xbe3a394df7eb7eddbf4b50cef2c70d56b85ce54e".toLowerCase();
 const OWNER_ADDRESS =
   "0x4Df7BD03223F80B3B115DC3578E8A6241Fb842EE".toLowerCase();
 const configChains = [mainnet];
@@ -54,6 +56,12 @@ const ethereumClient = new EthereumClient(client, chains);
 
 const EthProvider = (props: any) => {
   const provider = useProvider();
+  const router = useRouter();
+  const isUnpsyned = router.pathname.replace("/", "") === "unpsyned";
+  const CONTRACT_ADDRESS = isUnpsyned
+    ? UNPSYNED_CONTRACT_ADDRESS
+    : PSYDUCKS_CONTRACT_ADDRESS;
+  const artifact = isUnpsyned ? unpsynedArtifact : psyducksArtifact;
   const { address, isConnected } = useAccount();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [ready, setReady] = useState(false);
@@ -74,14 +82,19 @@ const EthProvider = (props: any) => {
     let accountBalance: number = null;
     let soldOut: boolean = null;
     let ownersShareMinted: boolean = null;
+    let price: number = 0;
+    let purchaseLimit: number = 0;
 
     try {
       /** This is conected to the active / connected account in metamask */
       account = address.toLowerCase();
       contract = new Contract(CONTRACT_ADDRESS, artifact.abi, provider);
-      soldOut = await contract.SOLD_OUT();
+      const supply: BigNumber = await contract.totalSupply();
+      const max: BigNumber = await contract.MAX_SUPPLY();
+      soldOut = supply.toNumber() === max.toNumber();
       accountBalance = (await contract.balanceOf(account)).toNumber();
-      ownersShareMinted = await contract.OWNERS_SHARE_MINTED();
+      purchaseLimit = (await contract.PURCHASE_LIMIT()).toNumber();
+      price = parseFloat(utils.formatEther(await contract._PRICE()));
     } catch (err) {
       console.error("Contract not deployed to the network!", err);
     }
@@ -95,12 +108,15 @@ const EthProvider = (props: any) => {
         contract,
         accountBalance,
         ownersShareMinted,
+        purchaseLimit:
+          !isUnpsyned && OWNER_ADDRESS === account ? 30 : purchaseLimit,
         soldOut,
+        price,
         owner: OWNER_ADDRESS,
         isOwner: OWNER_ADDRESS === account,
       },
     });
-  }, [address]);
+  }, [address, router.pathname]);
 
   useEffect(() => setReady(true), []);
   useEffect(() => {
@@ -133,7 +149,10 @@ const EthProvider = (props: any) => {
     const checkSoldOut = async () => {
       /** Check NFT balance for this account */
       if (state.contract) {
-        const soldOut: boolean = await state.contract.SOLD_OUT();
+        const supply: BigNumber = await state.contract.totalSupply();
+        const max: BigNumber = await state.contract.MAX_SUPPLY();
+        const soldOut = supply.toNumber() === max.toNumber();
+
         if (soldOut) dispatch({ type: actions.soldOut });
       }
     };
@@ -150,7 +169,7 @@ const EthProvider = (props: any) => {
     };
 
     if (isConnected) tryInit();
-  }, [init, isConnected]);
+  }, [init, isConnected, router.pathname]);
 
   /** This is only desktop. On the mobile user will have to disconnect and reconnect */
   useEffect(() => {

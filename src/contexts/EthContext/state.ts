@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { providers } from "ethers";
 import { Contract } from "ethers";
 
 enum actions {
@@ -9,10 +9,6 @@ enum actions {
   mintCount = "MINT_COUNT",
 }
 
-enum PURCHASE_LIMIT {
-  regular = 20,
-  owner = 30,
-}
 export interface IInitialState {
   artifact: any;
   account: string;
@@ -25,7 +21,7 @@ export interface IInitialState {
   owner: string;
   isOwner: boolean;
   soldOut: boolean;
-  provider: ethers.providers.Web3Provider;
+  provider: providers.Web3Provider;
   ownersShareMinted: boolean;
   mintCount: number;
 }
@@ -36,9 +32,9 @@ const initialState: IInitialState = {
   networkID: null,
   contract: null,
   accountBalance: null,
-  price: 0.09,
-  purchaseLimit: PURCHASE_LIMIT.regular,
-  available: PURCHASE_LIMIT.regular,
+  price: 0,
+  purchaseLimit: 0,
+  available: 0,
   owner: null,
   isOwner: false,
   soldOut: false,
@@ -53,12 +49,8 @@ const reducer = (state: any, action: any) => {
 
   switch (type) {
     case actions.init:
-      const price = data.isOwner ? 0 : 0.09;
-      const purchaseLimit = data.isOwner
-        ? PURCHASE_LIMIT.owner
-        : PURCHASE_LIMIT.regular;
-
-      res = { ...state, ...data, price, purchaseLimit };
+      const price = data.isOwner ? 0 : data.price;
+      res = { ...state, ...data, price };
       break;
 
     case actions.purchased:

@@ -2,6 +2,7 @@ import Head from "next/head";
 import Header from "components/Header";
 import { Typography } from "@mui/material";
 import styles from "styles/about.module.scss";
+import Footer from "components/Footer";
 
 const About = () => {
   return (
@@ -17,15 +18,12 @@ const About = () => {
       <Header />
       <main className={styles.main}>
         <section id="about" className={styles.about}>
-          <h2 className={styles.about_header}>NFT Collection</h2>
+          <h2 className={styles.about_header}>About Us</h2>
           <p className={`${styles.gradient} ${styles.gradient_text}`}>
             The community loves NFT's and we love the community, by owning and
             trading your ducks you stand to win some money back.
           </p>
-          <p>
-            PSY is a lottery system implemented on the blockchain - (Win upto
-            10000 ETH).
-          </p>
+          <p>PSY is a lottery system implemented on the blockchain.</p>
           <p>
             PsyDucks is the first in a series of 4 collections that will be
             released this year. The collections will be released in 4 different
@@ -36,10 +34,8 @@ const About = () => {
           <p>
             All tokens apart from being considered for the jackpot will also
             give you returns some return - by trading one of our tokens you can
-            will upto 10% of the total volume trade for that collection.
-            <Typography variant="caption" fontStyle="italic" color="orange">
-              ** If creator royalties are respected **
-            </Typography>
+            will upto 10% of the total volume trade for that collection (If
+            creator royalties are respected).
           </p>
           <p>
             Half of the money that is made from all the NFT collections will be
@@ -87,6 +83,7 @@ const About = () => {
           </p>
         </section>
       </main>
+      <Footer />
     </>
   );
 };
