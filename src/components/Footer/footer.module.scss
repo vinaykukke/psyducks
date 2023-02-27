@@ -1,0 +1,54 @@
+.footer {
+  display: flex;
+  flex: 1;
+  padding: 2rem 1rem;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    img {
+      margin: 0 0.5rem;
+      cursor: pointer;
+
+      @media screen and (max-width: 768px) {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+  }
+
+  .copyright {
+    font-size: 0.75rem;
+  }
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .footer {
+    img[alt="vinay kukke - full stack developer"] {
+      filter: invert(1);
+    }
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .footer {
+    img[alt="opensea"] {
+      filter: invert(1);
+    }
+
+    img[alt="psyduck - nft"] {
+      filter: invert(1);
+    }
+  }
+}

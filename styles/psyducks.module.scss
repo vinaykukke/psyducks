@@ -6,6 +6,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: "joystix";
 }
 
 .parallax {
@@ -23,42 +24,7 @@
   justify-content: center;
   align-items: center;
   font-size: 4rem;
-}
-
-.footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 1rem;
-  border-top: 1px solid #eaeaea;
-  justify-content: space-between;
-  align-items: center;
-
-  .logo_container {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-
-    img {
-      margin: 0 0.5rem;
-      cursor: pointer;
-
-      @media screen and (max-width: 768px) {
-        width: 2.5rem;
-        height: 2.5rem;
-      }
-    }
-  }
-
-  .copyright {
-    font-size: 0.75rem;
-  }
-}
-
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+  font-family: "joystix";
 }
 
 .title a {
@@ -76,24 +42,6 @@
   margin-bottom: 5rem;
   line-height: 1.15;
   font-size: 4rem;
-}
-
-.about,
-.inspiration {
-  font-size: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  > p {
-    align-self: flex-start;
-  }
-
-  @media screen and (min-width: 768px) {
-    width: 60%;
-    font-size: 0.9rem;
-  }
 }
 
 .title,
@@ -173,10 +121,6 @@
 
 .gradient_two {
   background: var(--gradient-two);
-}
-
-.gradient_four {
-  background: var(--gradient-four);
 }
 
 .gradient_text {
@@ -283,25 +227,5 @@
   .grid {
     width: 100%;
     flex-direction: column;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .footer {
-    img[alt="vinay kukke - full stack developer"] {
-      filter: invert(1);
-    }
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  .footer {
-    img[alt="opensea"] {
-      filter: invert(1);
-    }
-
-    img[alt="psyduck - nft"] {
-      filter: invert(1);
-    }
   }
 }

@@ -1,16 +1,18 @@
+import Link from "next/link";
 import styles from "./header.module.scss";
 
 const Header = () => {
   return (
     <div className={styles.header}>
       <span className={`${styles.gradient_one} ${styles.gradient_text}`}>
-        Psy
+        <Link href="/">Psy</Link>
       </span>
       <div className={styles.logo_container}>
         <div className={styles.menu_items}>
-          <a href="#buy">Buy</a>
-          <a href="#about">About</a>
-          <a href="#inspiration">Inspiration</a>
+          <Link href="/psyducks">Psyducks</Link>
+          <Link href="/unpsyned">Unpsyned</Link>
+          <Link href="/about">About</Link>
+          <Link href="/roadmap">Roadmap</Link>
         </div>
       </div>
     </div>

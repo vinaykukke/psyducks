@@ -1,0 +1,25 @@
+.container {
+  height: 100%;
+  overflow: hidden;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  .titleContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    font-size: 4rem;
+    position: absolute;
+    top: 50%; /* position the top  edge of the element at the middle of the parent */
+    left: 50%; /* position the left edge of the element at the middle of the parent */
+    color: #fafafa;
+    transform: translate(-50%, -50%);
+
+    .title {
+      margin-bottom: 2rem;
+    }
+  }
+}

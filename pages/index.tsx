@@ -1,17 +1,34 @@
+import { useEffect, useRef } from "react";
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import { Typography } from "@mui/material";
-import Mintable from "components/Mintable";
-import SoldOut from "components/SoldOut";
+import { Web3Button } from "@web3modal/react";
 import Header from "components/Header";
-import { useEth } from "src/contexts/EthContext";
-import styles from "styles/psyducks.module.scss";
+import TextScramble from "src/scrambler";
+import styles from "styles/home.module.scss";
 
 export default function Home() {
-  const {
-    state: { soldOut },
-  } = useEth();
+  const titleRef = useRef<HTMLDivElement>(null);
+  const phrases = [
+    "Welcome,",
+    "we are PSY",
+    "the worlds first",
+    "decentralized",
+    "trustless",
+    "lottery",
+  ];
+
+  useEffect(() => {
+    const fx = new TextScramble(titleRef.current);
+
+    let counter = 0;
+    const next = () => {
+      fx.setText(phrases[counter]).then(() => {
+        setTimeout(next, 1000);
+      });
+      counter = (counter + 1) % phrases.length;
+    };
+
+    next();
+  });
 
   return (
     <>
@@ -24,117 +41,291 @@ export default function Home() {
         <link rel="icon" href="/psyducks/favicon.ico" />
       </Head>
       <Header />
-      <div className={styles.parallax}>Decentralised lottery</div>
-      <main className={styles.main}>
-        <h1
-          className={`${styles.gradient_two} ${styles.gradient_text} ${styles.title}`}
-        >
-          Welcome
-        </h1>
-        {soldOut ? <SoldOut /> : <Mintable />}
-        <section id="about" className={styles.about}>
-          <h2 className={styles.about_header}>NFT Collection</h2>
-          <p className={`${styles.gradient_four} ${styles.gradient_text}`}>
-            The community loves NFT's and we love the community, by owning and
-            trading your ducks you stand to win some money back.
-          </p>
-          <p>
-            PSY is a lottery system implemented on the blockchain - (Win upto
-            10000 ETH).
-          </p>
-          <p>
-            PsyDucks is the first in a series of 4 collections that will be
-            released this year. The collections will be released in 4 different
-            phases. Anyone holding any of our tokens will qualify for the
-            lottery, the ID of your tokens you hold will act as the numbers you
-            choose for the lottery.
-          </p>
-          <p>
-            All tokens apart from being considered for the jackpot will also
-            give you returns some return - by trading one of our tokens you can
-            will upto 10% of the total volume trade for that collection.
-            <Typography
-              variant="caption"
-              fontStyle="italic"
-              color="orange"
-              fontFamily="joystix"
-              fontSize="0.75rem"
-            >
-              ** If creator royalties are respected **
-            </Typography>
-          </p>
-          <p>
-            Half of the money that is made from all the NFT collections will be
-            added into a lotto pool. The lotto pool will live in its own
-            contract, the jackpot winner will be added to the contract and only
-            the winner can release funds from the lotto pool.
-          </p>
-        </section>
-        <section id="inspiration" className={styles.inspiration}>
-          <h2 className={styles.about_header}>Inspiration</h2>
-          <p>
-            What we usually see is that people like to hold on to the NFT's in
-            hopes that "one day the price might increase" - then they can sell
-            it and make a profit off it. This is boring, we want something more
-            fun.
-          </p>
-          <p>
-            We want all the fun of gambling mixed in with the fun of trading and
-            gaming without any of the hassels. We want to get rid of the "saving
-            mentality" and make owning and trading NFT's fun.
-          </p>
-          <p>
-            We are very inspired buy the gaming and artist communities in the
-            NFT space. The idea is to make a roadmap of evolution. Everthing on
-            this earth evolves and changes - so will we and our collecation. As
-            with all lottery systems once the lotto pool has been emptied, it
-            much again be refilled.
-          </p>
-          <p>So...</p>
-          <p>
-            Once a year - at the beginning of the year we will refill our lotto
-            pool, buy releasing new NFT collections. These new collections will
-            reflect closely what we observe in the real world with gaming and
-            art - Evolution! Taking inspiration from real world games and art
-            styles.
-          </p>
-          <p>
-            We will start from the simplest form of 8-bit art from the 80's and
-            90's - paying homage to our humble beginnings.
-          </p>
-          <p>
-            For our phase-1 collection we take inspiration from the 1984 classic
-            - duck hunt! Let's be honest, this game changed everyone's life.
-            F.O.R.E.V.E.R.
-          </p>
-        </section>
-      </main>
-      <footer className={styles.footer}>
-        <div className={styles.logo_container}>
-          <Link href="https://kukke.dev/" target="_blank">
-            <Image
-              id="developer"
-              className={styles.developer}
-              src="/vk.png"
-              width={40}
-              height={40}
-              alt="vinay kukke - full stack developer"
-              title="Visit the developers website"
-            />
-          </Link>
-          <Link href="https://opensea.io/collection/psy-ducks" target="_blank">
-            <Image
-              src="/open-sea.png"
-              width={40}
-              height={40}
-              alt="opensea"
-              title="Checkout collection on opensea"
-            />
-          </Link>
+      <div className={styles.container}>
+        <div className={styles.titleContainer}>
+          <div className={styles.title} ref={titleRef} />
+          <Web3Button icon="show" label="Connect Wallet" balance="show" />
         </div>
-        <div className={styles.copyright}>© UNSIGNED SOFTWARE PVT LTD.</div>
-        <Image src="/duck.png" width={50} height={50} alt="psyduck - nft" />
-      </footer>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1422 700"
+        >
+          <circle
+            r="18"
+            cx="1190"
+            cy="265"
+            fill="hsl(247, 75%, 70%)"
+            opacity="0.91"
+          />
+          <circle
+            r="11"
+            cx="1000"
+            cy="551"
+            fill="hsl(183, 75%, 70%)"
+            opacity="0.56"
+          />
+          <circle
+            r="12"
+            cx="1054"
+            cy="80"
+            fill="hsl(115, 75%, 70%)"
+            opacity="0.81"
+          />
+          <circle
+            r="18"
+            cx="165"
+            cy="677"
+            fill="hsl(263, 75%, 70%)"
+            opacity="0.57"
+          />
+          <circle
+            r="7.5"
+            cx="904"
+            cy="214"
+            fill="hsl(136, 75%, 70%)"
+            opacity="0.62"
+          />
+          <circle
+            r="15"
+            cx="122"
+            cy="346"
+            fill="hsl(276, 75%, 70%)"
+            opacity="0.36"
+          />
+          <circle
+            r="10.5"
+            cx="1110"
+            cy="95"
+            fill="hsl(160, 75%, 70%)"
+            opacity="0.23"
+          />
+          <circle
+            r="16.5"
+            cx="290"
+            cy="289"
+            fill="hsl(212, 75%, 70%)"
+            opacity="0.83"
+          />
+          <circle
+            r="10.5"
+            cx="631"
+            cy="301"
+            fill="hsl(157, 75%, 70%)"
+            opacity="0.72"
+          />
+          <circle
+            r="16.5"
+            cx="633"
+            cy="553"
+            fill="hsl(157, 75%, 70%)"
+            opacity="0.67"
+          />
+          <circle
+            r="12"
+            cx="333"
+            cy="544"
+            fill="hsl(204, 75%, 70%)"
+            opacity="0.83"
+          />
+          <circle
+            r="12"
+            cx="925"
+            cy="351"
+            fill="hsl(142, 75%, 70%)"
+            opacity="0.16"
+          />
+          <circle
+            r="10"
+            cx="721"
+            cy="148"
+            fill="hsl(122, 75%, 70%)"
+            opacity="0.50"
+          />
+          <circle
+            r="12.5"
+            cx="157"
+            cy="426"
+            fill="hsl(263, 75%, 70%)"
+            opacity="0.25"
+          />
+          <circle
+            r="14"
+            cx="469"
+            cy="224"
+            fill="hsl(169, 75%, 70%)"
+            opacity="0.94"
+          />
+          <circle
+            r="14.5"
+            cx="679"
+            cy="35"
+            fill="hsl(128, 75%, 70%)"
+            opacity="0.26"
+          />
+          <circle
+            r="16.5"
+            cx="74"
+            cy="223"
+            fill="hsl(284, 75%, 70%)"
+            opacity="0.40"
+          />
+          <circle
+            r="18"
+            cx="1382"
+            cy="38"
+            fill="hsl(160, 75%, 70%)"
+            opacity="0.81"
+          />
+          <circle
+            r="16"
+            cx="162"
+            cy="377"
+            fill="hsl(263, 75%, 70%)"
+            opacity="0.28"
+          />
+          <circle
+            r="11.5"
+            cx="551"
+            cy="543"
+            fill="hsl(164, 75%, 70%)"
+            opacity="0.49"
+          />
+          <circle
+            r="12.5"
+            cx="562"
+            cy="146"
+            fill="hsl(162, 75%, 70%)"
+            opacity="0.88"
+          />
+          <circle
+            r="18"
+            cx="384"
+            cy="405"
+            fill="hsl(183, 75%, 70%)"
+            opacity="0.77"
+          />
+          <circle
+            r="10.5"
+            cx="1365"
+            cy="532"
+            fill="hsl(176, 75%, 70%)"
+            opacity="0.83"
+          />
+          <circle
+            r="15.5"
+            cx="1137"
+            cy="581"
+            fill="hsl(242, 75%, 70%)"
+            opacity="0.79"
+          />
+          <circle
+            r="14.5"
+            cx="1143"
+            cy="385"
+            fill="hsl(242, 75%, 70%)"
+            opacity="0.48"
+          />
+          <circle
+            r="11"
+            cx="1370"
+            cy="190"
+            fill="hsl(176, 75%, 70%)"
+            opacity="0.45"
+          />
+          <circle
+            r="11"
+            cx="785"
+            cy="769"
+            fill="hsl(132, 75%, 70%)"
+            opacity="0.51"
+          />
+          <circle
+            r="11.5"
+            cx="32"
+            cy="570"
+            fill="hsl(288, 75%, 70%)"
+            opacity="0.63"
+          />
+          <circle
+            r="12.5"
+            cx="272"
+            cy="391"
+            fill="hsl(221, 75%, 70%)"
+            opacity="0.22"
+          />
+          <circle
+            r="13"
+            cx="97"
+            cy="604"
+            fill="hsl(280, 75%, 70%)"
+            opacity="0.38"
+          />
+          <circle
+            r="11.5"
+            cx="350"
+            cy="495"
+            fill="hsl(196, 75%, 70%)"
+            opacity="0.88"
+          />
+          <circle
+            r="16"
+            cx="282"
+            cy="130"
+            fill="hsl(217, 75%, 70%)"
+            opacity="0.19"
+          />
+          <circle
+            r="11.5"
+            cx="66"
+            cy="545"
+            fill="hsl(287, 75%, 70%)"
+            opacity="0.42"
+          />
+          <circle
+            r="10.5"
+            cx="1007"
+            cy="391"
+            fill="hsl(183, 75%, 70%)"
+            opacity="0.34"
+          />
+          <circle
+            r="8.5"
+            cx="742"
+            cy="760"
+            fill="hsl(139, 75%, 70%)"
+            opacity="0.79"
+          />
+          <circle
+            r="14.5"
+            cx="956"
+            cy="467"
+            fill="hsl(160, 75%, 70%)"
+            opacity="0.77"
+          />
+          <circle
+            r="20.5"
+            cx="282"
+            cy="203"
+            fill="hsl(221, 75%, 70%)"
+            opacity="0.21"
+          />
+          <circle
+            r="7"
+            cx="1407"
+            cy="159"
+            fill="hsl(152, 75%, 70%)"
+            opacity="0.40"
+          />
+          <circle
+            r="11.5"
+            cx="1340"
+            cy="368"
+            fill="hsl(189, 75%, 70%)"
+            opacity="0.18"
+          />
+        </svg>
+      </div>
     </>
   );
 }

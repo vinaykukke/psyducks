@@ -1,0 +1,36 @@
+.main {
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .about,
+  .inspiration {
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    > p {
+      align-self: flex-start;
+    }
+
+    @media screen and (min-width: 768px) {
+      width: 60%;
+      font-size: 1.5rem;
+    }
+  }
+
+  .gradient {
+    background: var(--gradient-four);
+  }
+
+  .gradient_text {
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
