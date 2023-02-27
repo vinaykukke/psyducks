@@ -127,7 +127,7 @@ const Mintable = () => {
           </LoadingButton>
         </div>
       )}
-      {HALT_MINT && (
+      {isConnected && HALT_MINT && (
         <div className={`${styles.limit__reached} ${styles.gradient_text}`}>
           You have reached the maximum purchase limit for this NFT.
         </div>
