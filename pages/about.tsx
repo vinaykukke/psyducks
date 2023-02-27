@@ -19,12 +19,11 @@ const About = () => {
         <section id="about" className={styles.about}>
           <h1 className={styles.about_header}>About Us</h1>
           <p className={`${styles.gradient} ${styles.gradient_text}`}>
-            The community loves NFT's and we love the community, by owning and
-            trading your ducks you stand to win some money back.
+            The community loves NFT's and we love the community.
           </p>
           <p>PSY is a lottery system implemented on the blockchain.</p>
           <p>
-            PsyDucks is the first in a series of 4 collections that will be
+            We will be releasing a series of 4 collections - that will be
             released this year. The collections will be released in 4 different
             phases. Anyone holding any of our tokens will qualify for the
             lottery, the ID of your tokens you hold will act as the numbers you
@@ -94,7 +93,7 @@ const About = () => {
             <br />
             We want to help them make money. Help them settle some debts.
             <br />
-            We want to privide a counter weight to the top 1%.
+            We want to provide a counter weight to the top 1%.
           </p>
           <p>
             We are very inspired buy the gaming and artist communities from all
