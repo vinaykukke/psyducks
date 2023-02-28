@@ -5,6 +5,7 @@ import { useEth } from "src/contexts/EthContext";
 import styles from "styles/unpsyned.module.scss";
 import Header from "components/Header";
 import pattern from "components/token/nft";
+import Footer from "components/Footer";
 
 const Unpsyned = () => {
   const {
@@ -29,6 +30,7 @@ const Unpsyned = () => {
           {soldOut ? <SoldOut /> : <Mintable />}
         </div>
       </main>
+      <Footer />
     </>
   );
 };
