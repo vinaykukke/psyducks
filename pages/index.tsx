@@ -4,6 +4,7 @@ import { Web3Button } from "@web3modal/react";
 import Header from "components/Header";
 import TextScramble from "src/scrambler";
 import styles from "styles/home.module.scss";
+import Footer from "components/Footer";
 
 export default function Home() {
   const titleRef = useRef<HTMLDivElement>(null);
@@ -47,6 +48,7 @@ export default function Home() {
           <Web3Button icon="show" label="Connect Wallet" balance="show" />
         </div>
       </div>
+      <Footer />
     </>
   );
 }

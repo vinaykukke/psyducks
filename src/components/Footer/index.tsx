@@ -26,6 +26,15 @@ const Footer = () => {
             title="Checkout collection on opensea"
           />
         </Link>
+        <Link href="https://twitter.com/psy__ltd" target="_blank">
+          <Image
+            src="/twitter.png"
+            width={30}
+            height={30}
+            alt="twitter"
+            title="Follow on Twitter"
+          />
+        </Link>
       </div>
       <div className={styles.copyright}>© UNSIGNED SOFTWARE PVT LTD.</div>
       <Image src="/duck.png" width={40} height={40} alt="psyduck - nft" />
