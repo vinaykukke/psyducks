@@ -150,6 +150,7 @@ const EthProvider = (props: any) => {
 
   /** Check Sold Out */
   useEffect(() => {
+    setLoading(true);
     const checkSoldOut = async () => {
       /** Check NFT balance for this account */
       if (state.contract) {
@@ -158,18 +159,21 @@ const EthProvider = (props: any) => {
         const soldOut = supply.toNumber() === max.toNumber();
 
         if (soldOut) dispatch({ type: actions.soldOut });
+        setLoading(false);
       }
     };
     checkSoldOut();
   }, [state.contract]);
 
   useEffect(() => {
+    setLoading(true);
     const tryInit = async () => {
       try {
         await init();
       } catch (err) {
         console.error("Error Importing the JSON-RPC for the contract:", err);
       }
+      setLoading(false);
     };
 
     if (isConnected) tryInit();
