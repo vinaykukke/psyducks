@@ -116,7 +116,7 @@ const MintableUnpsyned = () => {
           )}
           {!loading && !isOwner && ALLOW_MINT && (
             <div className={styles.mint__form}>
-              <InputStepper />
+              <InputStepper unpsyned />
               <LoadingButton
                 className={styles.mint__button}
                 onClick={mint}
@@ -129,7 +129,7 @@ const MintableUnpsyned = () => {
           )}
           {isOwner && (
             <div className={styles.mint__form}>
-              <InputStepper />
+              <InputStepper unpsyned />
               <LoadingButton
                 className={styles.mint__button}
                 onClick={mint}

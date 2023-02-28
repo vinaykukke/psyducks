@@ -2,18 +2,23 @@ import { useRef, useState } from "react";
 import { actions, useEth } from "src/contexts/EthContext";
 import styles from "./inputStepper.module.scss";
 
-const InputStepper = () => {
+interface IProps {
+  unpsyned?: boolean;
+}
+
+const InputStepper = (props: IProps) => {
+  const { unpsyned } = props;
   const {
     dispatch,
-    state: { mintCount, purchaseLimit },
+    state: { mintCount, purchaseLimit, available, isOwner },
   } = useEth();
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.currentTarget.value);
-
-    if (value > purchaseLimit) {
+    const check = isOwner && unpsyned ? purchaseLimit : available;
+    if (value > check) {
       e.preventDefault();
       setError(`There is a purchase limit of ${purchaseLimit}!`);
       return;
@@ -61,7 +66,7 @@ const InputStepper = () => {
           ref={inputRef}
           type="number"
           min={0}
-          max={purchaseLimit}
+          max={isOwner && unpsyned ? 100 : available}
           step="1"
           value={mintCount}
           id="my-input"

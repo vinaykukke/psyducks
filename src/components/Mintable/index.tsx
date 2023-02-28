@@ -140,7 +140,7 @@ const Mintable = () => {
               You have reached the maximum purchase limit for this collection.
             </div>
           )}
-          {!isOwner && PARTIALLY_AVAILABLE && (
+          {PARTIALLY_AVAILABLE && (
             <>
               <Typography
                 fontStyle="italic"
@@ -149,9 +149,13 @@ const Mintable = () => {
                 fontSize="0.75rem"
               >
                 ** You have previously purchased {accountBalance} out of your
-                available 20 NFT's. **
+                available {purchaseLimit} NFT's. **
               </Typography>
-              <Typography color="green" fontFamily="joystix" fontSize="0.75rem">
+              <Typography
+                color="turquoise"
+                fontFamily="joystix"
+                fontSize="0.75rem"
+              >
                 Available: {available}/{purchaseLimit}
               </Typography>
             </>
