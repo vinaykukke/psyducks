@@ -65,6 +65,7 @@ const EthProvider = (props: any) => {
   const { address, isConnected } = useAccount();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [ready, setReady] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     palette: { mode },
@@ -74,6 +75,7 @@ const EthProvider = (props: any) => {
   const value = {
     state,
     dispatch,
+    loading,
   };
 
   const init = useCallback(async () => {
@@ -127,6 +129,7 @@ const EthProvider = (props: any) => {
 
   /** Check Balance */
   useEffect(() => {
+    setLoading(true);
     const checkBalance = async () => {
       /** Check NFT balance for this account */
       if (state.contract) {
@@ -138,6 +141,7 @@ const EthProvider = (props: any) => {
           data: { balance: balance.toNumber() },
         });
         dispatch({ type: actions.purchased });
+        setLoading(false);
       }
     };
 

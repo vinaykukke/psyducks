@@ -6,6 +6,7 @@ interface IEth {
   state: IInitialState;
   dispatch: Dispatch<any>;
   connect: () => Promise<void>;
+  loading: boolean;
 }
 
 const useEth = (): IEth => useContext(EthContext);

@@ -1,11 +1,11 @@
 import Head from "next/head";
-import Mintable from "components/Mintable";
 import SoldOut from "components/SoldOut";
 import { useEth } from "src/contexts/EthContext";
-import styles from "styles/unpsyned.module.scss";
 import Header from "components/Header";
 import pattern from "components/token/nft";
 import Footer from "components/Footer";
+import MintableUnpsyned from "components/MintableUnpsyned";
+import styles from "styles/unpsyned.module.scss";
 
 const Unpsyned = () => {
   const {
@@ -27,7 +27,7 @@ const Unpsyned = () => {
         {pattern()}
         <p>May not have any resemblance to what you mint!</p>
         <div className={styles.container}>
-          {soldOut ? <SoldOut /> : <Mintable />}
+          {soldOut ? <SoldOut /> : <MintableUnpsyned />}
         </div>
       </main>
       <Footer />

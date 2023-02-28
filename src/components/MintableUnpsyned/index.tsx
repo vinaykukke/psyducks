@@ -12,7 +12,7 @@ import InputStepper from "components/InputStepper";
 import { actions } from "src/contexts/EthContext/state";
 import styles from "styles/psyducks.module.scss";
 
-const Mintable = () => {
+const MintableUnpsyned = () => {
   const {
     dispatch,
     loading,
@@ -58,6 +58,8 @@ const Mintable = () => {
     }
   }, [contract, accountBalance]);
 
+  useEffect(() => {}, [available]);
+
   const mint = async () => {
     setLoading(true);
     try {
@@ -68,7 +70,7 @@ const Mintable = () => {
       };
       let mintTx;
 
-      if (isOwner) mintTx = await contract.connect(signer).reserve();
+      if (isOwner) mintTx = await contract.connect(signer).reserve(mintCount);
       if (!isOwner)
         mintTx = await contract.connect(signer).mint(mintCount, options);
 
@@ -101,28 +103,18 @@ const Mintable = () => {
         <>
           {isConnected && (
             <Box textAlign="center" marginBottom="2rem" id="buy">
-              {!isOwner && <h3>Price: {mintPrice} ETH.</h3>}
+              {!isOwner && (
+                <h3>Price: {mintPrice ? `${mintPrice} ETH` : "FREE"}.</h3>
+              )}
               {isOwner && <h3>Welcome Owner.</h3>}
-              <Typography
-                fontStyle="italic"
-                color="orange"
-                fontFamily="joystix"
-                fontSize="0.75rem"
-              >
-                Note: 30 ducks are being witheld from the sale. These will be
-                used for giveaways.
-              </Typography>
-              <Typography
-                fontStyle="italic"
-                color="orange"
-                fontFamily="joystix"
-                fontSize="0.75rem"
-              >
-                ** There is a purchase limit of {purchaseLimit} per wallet. **
-              </Typography>
+              {!isOwner && (
+                <Typography fontStyle="italic" color="orange">
+                  ** There is a purchase limit of {purchaseLimit} per wallet. **
+                </Typography>
+              )}
             </Box>
           )}
-          {ALLOW_MINT && (
+          {!loading && !isOwner && ALLOW_MINT && (
             <div className={styles.mint__form}>
               <InputStepper />
               <LoadingButton
@@ -135,23 +127,31 @@ const Mintable = () => {
               </LoadingButton>
             </div>
           )}
-          {isConnected && HALT_MINT && (
+          {isOwner && (
+            <div className={styles.mint__form}>
+              <InputStepper />
+              <LoadingButton
+                className={styles.mint__button}
+                onClick={mint}
+                loading={loadingButton}
+                disabled={disableMint || loadingButton}
+              >
+                Mint
+              </LoadingButton>
+            </div>
+          )}
+          {isConnected && !isOwner && HALT_MINT && (
             <div className={`${styles.limit__reached} ${styles.gradient_text}`}>
               You have reached the maximum purchase limit for this collection.
             </div>
           )}
           {!isOwner && PARTIALLY_AVAILABLE && (
             <>
-              <Typography
-                fontStyle="italic"
-                color="turquoise"
-                fontFamily="joystix"
-                fontSize="0.75rem"
-              >
+              <Typography fontStyle="italic" color="turquoise">
                 ** You have previously purchased {accountBalance} out of your
                 available 20 NFT's. **
               </Typography>
-              <Typography color="green" fontFamily="joystix" fontSize="0.75rem">
+              <Typography color="green">
                 Available: {available}/{purchaseLimit}
               </Typography>
             </>
@@ -170,4 +170,4 @@ const Mintable = () => {
   );
 };
 
-export default Mintable;
+export default MintableUnpsyned;
