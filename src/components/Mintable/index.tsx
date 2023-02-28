@@ -85,7 +85,7 @@ const Mintable = () => {
   return (
     <>
       <Web3Button icon="show" label="Connect Wallet" balance="show" />
-      {loading && (
+      {isConnected && loading && (
         <Box
           sx={{
             display: "flex",
@@ -97,7 +97,7 @@ const Mintable = () => {
           <CircularProgress />
         </Box>
       )}
-      {!loading && (
+      {isConnected && !loading && (
         <>
           {isConnected && (
             <Box textAlign="center" marginBottom="2rem" id="buy">
