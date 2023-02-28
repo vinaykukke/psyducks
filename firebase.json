@@ -11,8 +11,24 @@
     ],
     "rewrites": [
       {
-        "source": "**",
+        "source": "/",
         "destination": "/index.html"
+      },
+      {
+        "source": "/psyducks",
+        "destination": "/psyducks.html"
+      },
+      {
+        "source": "/unpsyned",
+        "destination": "/unpsyned.html"
+      },
+      {
+        "source": "/roadmap",
+        "destination": "/roadmap.html"
+      },
+      {
+        "source": "/about",
+        "destination": "/about.html"
       }
     ]
   }
