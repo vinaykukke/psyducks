@@ -8,12 +8,10 @@ const Header = () => {
         <Link href="/">Psy</Link>
       </span>
       <div className={styles.logo_container}>
-        <div className={styles.menu_items}>
-          <Link href="/psyducks">Psyducks</Link>
-          <Link href="/unpsyned">Unpsyned</Link>
-          <Link href="/about">About</Link>
-          <Link href="/roadmap">Roadmap</Link>
-        </div>
+        <Link href="/psyducks">Psyducks</Link>
+        <Link href="/unpsyned">Unpsyned</Link>
+        <Link href="/about">About</Link>
+        <Link href="/roadmap">Roadmap</Link>
       </div>
     </div>
   );

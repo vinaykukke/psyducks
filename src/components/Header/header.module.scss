@@ -11,6 +11,7 @@
 
   @media screen and (max-width: 425px) {
     justify-content: center;
+    flex-direction: column;
   }
 
   .gradient_one {
@@ -29,20 +30,16 @@
     align-items: center;
     justify-content: space-evenly;
 
-    @media screen and (max-width: 425px) {
-      display: none;
-    }
+    a {
+      cursor: pointer;
+      margin: 0 0.5rem;
 
-    .menu_items {
-      margin: 0 1rem;
+      @media screen and (max-width: 425px) {
+        font-size: 1.5rem;
+      }
 
-      a {
-        cursor: pointer;
-        margin: 0 0.5rem;
-
-        &:hover {
-          color: rgb(176, 176, 176);
-        }
+      &:hover {
+        color: rgb(176, 176, 176);
       }
     }
   }

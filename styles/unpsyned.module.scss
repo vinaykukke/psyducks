@@ -11,6 +11,13 @@
   background-repeat: no-repeat;
   background-size: cover;
 
+  > svg {
+    @media screen and (max-width: 425px) {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
   .container {
     display: flex;
     flex-direction: column;
