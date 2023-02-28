@@ -100,7 +100,7 @@ const About = () => {
             walks of life. The idea is to make a roadmap of evolution. Everthing
             on this earth evolves and changes - so will we and our collecation.
             As with all lottery systems once the lotto pool has been emptied, it
-            much again be refilled.
+            must again be refilled.
           </p>
           <p>So...</p>
           <p>
